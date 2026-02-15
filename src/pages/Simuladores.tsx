@@ -132,7 +132,7 @@ const EmpenyoSim = () => {
           <h3 className="mb-4 text-lg font-semibold">¿Listo para continuar?</h3>
           <p className="text-muted-foreground">Visita tu sucursal más cercana para la valuación final.</p>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
-            <Button asChild><Link to="/sucursales"><MapPin className="mr-2 h-4 w-4" /> Sucursales</Link></Button>
+            <Button asChild><Link to="/bazar/sucursales"><MapPin className="mr-2 h-4 w-4" /> Sucursales</Link></Button>
             <Button variant="outline" asChild>
               <a href="https://wa.me/5551234567" target="_blank" rel="noopener noreferrer">
                 <MessageCircle className="mr-2 h-4 w-4" /> WhatsApp
@@ -255,7 +255,7 @@ const MetalesSim = () => {
           <h3 className="mb-4 text-lg font-semibold">¿Listo para continuar?</h3>
           <p className="text-muted-foreground">Visítanos para una valuación profesional.</p>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
-            <Button asChild><Link to="/sucursales"><MapPin className="mr-2 h-4 w-4" /> Sucursales</Link></Button>
+            <Button asChild><Link to="/bazar/sucursales"><MapPin className="mr-2 h-4 w-4" /> Sucursales</Link></Button>
             <Button variant="outline" asChild>
               <a href="https://wa.me/5551234567" target="_blank" rel="noopener noreferrer">
                 <MessageCircle className="mr-2 h-4 w-4" /> WhatsApp

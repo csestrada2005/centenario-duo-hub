@@ -43,10 +43,10 @@ const Bazar = () => {
             </motion.p>
             <motion.div variants={fadeUp} className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <Button asChild size="lg" className="bg-amber-500 text-black hover:bg-amber-400">
-                <Link to="/simuladores">Cotizar ahora</Link>
+                <Link to="/bazar/simuladores">Cotizar ahora</Link>
               </Button>
               <Button asChild size="lg" className="border-white/30 bg-white/10 text-white backdrop-blur hover:bg-white/20">
-                <Link to="/sucursales">Ver sucursales</Link>
+                <Link to="/bazar/sucursales">Ver sucursales</Link>
               </Button>
             </motion.div>
           </motion.div>
@@ -90,7 +90,7 @@ const Bazar = () => {
                     Electrónicos, herramienta, autos, electrodomésticos, oro y plata. Valuación justa e inmediata.
                   </p>
                   <Button asChild variant="outline" className="mt-4">
-                    <Link to="/simuladores">Simular empeño <ArrowRight className="ml-1 h-4 w-4" /></Link>
+                    <Link to="/bazar/simuladores">Simular empeño <ArrowRight className="ml-1 h-4 w-4" /></Link>
                   </Button>
                 </CardContent>
               </Card>
@@ -103,7 +103,7 @@ const Bazar = () => {
                     Compramos tus metales preciosos al mejor precio del mercado.
                   </p>
                   <Button asChild variant="outline" className="mt-4">
-                    <Link to="/simuladores?tab=metales">Simular cotización <ArrowRight className="ml-1 h-4 w-4" /></Link>
+                    <Link to="/bazar/simuladores?tab=metales">Simular cotización <ArrowRight className="ml-1 h-4 w-4" /></Link>
                   </Button>
                 </CardContent>
               </Card>
@@ -128,7 +128,7 @@ const Bazar = () => {
           ].map((cat) => (
             <motion.div key={cat.label} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
               <Link
-                to={cat.label === "Metales" ? "/simuladores?tab=metales" : "/simuladores"}
+                to={cat.label === "Metales" ? "/bazar/simuladores?tab=metales" : "/bazar/simuladores"}
                 className="flex flex-col items-center gap-2 rounded-lg border p-4 text-center transition-colors hover:bg-muted"
               >
                 <cat.icon className="h-6 w-6 text-primary" />
@@ -180,7 +180,7 @@ const Bazar = () => {
       <section className="bg-secondary/30">
         <div className="container flex flex-col items-center gap-4 py-16 text-center sm:flex-row sm:justify-center">
           <Button asChild size="lg">
-            <Link to="/sucursales"><MapPin className="mr-2 h-4 w-4" /> Visita tu sucursal más cercana</Link>
+            <Link to="/bazar/sucursales"><MapPin className="mr-2 h-4 w-4" /> Visita tu sucursal más cercana</Link>
           </Button>
           <Button asChild variant="outline" size="lg">
             <a href="https://wa.me/5551234567" target="_blank" rel="noopener noreferrer">

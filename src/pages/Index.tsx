@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { MapPin, MessageCircle, ShoppingBag, ArrowRight, Shield, Building2, Users, Gem, Store } from "lucide-react";
+import heroImage from "@/assets/hero-home.jpg";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -13,43 +14,77 @@ const Index = () => {
   return (
     <div>
       {/* Hero */}
-      <section className="relative flex min-h-[80vh] flex-col items-center justify-center bg-secondary/30 px-4 text-center">
-        <motion.div initial="hidden" animate="visible" variants={fadeUp} className="mx-auto max-w-3xl">
-          <h1 className="text-3xl font-bold leading-tight tracking-tight md:text-5xl">
-            Casa de empeño y compra de oro, plata y diamantes
-          </h1>
-          <p className="mt-3 text-lg text-muted-foreground md:text-xl">
-            Tienda premium de joyería
-          </p>
+      <section className="relative flex min-h-[90vh] flex-col items-center justify-center overflow-hidden px-4 text-center">
+        {/* Background image */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src={heroImage}
+            alt="Joyería y metales preciosos"
+            className="h-full w-full object-cover"
+            loading="eager"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/80" />
+        </div>
 
-          <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-            <Button asChild size="lg" className="w-full sm:w-auto">
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: { opacity: 0 },
+            visible: { opacity: 1, transition: { staggerChildren: 0.15 } },
+          }}
+          className="relative z-10 mx-auto max-w-4xl"
+        >
+          <motion.p
+            variants={fadeUp}
+            className="mb-4 text-sm font-medium uppercase tracking-[0.25em] text-white/70"
+          >
+            Desde 1999
+          </motion.p>
+          <motion.h1
+            variants={fadeUp}
+            className="text-4xl font-bold leading-[1.1] tracking-tight text-white md:text-6xl lg:text-7xl"
+          >
+            Casa de empeño y compra de{" "}
+            <span className="bg-gradient-to-r from-amber-300 to-yellow-500 bg-clip-text text-transparent">
+              oro, plata y diamantes
+            </span>
+          </motion.h1>
+          <motion.p
+            variants={fadeUp}
+            className="mx-auto mt-5 max-w-xl text-lg font-light text-white/80 md:text-xl"
+          >
+            Tienda premium de joyería
+          </motion.p>
+
+          <motion.div variants={fadeUp} className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+            <Button asChild size="lg" className="w-full bg-white text-black hover:bg-white/90 sm:w-auto">
               <Link to="/bazar">Entrar a Bazar</Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="w-full sm:w-auto">
+            <Button asChild size="lg" className="w-full border-white/30 bg-white/10 text-white backdrop-blur hover:bg-white/20 sm:w-auto">
               <Link to="/joyeria">Entrar a Joyería</Link>
             </Button>
-          </div>
+          </motion.div>
 
-          <div className="mt-6">
-            <Button asChild variant="secondary" size="lg">
+          <motion.div variants={fadeUp} className="mt-6">
+            <Button asChild size="lg" className="bg-amber-500 text-black hover:bg-amber-400">
               <Link to="/simuladores">Cotizar ahora</Link>
             </Button>
-          </div>
+          </motion.div>
 
-          <div className="mt-6 flex flex-wrap justify-center gap-2">
-            <Button asChild variant="ghost" size="sm">
+          <motion.div variants={fadeUp} className="mt-8 flex flex-wrap justify-center gap-2">
+            <Button asChild variant="ghost" size="sm" className="text-white/70 hover:bg-white/10 hover:text-white">
               <Link to="/sucursales"><MapPin className="mr-1 h-4 w-4" /> Sucursales</Link>
             </Button>
-            <Button variant="ghost" size="sm" asChild>
+            <Button variant="ghost" size="sm" asChild className="text-white/70 hover:bg-white/10 hover:text-white">
               <a href="https://wa.me/5551234567" target="_blank" rel="noopener noreferrer">
                 <MessageCircle className="mr-1 h-4 w-4" /> WhatsApp
               </a>
             </Button>
-            <Button asChild variant="ghost" size="sm">
+            <Button asChild variant="ghost" size="sm" className="text-white/70 hover:bg-white/10 hover:text-white">
               <Link to="/joyeria"><ShoppingBag className="mr-1 h-4 w-4" /> Catálogo</Link>
             </Button>
-          </div>
+          </motion.div>
         </motion.div>
       </section>
 

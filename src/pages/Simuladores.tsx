@@ -1,0 +1,304 @@
+import { useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Progress } from "@/components/ui/progress";
+import {
+  Smartphone, Laptop, Wrench, Car, Tv, HelpCircle,
+  ArrowLeft, ArrowRight, MapPin, MessageCircle, Gem, CircleDot,
+} from "lucide-react";
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
+};
+
+/* ---------- Empeño Simulator ---------- */
+const articleTypes = [
+  { icon: Smartphone, label: "Celular" },
+  { icon: Laptop, label: "Laptop" },
+  { icon: Wrench, label: "Herramienta" },
+  { icon: Tv, label: "Electrodoméstico" },
+  { icon: Car, label: "Auto" },
+  { icon: HelpCircle, label: "Otro" },
+];
+
+const brands: Record<string, string[]> = {
+  Celular: ["Apple", "Samsung", "Xiaomi", "Motorola", "Otro"],
+  Laptop: ["Apple", "Dell", "HP", "Lenovo", "Otro"],
+  Herramienta: ["DeWalt", "Makita", "Bosch", "Otro"],
+  Electrodoméstico: ["LG", "Samsung", "Whirlpool", "Otro"],
+  Auto: ["Toyota", "Nissan", "Honda", "Volkswagen", "Otro"],
+  Otro: ["Otro"],
+};
+
+function estimateRange(value: number) {
+  const low = Math.round(value * 0.3);
+  const high = Math.round(value * 0.6);
+  return { low, high };
+}
+
+const EmpenyoSim = () => {
+  const [step, setStep] = useState(1);
+  const [articleType, setArticleType] = useState("");
+  const [brand, setBrand] = useState("");
+  const [condition, setCondition] = useState("");
+  const [approxValue, setApproxValue] = useState("");
+
+  const { low, high } = estimateRange(Number(approxValue) || 0);
+
+  return (
+    <div>
+      <Progress value={(step / 4) * 100} className="mb-8 h-2" />
+
+      {step === 1 && (
+        <motion.div initial="hidden" animate="visible" variants={fadeUp}>
+          <h3 className="mb-6 text-center text-lg font-semibold">¿Qué tipo de artículo deseas empeñar?</h3>
+          <div className="mx-auto grid max-w-md grid-cols-2 gap-3 sm:grid-cols-3">
+            {articleTypes.map((t) => (
+              <button
+                key={t.label}
+                onClick={() => { setArticleType(t.label); setStep(2); }}
+                className={`flex flex-col items-center gap-2 rounded-lg border p-4 transition-colors hover:bg-muted ${articleType === t.label ? "border-primary bg-muted" : ""}`}
+              >
+                <t.icon className="h-6 w-6 text-primary" />
+                <span className="text-sm font-medium">{t.label}</span>
+              </button>
+            ))}
+          </div>
+        </motion.div>
+      )}
+
+      {step === 2 && (
+        <motion.div initial="hidden" animate="visible" variants={fadeUp} className="mx-auto max-w-md space-y-4">
+          <h3 className="mb-4 text-center text-lg font-semibold">Datos del artículo</h3>
+          <Select onValueChange={setBrand}>
+            <SelectTrigger><SelectValue placeholder="Marca" /></SelectTrigger>
+            <SelectContent>
+              {(brands[articleType] || brands.Otro).map((b) => (
+                <SelectItem key={b} value={b}>{b}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Input placeholder="Modelo (opcional)" />
+          <Select onValueChange={setCondition}>
+            <SelectTrigger><SelectValue placeholder="Estado" /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="excelente">Excelente</SelectItem>
+              <SelectItem value="bueno">Bueno</SelectItem>
+              <SelectItem value="regular">Regular</SelectItem>
+            </SelectContent>
+          </Select>
+          <Input
+            type="number"
+            placeholder="Valor aproximado de compra ($)"
+            value={approxValue}
+            onChange={(e) => setApproxValue(e.target.value)}
+          />
+          <div className="flex gap-2 pt-2">
+            <Button variant="outline" onClick={() => setStep(1)}><ArrowLeft className="mr-1 h-4 w-4" /> Atrás</Button>
+            <Button className="flex-1" disabled={!brand || !condition || !approxValue} onClick={() => setStep(3)}>
+              Continuar <ArrowRight className="ml-1 h-4 w-4" />
+            </Button>
+          </div>
+        </motion.div>
+      )}
+
+      {step === 3 && (
+        <motion.div initial="hidden" animate="visible" variants={fadeUp} className="mx-auto max-w-md text-center">
+          <h3 className="mb-4 text-lg font-semibold">Estimación de empeño</h3>
+          <Card>
+            <CardContent className="py-8">
+              <p className="text-3xl font-bold">${low.toLocaleString()} — ${high.toLocaleString()}</p>
+              <p className="mt-1 text-sm text-muted-foreground">MXN</p>
+            </CardContent>
+          </Card>
+          <p className="mt-4 text-xs text-muted-foreground">
+            Esta cifra es solo una estimación. La valuación final se realiza en sucursal.
+          </p>
+          <div className="mt-6 flex gap-2">
+            <Button variant="outline" onClick={() => setStep(2)}><ArrowLeft className="mr-1 h-4 w-4" /> Atrás</Button>
+            <Button className="flex-1" onClick={() => setStep(4)}>Siguiente <ArrowRight className="ml-1 h-4 w-4" /></Button>
+          </div>
+        </motion.div>
+      )}
+
+      {step === 4 && (
+        <motion.div initial="hidden" animate="visible" variants={fadeUp} className="mx-auto max-w-md text-center">
+          <h3 className="mb-4 text-lg font-semibold">¿Listo para continuar?</h3>
+          <p className="text-muted-foreground">Visita tu sucursal más cercana para la valuación final.</p>
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
+            <Button asChild><Link to="/sucursales"><MapPin className="mr-2 h-4 w-4" /> Sucursales</Link></Button>
+            <Button variant="outline" asChild>
+              <a href="https://wa.me/5551234567" target="_blank" rel="noopener noreferrer">
+                <MessageCircle className="mr-2 h-4 w-4" /> WhatsApp
+              </a>
+            </Button>
+          </div>
+          <Button variant="ghost" className="mt-4" onClick={() => { setStep(1); setArticleType(""); setBrand(""); setCondition(""); setApproxValue(""); }}>
+            Simular otro artículo
+          </Button>
+        </motion.div>
+      )}
+    </div>
+  );
+};
+
+/* ---------- Metales Simulator ---------- */
+const metalTypes = [
+  { icon: CircleDot, label: "Oro", color: "text-yellow-600" },
+  { icon: CircleDot, label: "Plata", color: "text-gray-400" },
+  { icon: Gem, label: "Diamantes", color: "text-blue-400" },
+];
+
+const karatOptions: Record<string, string[]> = {
+  Oro: ["10k", "14k", "18k", "24k"],
+  Plata: ["925", "950", "999"],
+  Diamantes: ["0.25ct", "0.5ct", "1ct", "2ct+"],
+};
+
+const pricePerGram: Record<string, Record<string, number>> = {
+  Oro: { "10k": 450, "14k": 650, "18k": 850, "24k": 1100 },
+  Plata: { "925": 12, "950": 14, "999": 16 },
+  Diamantes: { "0.25ct": 3000, "0.5ct": 8000, "1ct": 20000, "2ct+": 50000 },
+};
+
+const MetalesSim = () => {
+  const [step, setStep] = useState(1);
+  const [metalType, setMetalType] = useState("");
+  const [weight, setWeight] = useState("");
+  const [karat, setKarat] = useState("");
+
+  const priceBase = pricePerGram[metalType]?.[karat] || 0;
+  const w = Number(weight) || 0;
+  const isDiamond = metalType === "Diamantes";
+  const low = isDiamond ? Math.round(priceBase * 0.6) : Math.round(priceBase * w * 0.8);
+  const high = isDiamond ? Math.round(priceBase * 0.9) : Math.round(priceBase * w * 1.0);
+
+  return (
+    <div>
+      <Progress value={(step / 4) * 100} className="mb-8 h-2" />
+
+      {step === 1 && (
+        <motion.div initial="hidden" animate="visible" variants={fadeUp}>
+          <h3 className="mb-6 text-center text-lg font-semibold">¿Qué tipo de metal deseas cotizar?</h3>
+          <div className="mx-auto grid max-w-sm grid-cols-3 gap-3">
+            {metalTypes.map((m) => (
+              <button
+                key={m.label}
+                onClick={() => { setMetalType(m.label); setStep(2); }}
+                className={`flex flex-col items-center gap-2 rounded-lg border p-4 transition-colors hover:bg-muted ${metalType === m.label ? "border-primary bg-muted" : ""}`}
+              >
+                <m.icon className={`h-6 w-6 ${m.color}`} />
+                <span className="text-sm font-medium">{m.label}</span>
+              </button>
+            ))}
+          </div>
+        </motion.div>
+      )}
+
+      {step === 2 && (
+        <motion.div initial="hidden" animate="visible" variants={fadeUp} className="mx-auto max-w-md space-y-4">
+          <h3 className="mb-4 text-center text-lg font-semibold">Detalles</h3>
+          {!isDiamond && (
+            <div>
+              <label className="mb-1 block text-sm font-medium">Peso en gramos</label>
+              <Input type="number" placeholder="Ej: 15" value={weight} onChange={(e) => setWeight(e.target.value)} />
+              <p className="mt-1 text-xs text-muted-foreground">Referencia: un anillo pesa ~3-8g, una cadena ~15-40g</p>
+            </div>
+          )}
+          <div>
+            <label className="mb-1 block text-sm font-medium">{isDiamond ? "Tamaño aproximado" : "Quilataje"}</label>
+            <Select onValueChange={setKarat}>
+              <SelectTrigger><SelectValue placeholder="Seleccionar" /></SelectTrigger>
+              <SelectContent>
+                {(karatOptions[metalType] || []).map((k) => (
+                  <SelectItem key={k} value={k}>{k}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="flex gap-2 pt-2">
+            <Button variant="outline" onClick={() => setStep(1)}><ArrowLeft className="mr-1 h-4 w-4" /> Atrás</Button>
+            <Button className="flex-1" disabled={!karat || (!isDiamond && !weight)} onClick={() => setStep(3)}>
+              Continuar <ArrowRight className="ml-1 h-4 w-4" />
+            </Button>
+          </div>
+        </motion.div>
+      )}
+
+      {step === 3 && (
+        <motion.div initial="hidden" animate="visible" variants={fadeUp} className="mx-auto max-w-md text-center">
+          <h3 className="mb-4 text-lg font-semibold">Estimación de cotización</h3>
+          <Card>
+            <CardContent className="py-8">
+              <p className="text-3xl font-bold">${low.toLocaleString()} — ${high.toLocaleString()}</p>
+              <p className="mt-1 text-sm text-muted-foreground">MXN</p>
+            </CardContent>
+          </Card>
+          <p className="mt-4 text-xs text-muted-foreground">
+            Esta cifra es solo una estimación. La valuación final se realiza en sucursal.
+          </p>
+          <div className="mt-6 flex gap-2">
+            <Button variant="outline" onClick={() => setStep(2)}><ArrowLeft className="mr-1 h-4 w-4" /> Atrás</Button>
+            <Button className="flex-1" onClick={() => setStep(4)}>Siguiente <ArrowRight className="ml-1 h-4 w-4" /></Button>
+          </div>
+        </motion.div>
+      )}
+
+      {step === 4 && (
+        <motion.div initial="hidden" animate="visible" variants={fadeUp} className="mx-auto max-w-md text-center">
+          <h3 className="mb-4 text-lg font-semibold">¿Listo para continuar?</h3>
+          <p className="text-muted-foreground">Visítanos para una valuación profesional.</p>
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
+            <Button asChild><Link to="/sucursales"><MapPin className="mr-2 h-4 w-4" /> Sucursales</Link></Button>
+            <Button variant="outline" asChild>
+              <a href="https://wa.me/5551234567" target="_blank" rel="noopener noreferrer">
+                <MessageCircle className="mr-2 h-4 w-4" /> WhatsApp
+              </a>
+            </Button>
+          </div>
+          <Button variant="ghost" className="mt-4" onClick={() => { setStep(1); setMetalType(""); setWeight(""); setKarat(""); }}>
+            Simular otra cotización
+          </Button>
+        </motion.div>
+      )}
+    </div>
+  );
+};
+
+/* ---------- Page ---------- */
+const Simuladores = () => {
+  const [searchParams] = useSearchParams();
+  const defaultTab = searchParams.get("tab") === "metales" ? "metales" : "empeno";
+
+  return (
+    <div className="container py-12">
+      <motion.div initial="hidden" animate="visible" variants={fadeUp} className="mx-auto max-w-2xl text-center">
+        <h1 className="text-3xl font-bold md:text-4xl">Simuladores</h1>
+        <p className="mt-2 text-muted-foreground">Obtén una estimación en menos de 2 minutos</p>
+      </motion.div>
+
+      <div className="mx-auto mt-10 max-w-2xl">
+        <Tabs defaultValue={defaultTab}>
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="empeno">Empeño</TabsTrigger>
+            <TabsTrigger value="metales">Oro / Plata / Diamantes</TabsTrigger>
+          </TabsList>
+          <TabsContent value="empeno" className="mt-8">
+            <EmpenyoSim />
+          </TabsContent>
+          <TabsContent value="metales" className="mt-8">
+            <MetalesSim />
+          </TabsContent>
+        </Tabs>
+      </div>
+    </div>
+  );
+};
+
+export default Simuladores;

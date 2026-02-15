@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { MapPin, Phone, MessageCircle, Clock } from "lucide-react";
+import heroSucursales from "@/assets/hero-sucursales.jpg";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -19,11 +20,26 @@ const branches = [
 const Sucursales = () => {
   return (
     <div>
-      <section className="bg-secondary/30 py-16 text-center">
-        <div className="container">
-          <motion.div initial="hidden" animate="visible" variants={fadeUp}>
-            <h1 className="text-3xl font-bold md:text-4xl">Nuestras sucursales</h1>
-            <p className="mt-2 text-muted-foreground">Visítanos en cualquiera de nuestras ubicaciones</p>
+      <section className="relative flex min-h-[50vh] items-center justify-center overflow-hidden text-center">
+        <div className="absolute inset-0 z-0">
+          <img src={heroSucursales} alt="Sucursales Centenario" className="h-full w-full object-cover" loading="eager" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/80" />
+        </div>
+        <div className="container relative z-10">
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.12 } } }}
+          >
+            <motion.p variants={fadeUp} className="mb-3 text-sm font-medium uppercase tracking-[0.25em] text-white/70">
+              Estamos cerca de ti
+            </motion.p>
+            <motion.h1 variants={fadeUp} className="text-4xl font-bold leading-[1.1] tracking-tight text-white md:text-6xl">
+              Nuestras sucursales
+            </motion.h1>
+            <motion.p variants={fadeUp} className="mt-4 text-lg font-light text-white/80">
+              Visítanos en cualquiera de nuestras ubicaciones
+            </motion.p>
           </motion.div>
         </div>
       </section>

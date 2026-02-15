@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import heroBazar from "@/assets/hero-bazar.jpg";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -19,21 +20,35 @@ const Bazar = () => {
   return (
     <div>
       {/* Hero */}
-      <section className="bg-secondary/30 py-20 text-center">
-        <div className="container">
-          <motion.div initial="hidden" animate="visible" variants={fadeUp} className="mx-auto max-w-2xl">
-            <h1 className="text-3xl font-bold md:text-5xl">Bazar Centenario</h1>
-            <p className="mt-3 text-lg text-muted-foreground">
+      <section className="relative flex min-h-[60vh] items-center justify-center overflow-hidden text-center">
+        <div className="absolute inset-0 z-0">
+          <img src={heroBazar} alt="Bazar Centenario" className="h-full w-full object-cover" loading="eager" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/80" />
+        </div>
+        <div className="container relative z-10">
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.12 } } }}
+            className="mx-auto max-w-2xl"
+          >
+            <motion.p variants={fadeUp} className="mb-3 text-sm font-medium uppercase tracking-[0.25em] text-white/70">
+              Empeño y compra de metales preciosos
+            </motion.p>
+            <motion.h1 variants={fadeUp} className="text-4xl font-bold leading-[1.1] tracking-tight text-white md:text-6xl">
+              Bazar Centenario
+            </motion.h1>
+            <motion.p variants={fadeUp} className="mt-4 text-lg font-light text-white/80">
               Empeña tus artículos o vende tu oro, plata y diamantes. Sin complicaciones.
-            </p>
-            <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-              <Button asChild size="lg">
+            </motion.p>
+            <motion.div variants={fadeUp} className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+              <Button asChild size="lg" className="bg-amber-500 text-black hover:bg-amber-400">
                 <Link to="/simuladores">Cotizar ahora</Link>
               </Button>
-              <Button asChild variant="outline" size="lg">
+              <Button asChild size="lg" className="border-white/30 bg-white/10 text-white backdrop-blur hover:bg-white/20">
                 <Link to="/sucursales">Ver sucursales</Link>
               </Button>
-            </div>
+            </motion.div>
           </motion.div>
         </div>
       </section>

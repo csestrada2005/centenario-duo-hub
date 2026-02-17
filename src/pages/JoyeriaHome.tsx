@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { useRef } from "react";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Gem, Sparkles } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import heroImg from "@/assets/joyeria-hero.jpg";
 import feat1 from "@/assets/joyeria-featured-1.jpg";
 import feat2 from "@/assets/joyeria-featured-2.jpg";
@@ -142,13 +143,13 @@ const JoyeriaHome = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.9, ease: [0.22, 1, 0.36, 1] }}
             >
-              <Link
-                to="/joyeria/catalogo"
-                className="group mt-10 inline-flex items-center gap-3 text-xs font-medium uppercase tracking-[0.2em] text-foreground transition-colors hover:text-primary"
-              >
-                Shop Collection
-                <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
-              </Link>
+              <Button asChild variant="editorial" size="lg" className="group mt-10">
+                <Link to="/joyeria/catalogo">
+                  <Gem className="mr-2 h-4 w-4 group-hover:rotate-12 transition-transform" />
+                  Shop Collection
+                  <ArrowRight className="ml-2 h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+                </Link>
+              </Button>
             </motion.div>
           </motion.div>
         </div>
@@ -209,13 +210,13 @@ const JoyeriaHome = () => {
         </div>
 
         <Reveal className="mt-16 text-center" delay={0.2}>
-          <Link
-            to="/joyeria/catalogo"
-            className="group inline-flex items-center gap-3 text-xs font-medium uppercase tracking-[0.2em] text-foreground transition-colors hover:text-primary"
-          >
-            Ver todo el catálogo
-            <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
-          </Link>
+          <Button asChild variant="editorialOutline" size="lg" className="group">
+            <Link to="/joyeria/catalogo">
+              <Sparkles className="mr-2 h-4 w-4 group-hover:rotate-12 transition-transform" />
+              Ver todo el catálogo
+              <ArrowRight className="ml-2 h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+            </Link>
+          </Button>
         </Reveal>
       </section>
 
@@ -275,13 +276,12 @@ const JoyeriaHome = () => {
             <p className="mt-4 text-sm font-light leading-[1.8] text-muted-foreground">
               Nuestro compromiso es simple: calidad sin concesiones, diseño atemporal y un servicio que honra la confianza de cada cliente.
             </p>
-            <Link
-              to="/joyeria/catalogo"
-              className="group mt-8 inline-flex items-center gap-3 text-xs font-medium uppercase tracking-[0.2em] text-foreground transition-colors hover:text-primary"
-            >
-              Descubrir más
-              <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
-            </Link>
+            <Button asChild variant="editorialOutline" className="group mt-8">
+              <Link to="/joyeria/catalogo">
+                Descubrir más
+                <ArrowRight className="ml-2 h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+              </Link>
+            </Button>
           </Reveal>
         </div>
       </section>
@@ -309,12 +309,14 @@ const JoyeriaHome = () => {
               placeholder="tu@email.com"
               className="h-12 flex-1 border-b border-border bg-transparent px-0 text-sm text-foreground placeholder:text-muted-foreground focus:border-foreground focus:outline-none"
             />
-            <button
+            <Button
               type="submit"
-              className="h-12 px-6 text-xs font-medium uppercase tracking-[0.15em] text-foreground transition-colors hover:text-primary"
+              variant="editorial"
+              className="group h-12 px-6"
             >
               Suscribir
-            </button>
+              <ArrowRight className="ml-1 h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+            </Button>
           </form>
         </Reveal>
       </section>

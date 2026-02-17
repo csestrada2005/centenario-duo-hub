@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/accordion";
 import {
   ArrowRight, Smartphone, Laptop, Wrench, Car, Tv, CircleDollarSign,
-  Gem, Shield, MapPin, MessageCircle, Package, ChevronDown,
+  Gem, Shield, MapPin, MessageCircle, Package, ChevronDown, Sparkles,
 } from "lucide-react";
 
 /* ── Scroll-triggered reveal ── */
@@ -107,11 +107,15 @@ const Bazar = () => {
               Empeña tus artículos o vende tu oro, plata y diamantes. Sin complicaciones, con total transparencia.
             </motion.p>
             <motion.div variants={fadeUp} className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-              <Button asChild size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 text-xs uppercase tracking-[0.15em]">
-                <Link to="/bazar/simuladores">Cotizar ahora</Link>
+              <Button asChild size="lg" variant="gold" className="group px-8">
+                <Link to="/bazar/simuladores">
+                  <CircleDollarSign className="mr-2 h-4 w-4 group-hover:rotate-12" /> Cotizar ahora
+                </Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className="border-white/20 bg-transparent text-white hover:bg-white/10 px-8 text-xs uppercase tracking-[0.15em]">
-                <Link to="/bazar/sucursales">Ver sucursales</Link>
+              <Button asChild size="lg" variant="goldOutline" className="group px-8">
+                <Link to="/bazar/sucursales">
+                  <MapPin className="mr-2 h-4 w-4 group-hover:scale-110" /> Ver sucursales
+                </Link>
               </Button>
             </motion.div>
           </motion.div>
@@ -268,12 +272,14 @@ const Bazar = () => {
       {/* ═══ CTA final ═══ */}
       <section className="px-6 py-28 md:px-10">
         <Reveal className="mx-auto flex max-w-xl flex-col items-center gap-4 text-center sm:flex-row sm:justify-center">
-          <Button asChild size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 text-xs uppercase tracking-[0.15em]">
-            <Link to="/bazar/sucursales"><MapPin className="mr-2 h-4 w-4" /> Visita tu sucursal</Link>
+          <Button asChild size="lg" variant="gold" className="group px-8">
+            <Link to="/bazar/sucursales">
+              <MapPin className="mr-2 h-4 w-4 group-hover:bounce" /> Visita tu sucursal
+            </Link>
           </Button>
-          <Button asChild variant="outline" size="lg" className="border-border text-foreground hover:bg-muted px-8 text-xs uppercase tracking-[0.15em]">
+          <Button asChild variant="goldOutline" size="lg" className="group px-8">
             <a href="https://wa.me/5551234567" target="_blank" rel="noopener noreferrer">
-              <MessageCircle className="mr-2 h-4 w-4" /> WhatsApp
+              <MessageCircle className="mr-2 h-4 w-4 group-hover:scale-110" /> WhatsApp
             </a>
           </Button>
         </Reveal>

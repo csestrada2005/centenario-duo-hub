@@ -76,18 +76,20 @@ const fadeUp = {
 const Bazar = () => {
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "25%"]);
-  const heroContentOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
-  const heroContentY = useTransform(scrollYProgress, [0, 0.6], [0, -60]);
+  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "40%"]);
+  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
+  const heroContentOpacity = useTransform(scrollYProgress, [0, 0.45], [1, 0]);
+  const heroContentY = useTransform(scrollYProgress, [0, 0.5], [0, -100]);
+  const overlayOpacity = useTransform(scrollYProgress, [0, 0.6], [0.5, 0.85]);
 
   return (
     <div>
       {/* ═══ Hero fullwidth with real parallax ═══ */}
       <section ref={heroRef} className="relative flex min-h-screen items-center justify-center overflow-hidden">
-        <motion.div style={{ y: bgY }} className="absolute inset-0 z-0 will-change-transform">
-          <img src={heroBazar} alt="" className="h-[130%] w-full object-cover opacity-50" loading="eager" />
+        <motion.div style={{ y: bgY, scale: bgScale }} className="absolute inset-0 z-0 will-change-transform">
+          <img src={heroBazar} alt="" className="h-[140%] w-full object-cover" loading="eager" />
         </motion.div>
-        <div className="absolute inset-0 z-0 bg-gradient-to-b from-black/70 via-black/50 to-[hsl(var(--background))]" />
+        <motion.div style={{ opacity: overlayOpacity }} className="absolute inset-0 z-0 bg-gradient-to-b from-black via-black/60 to-[hsl(var(--background))]" />
 
         <motion.div
           style={{ opacity: heroContentOpacity, y: heroContentY }}

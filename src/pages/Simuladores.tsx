@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -14,7 +13,7 @@ import {
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
 };
 
 /* ---------- Empeño Simulator ---------- */
@@ -53,20 +52,20 @@ const EmpenyoSim = () => {
 
   return (
     <div>
-      <Progress value={(step / 4) * 100} className="mb-8 h-2" />
+      <Progress value={(step / 4) * 100} className="mb-10 h-[2px]" />
 
       {step === 1 && (
         <motion.div initial="hidden" animate="visible" variants={fadeUp}>
-          <h3 className="mb-6 text-center text-lg font-semibold">¿Qué tipo de artículo deseas empeñar?</h3>
-          <div className="mx-auto grid max-w-md grid-cols-2 gap-3 sm:grid-cols-3">
+          <h3 className="mb-8 text-center text-lg font-light uppercase tracking-[0.1em]">¿Qué tipo de artículo deseas empeñar?</h3>
+          <div className="mx-auto grid max-w-md grid-cols-2 gap-4 sm:grid-cols-3">
             {articleTypes.map((t) => (
               <button
                 key={t.label}
                 onClick={() => { setArticleType(t.label); setStep(2); }}
-                className={`flex flex-col items-center gap-2 rounded-lg border p-4 transition-colors hover:bg-muted ${articleType === t.label ? "border-primary bg-muted" : ""}`}
+                className={`group flex flex-col items-center gap-3 py-6 transition-colors hover:text-primary ${articleType === t.label ? "text-primary" : "text-muted-foreground"}`}
               >
-                <t.icon className="h-6 w-6 text-primary" />
-                <span className="text-sm font-medium">{t.label}</span>
+                <t.icon className="h-7 w-7" strokeWidth={1} />
+                <span className="text-xs font-medium uppercase tracking-[0.1em]">{t.label}</span>
               </button>
             ))}
           </div>
@@ -74,8 +73,8 @@ const EmpenyoSim = () => {
       )}
 
       {step === 2 && (
-        <motion.div initial="hidden" animate="visible" variants={fadeUp} className="mx-auto max-w-md space-y-4">
-          <h3 className="mb-4 text-center text-lg font-semibold">Datos del artículo</h3>
+        <motion.div initial="hidden" animate="visible" variants={fadeUp} className="mx-auto max-w-md space-y-5">
+          <h3 className="mb-6 text-center text-lg font-light uppercase tracking-[0.1em]">Datos del artículo</h3>
           <Select onValueChange={setBrand}>
             <SelectTrigger><SelectValue placeholder="Marca" /></SelectTrigger>
             <SelectContent>
@@ -99,9 +98,11 @@ const EmpenyoSim = () => {
             value={approxValue}
             onChange={(e) => setApproxValue(e.target.value)}
           />
-          <div className="flex gap-2 pt-2">
-            <Button variant="outline" onClick={() => setStep(1)}><ArrowLeft className="mr-1 h-4 w-4" /> Atrás</Button>
-            <Button className="flex-1" disabled={!brand || !condition || !approxValue} onClick={() => setStep(3)}>
+          <div className="flex gap-3 pt-4">
+            <Button variant="outline" onClick={() => setStep(1)} className="border-border text-foreground">
+              <ArrowLeft className="mr-1 h-4 w-4" /> Atrás
+            </Button>
+            <Button className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90" disabled={!brand || !condition || !approxValue} onClick={() => setStep(3)}>
               Continuar <ArrowRight className="ml-1 h-4 w-4" />
             </Button>
           </div>
@@ -110,38 +111,45 @@ const EmpenyoSim = () => {
 
       {step === 3 && (
         <motion.div initial="hidden" animate="visible" variants={fadeUp} className="mx-auto max-w-md text-center">
-          <h3 className="mb-4 text-lg font-semibold">Estimación de empeño</h3>
-          <Card>
-            <CardContent className="py-8">
-              <p className="text-3xl font-bold">${low.toLocaleString()} — ${high.toLocaleString()}</p>
-              <p className="mt-1 text-sm text-muted-foreground">MXN</p>
-            </CardContent>
-          </Card>
-          <p className="mt-4 text-xs text-muted-foreground">
+          <h3 className="mb-8 text-lg font-light uppercase tracking-[0.1em]">Estimación de empeño</h3>
+          <div className="py-10">
+            <p className="text-gold-gradient text-4xl font-light md:text-5xl">${low.toLocaleString()} — ${high.toLocaleString()}</p>
+            <p className="mt-2 text-xs uppercase tracking-[0.2em] text-muted-foreground">MXN</p>
+          </div>
+          <p className="text-xs font-light text-muted-foreground">
             Esta cifra es solo una estimación. La valuación final se realiza en sucursal.
           </p>
-          <div className="mt-6 flex gap-2">
-            <Button variant="outline" onClick={() => setStep(2)}><ArrowLeft className="mr-1 h-4 w-4" /> Atrás</Button>
-            <Button className="flex-1" onClick={() => setStep(4)}>Siguiente <ArrowRight className="ml-1 h-4 w-4" /></Button>
+          <div className="mt-8 flex gap-3">
+            <Button variant="outline" onClick={() => setStep(2)} className="border-border text-foreground">
+              <ArrowLeft className="mr-1 h-4 w-4" /> Atrás
+            </Button>
+            <Button className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90" onClick={() => setStep(4)}>
+              Siguiente <ArrowRight className="ml-1 h-4 w-4" />
+            </Button>
           </div>
         </motion.div>
       )}
 
       {step === 4 && (
         <motion.div initial="hidden" animate="visible" variants={fadeUp} className="mx-auto max-w-md text-center">
-          <h3 className="mb-4 text-lg font-semibold">¿Listo para continuar?</h3>
-          <p className="text-muted-foreground">Visita tu sucursal más cercana para la valuación final.</p>
-          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
-            <Button asChild><Link to="/bazar/sucursales"><MapPin className="mr-2 h-4 w-4" /> Sucursales</Link></Button>
-            <Button variant="outline" asChild>
+          <h3 className="mb-6 text-lg font-light uppercase tracking-[0.1em]">¿Listo para continuar?</h3>
+          <p className="text-sm font-light text-muted-foreground">Visita tu sucursal más cercana para la valuación final.</p>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
+            <Button asChild className="bg-primary text-primary-foreground hover:bg-primary/90">
+              <Link to="/bazar/sucursales"><MapPin className="mr-2 h-4 w-4" /> Sucursales</Link>
+            </Button>
+            <Button variant="outline" asChild className="border-border text-foreground">
               <a href="https://wa.me/5551234567" target="_blank" rel="noopener noreferrer">
                 <MessageCircle className="mr-2 h-4 w-4" /> WhatsApp
               </a>
             </Button>
           </div>
-          <Button variant="ghost" className="mt-4" onClick={() => { setStep(1); setArticleType(""); setBrand(""); setCondition(""); setApproxValue(""); }}>
+          <button
+            className="mt-6 text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground transition-colors hover:text-primary"
+            onClick={() => { setStep(1); setArticleType(""); setBrand(""); setCondition(""); setApproxValue(""); }}
+          >
             Simular otro artículo
-          </Button>
+          </button>
         </motion.div>
       )}
     </div>
@@ -150,9 +158,9 @@ const EmpenyoSim = () => {
 
 /* ---------- Metales Simulator ---------- */
 const metalTypes = [
-  { icon: CircleDot, label: "Oro", color: "text-yellow-600" },
-  { icon: CircleDot, label: "Plata", color: "text-gray-400" },
-  { icon: Gem, label: "Diamantes", color: "text-blue-400" },
+  { icon: CircleDot, label: "Oro", color: "text-primary" },
+  { icon: CircleDot, label: "Plata", color: "text-muted-foreground" },
+  { icon: Gem, label: "Diamantes", color: "text-foreground" },
 ];
 
 const karatOptions: Record<string, string[]> = {
@@ -181,20 +189,20 @@ const MetalesSim = () => {
 
   return (
     <div>
-      <Progress value={(step / 4) * 100} className="mb-8 h-2" />
+      <Progress value={(step / 4) * 100} className="mb-10 h-[2px]" />
 
       {step === 1 && (
         <motion.div initial="hidden" animate="visible" variants={fadeUp}>
-          <h3 className="mb-6 text-center text-lg font-semibold">¿Qué tipo de metal deseas cotizar?</h3>
-          <div className="mx-auto grid max-w-sm grid-cols-3 gap-3">
+          <h3 className="mb-8 text-center text-lg font-light uppercase tracking-[0.1em]">¿Qué tipo de metal deseas cotizar?</h3>
+          <div className="mx-auto grid max-w-sm grid-cols-3 gap-4">
             {metalTypes.map((m) => (
               <button
                 key={m.label}
                 onClick={() => { setMetalType(m.label); setStep(2); }}
-                className={`flex flex-col items-center gap-2 rounded-lg border p-4 transition-colors hover:bg-muted ${metalType === m.label ? "border-primary bg-muted" : ""}`}
+                className={`group flex flex-col items-center gap-3 py-6 transition-colors hover:text-primary ${metalType === m.label ? "text-primary" : "text-muted-foreground"}`}
               >
-                <m.icon className={`h-6 w-6 ${m.color}`} />
-                <span className="text-sm font-medium">{m.label}</span>
+                <m.icon className="h-7 w-7" strokeWidth={1} />
+                <span className="text-xs font-medium uppercase tracking-[0.1em]">{m.label}</span>
               </button>
             ))}
           </div>
@@ -202,17 +210,17 @@ const MetalesSim = () => {
       )}
 
       {step === 2 && (
-        <motion.div initial="hidden" animate="visible" variants={fadeUp} className="mx-auto max-w-md space-y-4">
-          <h3 className="mb-4 text-center text-lg font-semibold">Detalles</h3>
+        <motion.div initial="hidden" animate="visible" variants={fadeUp} className="mx-auto max-w-md space-y-5">
+          <h3 className="mb-6 text-center text-lg font-light uppercase tracking-[0.1em]">Detalles</h3>
           {!isDiamond && (
             <div>
-              <label className="mb-1 block text-sm font-medium">Peso en gramos</label>
+              <label className="mb-1 block text-xs font-medium uppercase tracking-[0.1em]">Peso en gramos</label>
               <Input type="number" placeholder="Ej: 15" value={weight} onChange={(e) => setWeight(e.target.value)} />
-              <p className="mt-1 text-xs text-muted-foreground">Referencia: un anillo pesa ~3-8g, una cadena ~15-40g</p>
+              <p className="mt-1 text-xs font-light text-muted-foreground">Referencia: un anillo pesa ~3-8g, una cadena ~15-40g</p>
             </div>
           )}
           <div>
-            <label className="mb-1 block text-sm font-medium">{isDiamond ? "Tamaño aproximado" : "Quilataje"}</label>
+            <label className="mb-1 block text-xs font-medium uppercase tracking-[0.1em]">{isDiamond ? "Tamaño aproximado" : "Quilataje"}</label>
             <Select onValueChange={setKarat}>
               <SelectTrigger><SelectValue placeholder="Seleccionar" /></SelectTrigger>
               <SelectContent>
@@ -222,9 +230,11 @@ const MetalesSim = () => {
               </SelectContent>
             </Select>
           </div>
-          <div className="flex gap-2 pt-2">
-            <Button variant="outline" onClick={() => setStep(1)}><ArrowLeft className="mr-1 h-4 w-4" /> Atrás</Button>
-            <Button className="flex-1" disabled={!karat || (!isDiamond && !weight)} onClick={() => setStep(3)}>
+          <div className="flex gap-3 pt-4">
+            <Button variant="outline" onClick={() => setStep(1)} className="border-border text-foreground">
+              <ArrowLeft className="mr-1 h-4 w-4" /> Atrás
+            </Button>
+            <Button className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90" disabled={!karat || (!isDiamond && !weight)} onClick={() => setStep(3)}>
               Continuar <ArrowRight className="ml-1 h-4 w-4" />
             </Button>
           </div>
@@ -233,38 +243,45 @@ const MetalesSim = () => {
 
       {step === 3 && (
         <motion.div initial="hidden" animate="visible" variants={fadeUp} className="mx-auto max-w-md text-center">
-          <h3 className="mb-4 text-lg font-semibold">Estimación de cotización</h3>
-          <Card>
-            <CardContent className="py-8">
-              <p className="text-3xl font-bold">${low.toLocaleString()} — ${high.toLocaleString()}</p>
-              <p className="mt-1 text-sm text-muted-foreground">MXN</p>
-            </CardContent>
-          </Card>
-          <p className="mt-4 text-xs text-muted-foreground">
+          <h3 className="mb-8 text-lg font-light uppercase tracking-[0.1em]">Estimación de cotización</h3>
+          <div className="py-10">
+            <p className="text-gold-gradient text-4xl font-light md:text-5xl">${low.toLocaleString()} — ${high.toLocaleString()}</p>
+            <p className="mt-2 text-xs uppercase tracking-[0.2em] text-muted-foreground">MXN</p>
+          </div>
+          <p className="text-xs font-light text-muted-foreground">
             Esta cifra es solo una estimación. La valuación final se realiza en sucursal.
           </p>
-          <div className="mt-6 flex gap-2">
-            <Button variant="outline" onClick={() => setStep(2)}><ArrowLeft className="mr-1 h-4 w-4" /> Atrás</Button>
-            <Button className="flex-1" onClick={() => setStep(4)}>Siguiente <ArrowRight className="ml-1 h-4 w-4" /></Button>
+          <div className="mt-8 flex gap-3">
+            <Button variant="outline" onClick={() => setStep(2)} className="border-border text-foreground">
+              <ArrowLeft className="mr-1 h-4 w-4" /> Atrás
+            </Button>
+            <Button className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90" onClick={() => setStep(4)}>
+              Siguiente <ArrowRight className="ml-1 h-4 w-4" />
+            </Button>
           </div>
         </motion.div>
       )}
 
       {step === 4 && (
         <motion.div initial="hidden" animate="visible" variants={fadeUp} className="mx-auto max-w-md text-center">
-          <h3 className="mb-4 text-lg font-semibold">¿Listo para continuar?</h3>
-          <p className="text-muted-foreground">Visítanos para una valuación profesional.</p>
-          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
-            <Button asChild><Link to="/bazar/sucursales"><MapPin className="mr-2 h-4 w-4" /> Sucursales</Link></Button>
-            <Button variant="outline" asChild>
+          <h3 className="mb-6 text-lg font-light uppercase tracking-[0.1em]">¿Listo para continuar?</h3>
+          <p className="text-sm font-light text-muted-foreground">Visítanos para una valuación profesional.</p>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
+            <Button asChild className="bg-primary text-primary-foreground hover:bg-primary/90">
+              <Link to="/bazar/sucursales"><MapPin className="mr-2 h-4 w-4" /> Sucursales</Link>
+            </Button>
+            <Button variant="outline" asChild className="border-border text-foreground">
               <a href="https://wa.me/5551234567" target="_blank" rel="noopener noreferrer">
                 <MessageCircle className="mr-2 h-4 w-4" /> WhatsApp
               </a>
             </Button>
           </div>
-          <Button variant="ghost" className="mt-4" onClick={() => { setStep(1); setMetalType(""); setWeight(""); setKarat(""); }}>
+          <button
+            className="mt-6 text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground transition-colors hover:text-primary"
+            onClick={() => { setStep(1); setMetalType(""); setWeight(""); setKarat(""); }}
+          >
             Simular otra cotización
-          </Button>
+          </button>
         </motion.div>
       )}
     </div>
@@ -277,22 +294,22 @@ const Simuladores = () => {
   const defaultTab = searchParams.get("tab") === "metales" ? "metales" : "empeno";
 
   return (
-    <div className="container py-12">
+    <div className="px-6 py-20 md:px-10">
       <motion.div initial="hidden" animate="visible" variants={fadeUp} className="mx-auto max-w-2xl text-center">
-        <h1 className="text-3xl font-bold md:text-4xl">Simuladores</h1>
-        <p className="mt-2 text-muted-foreground">Obtén una estimación en menos de 2 minutos</p>
+        <h1 className="text-3xl font-light uppercase tracking-[0.1em] md:text-5xl">Simuladores</h1>
+        <p className="mt-4 text-sm font-light text-muted-foreground">Obtén una estimación en menos de 2 minutos</p>
       </motion.div>
 
-      <div className="mx-auto mt-10 max-w-2xl">
+      <div className="mx-auto mt-14 max-w-2xl">
         <Tabs defaultValue={defaultTab}>
-          <TabsList className="grid w-full grid-cols-2">
+          <TabsList className="grid w-full grid-cols-2 bg-muted">
             <TabsTrigger value="empeno">Empeño</TabsTrigger>
             <TabsTrigger value="metales">Oro / Plata / Diamantes</TabsTrigger>
           </TabsList>
-          <TabsContent value="empeno" className="mt-8">
+          <TabsContent value="empeno" className="mt-10">
             <EmpenyoSim />
           </TabsContent>
-          <TabsContent value="metales" className="mt-8">
+          <TabsContent value="metales" className="mt-10">
             <MetalesSim />
           </TabsContent>
         </Tabs>

@@ -1,115 +1,144 @@
 import { useState } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { Menu, X, ShoppingCart } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { motion, AnimatePresence } from "framer-motion";
 import WhatsAppButton from "./WhatsAppButton";
 
 const joyeriaNav = [
   { label: "Catálogo", href: "/joyeria" },
+  { label: "Carrito", href: "/joyeria/carrito" },
 ];
 
 const JoyeriaLayout = () => {
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
-        <div className="container flex h-16 items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link to="/" className="text-xs font-medium uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors">
-              ← Centenario
-            </Link>
-            <span className="text-border">|</span>
-            <Link to="/joyeria" className="text-xl font-bold tracking-tight text-foreground">
-              Joyería Centenario
-            </Link>
-          </div>
+    <div className="joyeria-theme flex min-h-screen flex-col bg-background text-foreground">
+      {/* Header */}
+      <header className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-sm">
+        <div className="flex h-14 items-center justify-between px-6 md:px-10">
+          {/* Hamburger */}
+          <button
+            onClick={() => setMenuOpen(true)}
+            className="text-foreground/60 transition-colors hover:text-foreground"
+            aria-label="Abrir menú"
+          >
+            <Menu className="h-5 w-5" />
+          </button>
 
-          <nav className="hidden items-center gap-1 md:flex">
-            {joyeriaNav.map((item) => (
-              <Link
-                key={item.href}
-                to={item.href}
-                className={`rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted ${
-                  location.pathname === item.href ? "text-foreground" : "text-muted-foreground"
-                }`}
-              >
-                {item.label}
-              </Link>
-            ))}
-            <Button variant="ghost" size="icon" asChild className="ml-1">
-              <Link to="/joyeria/carrito">
-                <ShoppingCart className="h-5 w-5" />
-              </Link>
-            </Button>
-          </nav>
+          {/* Logo center */}
+          <Link to="/joyeria" className="absolute left-1/2 -translate-x-1/2" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
+            <span className="text-lg tracking-[0.1em] text-foreground">Centenario</span>
+          </Link>
 
-          <div className="flex items-center gap-2 md:hidden">
-            <Button variant="ghost" size="icon" asChild>
-              <Link to="/joyeria/carrito">
-                <ShoppingCart className="h-5 w-5" />
-              </Link>
-            </Button>
-            <Button variant="ghost" size="icon" onClick={() => setMobileOpen(!mobileOpen)}>
-              {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-            </Button>
-          </div>
+          {/* Cart right */}
+          <Link to="/joyeria/carrito" className="text-foreground/60 transition-colors hover:text-foreground">
+            <ShoppingCart className="h-5 w-5" />
+          </Link>
         </div>
-
-        {mobileOpen && (
-          <div className="border-t bg-background md:hidden">
-            <nav className="container flex flex-col gap-1 py-4">
-              {joyeriaNav.map((item) => (
-                <Link
-                  key={item.href}
-                  to={item.href}
-                  onClick={() => setMobileOpen(false)}
-                  className={`rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted ${
-                    location.pathname === item.href ? "text-foreground" : "text-muted-foreground"
-                  }`}
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </nav>
-          </div>
-        )}
+        <div className="mx-6 h-px bg-border md:mx-10" />
       </header>
 
-      <main className="flex-1">
+      {/* Slide-in menu */}
+      <AnimatePresence>
+        {menuOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="fixed inset-0 z-[60] bg-black/40"
+              onClick={() => setMenuOpen(false)}
+            />
+            <motion.nav
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ type: "tween", duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              className="fixed left-0 top-0 z-[70] flex h-full w-72 flex-col bg-background p-8"
+            >
+              <button
+                onClick={() => setMenuOpen(false)}
+                className="mb-12 self-end text-foreground/40 transition-colors hover:text-foreground"
+              >
+                <X className="h-5 w-5" />
+              </button>
+
+              <div className="flex flex-1 flex-col gap-1">
+                {joyeriaNav.map((item) => (
+                  <Link
+                    key={item.href}
+                    to={item.href}
+                    onClick={() => setMenuOpen(false)}
+                    className={`py-3 text-xl transition-colors hover:text-foreground ${
+                      location.pathname === item.href ? "text-foreground" : "text-muted-foreground"
+                    }`}
+                    style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+
+              <div className="space-y-3 border-t border-border pt-6 text-xs text-muted-foreground">
+                <Link
+                  to="/"
+                  onClick={() => setMenuOpen(false)}
+                  className="block transition-colors hover:text-foreground"
+                >
+                  Volver al inicio
+                </Link>
+                <Link
+                  to="/bazar"
+                  onClick={() => setMenuOpen(false)}
+                  className="block transition-colors hover:text-foreground"
+                >
+                  Bazar Centenario
+                </Link>
+              </div>
+            </motion.nav>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Main */}
+      <main className="flex-1 pt-14">
         <Outlet />
       </main>
 
-      {/* Joyería Footer */}
-      <footer className="border-t bg-secondary/50">
-        <div className="container py-12">
-          <div className="grid gap-8 md:grid-cols-3">
+      {/* Footer */}
+      <footer className="border-t border-border bg-background">
+        <div className="mx-auto max-w-6xl px-6 py-16 md:px-10">
+          <div className="grid gap-10 text-sm md:grid-cols-4">
             <div>
-              <h4 className="mb-3 text-sm font-semibold uppercase tracking-wider text-foreground">Joyería</h4>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><Link to="/joyeria" className="hover:text-foreground transition-colors">Catálogo</Link></li>
-                <li><Link to="/joyeria/carrito" className="hover:text-foreground transition-colors">Carrito</Link></li>
+              <h4 className="mb-3 text-xs font-medium uppercase tracking-[0.15em] text-foreground">Information</h4>
+              <ul className="space-y-2 text-muted-foreground">
+                <li><Link to="/joyeria" className="transition-colors hover:text-foreground">Catálogo</Link></li>
+                <li><Link to="/joyeria/carrito" className="transition-colors hover:text-foreground">Carrito</Link></li>
               </ul>
             </div>
             <div>
-              <h4 className="mb-3 text-sm font-semibold uppercase tracking-wider text-foreground">Contacto</h4>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>Tel: (555) 123-4567</li>
+              <h4 className="mb-3 text-xs font-medium uppercase tracking-[0.15em] text-foreground">Contacto</h4>
+              <ul className="space-y-2 text-muted-foreground">
+                <li>(555) 123-4567</li>
                 <li>joyeria@centenario.mx</li>
               </ul>
             </div>
             <div>
-              <h4 className="mb-3 text-sm font-semibold uppercase tracking-wider text-foreground">También somos</h4>
-              <p className="text-sm text-muted-foreground">
-                <Link to="/bazar" className="hover:text-foreground transition-colors underline">
-                  Bazar Centenario →
-                </Link>
-              </p>
+              <h4 className="mb-3 text-xs font-medium uppercase tracking-[0.15em] text-foreground">Dirección</h4>
+              <p className="text-muted-foreground">Av. Principal #100<br />Col. Centro, Ciudad</p>
+            </div>
+            <div>
+              <h4 className="mb-3 text-xs font-medium uppercase tracking-[0.15em] text-foreground">Connect</h4>
+              <ul className="space-y-2 text-muted-foreground">
+                <li><Link to="/bazar" className="transition-colors hover:text-foreground">Bazar Centenario</Link></li>
+              </ul>
             </div>
           </div>
-          <div className="mt-8 border-t pt-6 text-center text-xs text-muted-foreground">
-            <p>© {new Date().getFullYear()} Joyería Centenario. Todos los derechos reservados.</p>
+          <div className="mt-12 border-t border-border pt-6 text-center text-xs text-muted-foreground">
+            <p>© {new Date().getFullYear()} Joyería Centenario</p>
           </div>
         </div>
       </footer>

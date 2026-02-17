@@ -1,53 +1,52 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 
 const Checkout = () => {
   return (
-    <div className="container py-8">
-      <h1 className="mb-8 text-2xl font-bold">Checkout</h1>
-      <div className="grid gap-8 lg:grid-cols-3">
-        <div className="space-y-6 lg:col-span-2">
-          <Card>
-            <CardContent className="space-y-4 p-6">
-              <h3 className="font-semibold">Datos de envío</h3>
+    <div className="px-6 py-12 md:px-10">
+      <div className="mx-auto max-w-4xl">
+        <h1 className="mb-10 text-3xl" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>Checkout</h1>
+        <div className="grid gap-12 lg:grid-cols-3">
+          <div className="space-y-8 lg:col-span-2">
+            <div>
+              <h3 className="mb-4 text-xs font-medium uppercase tracking-[0.15em]">Datos de envío</h3>
               <div className="grid gap-4 md:grid-cols-2">
-                <Input placeholder="Nombre" />
-                <Input placeholder="Apellido" />
-                <Input placeholder="Dirección" className="md:col-span-2" />
-                <Input placeholder="Ciudad" />
-                <Input placeholder="Código postal" />
-                <Input placeholder="Teléfono" />
-                <Input placeholder="Email" />
+                <Input placeholder="Nombre" className="bg-transparent" />
+                <Input placeholder="Apellido" className="bg-transparent" />
+                <Input placeholder="Dirección" className="bg-transparent md:col-span-2" />
+                <Input placeholder="Ciudad" className="bg-transparent" />
+                <Input placeholder="Código postal" className="bg-transparent" />
+                <Input placeholder="Teléfono" className="bg-transparent" />
+                <Input placeholder="Email" className="bg-transparent" />
               </div>
-            </CardContent>
-          </Card>
+            </div>
 
-          <Card>
-            <CardContent className="space-y-4 p-6">
-              <h3 className="font-semibold">Método de pago</h3>
-              <p className="text-sm text-muted-foreground">
-                El pago se procesará de forma segura a través de nuestra pasarela de pago.
+            <div className="border-t border-border pt-8">
+              <h3 className="mb-4 text-xs font-medium uppercase tracking-[0.15em]">Método de pago</h3>
+              <p className="mb-4 text-xs text-muted-foreground">
+                El pago se procesará de forma segura.
               </p>
-              <Input placeholder="Número de tarjeta" />
-              <div className="grid grid-cols-2 gap-4">
-                <Input placeholder="MM/AA" />
-                <Input placeholder="CVV" />
+              <div className="space-y-4">
+                <Input placeholder="Número de tarjeta" className="bg-transparent" />
+                <div className="grid grid-cols-2 gap-4">
+                  <Input placeholder="MM/AA" className="bg-transparent" />
+                  <Input placeholder="CVV" className="bg-transparent" />
+                </div>
               </div>
-            </CardContent>
-          </Card>
-        </div>
+            </div>
+          </div>
 
-        <Card className="h-fit">
-          <CardContent className="space-y-3 p-6">
-            <h3 className="font-semibold">Resumen del pedido</h3>
-            <div className="flex justify-between text-sm"><span>Pieza Premium 1 x1</span><span>$3,700</span></div>
-            <div className="flex justify-between text-sm"><span>Pieza Premium 3 x2</span><span>$12,200</span></div>
-            <div className="flex justify-between text-sm"><span>Envío</span><span>$199</span></div>
-            <div className="flex justify-between border-t pt-3 font-semibold"><span>Total</span><span>$16,099 MXN</span></div>
-            <Button className="mt-4 w-full" size="lg">Confirmar pedido</Button>
-          </CardContent>
-        </Card>
+          <div className="lg:pt-0">
+            <h3 className="mb-4 text-xs font-medium uppercase tracking-[0.15em]">Resumen</h3>
+            <div className="space-y-3 text-sm">
+              <div className="flex justify-between"><span className="text-muted-foreground">Pieza Premium 1 x1</span><span>$3,700</span></div>
+              <div className="flex justify-between"><span className="text-muted-foreground">Pieza Premium 3 x2</span><span>$12,200</span></div>
+              <div className="flex justify-between"><span className="text-muted-foreground">Envío</span><span>$199</span></div>
+              <div className="flex justify-between border-t border-border pt-3 font-medium"><span>Total</span><span>$16,099 MXN</span></div>
+            </div>
+            <Button className="mt-6 w-full bg-foreground text-background hover:bg-foreground/90" size="lg">Confirmar pedido</Button>
+          </div>
+        </div>
       </div>
     </div>
   );

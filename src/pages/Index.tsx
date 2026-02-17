@@ -116,6 +116,7 @@ const Index = () => {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.8 }}
             className="mb-8 text-[11px] font-medium uppercase tracking-[0.5em] text-white/60"
+            style={{ textShadow: "0 1px 6px rgba(0,0,0,0.5)" }}
           >
             Bienvenido
           </motion.p>
@@ -130,6 +131,7 @@ const Index = () => {
               fontFamily: "'Playfair Display', Georgia, serif",
               letterSpacing: "0.08em",
               filter: "drop-shadow(0 0 35px rgba(212,175,55,0.5))",
+              textShadow: "0 2px 12px rgba(212,175,55,0.4), 0 1px 3px rgba(0,0,0,0.3)",
             }}
           >
             Centenario
@@ -143,10 +145,11 @@ const Index = () => {
             className="mt-28 flex flex-col items-center gap-12 md:flex-row md:justify-center md:gap-20"
           >
             {/* Bazar Coin */}
-            <Link to="/bazar" className="group relative">
+            <Link to="/bazar" className="group relative" style={{ perspective: "800px" }}>
               <motion.div
                 initial={{ y: -120, opacity: 0, rotateX: 60 }}
                 animate={{ y: 0, opacity: 1, rotateX: 0 }}
+                whileHover={{ rotateY: 8, rotateX: -4, scale: 1.05 }}
                 transition={{
                   delay: 0.8,
                   type: "spring",
@@ -155,43 +158,64 @@ const Index = () => {
                   mass: 1.2,
                 }}
                 className="relative flex h-56 w-56 items-center justify-center rounded-full md:h-72 md:w-72"
-                style={{ perspective: "600px" }}
+                style={{ transformStyle: "preserve-3d" }}
               >
+                {/* 3D edge/thickness */}
+                <div
+                  className="absolute inset-0 rounded-full"
+                  style={{
+                    background: "linear-gradient(180deg, rgba(212,175,55,0.4) 0%, rgba(140,110,30,0.5) 100%)",
+                    transform: "translateZ(-8px)",
+                    boxShadow: "0 12px 30px rgba(0,0,0,0.5), 0 4px 12px rgba(212,175,55,0.15)",
+                  }}
+                />
                 {/* Outer glow */}
                 <div className="absolute inset-0 rounded-full shadow-[0_0_50px_12px_rgba(212,175,55,0.2),inset_0_0_40px_rgba(212,175,55,0.08)] transition-shadow duration-700 group-hover:shadow-[0_0_70px_20px_rgba(212,175,55,0.35),inset_0_0_50px_rgba(212,175,55,0.15)]" />
                 {/* Thick outer border */}
-                <div className="absolute inset-0 rounded-full border-[3px] border-[hsl(46,56%,51%)]/40 transition-all duration-500 group-hover:border-[hsl(46,56%,51%)]/70" />
-                {/* Second ring */}
-                <div className="absolute inset-[5px] rounded-full border-2 border-[hsl(46,56%,51%)]/20 transition-all duration-500 group-hover:border-[hsl(46,56%,51%)]/40" />
-                {/* Solid coin background */}
+                <div className="absolute inset-0 rounded-full border-[3px] border-[hsl(46,56%,51%)]/50 transition-all duration-500 group-hover:border-[hsl(46,56%,51%)]/80" />
+                {/* Ridged edge */}
+                <div className="absolute inset-[4px] rounded-full border-2 border-[hsl(46,56%,51%)]/25 transition-all duration-500 group-hover:border-[hsl(46,56%,51%)]/45" />
+                {/* Coin face */}
                 <div
                   className="absolute inset-[8px] rounded-full transition-all duration-700"
                   style={{
-                    background: "linear-gradient(145deg, rgba(212,175,55,0.18) 0%, rgba(180,150,40,0.25) 25%, rgba(212,175,55,0.3) 50%, rgba(255,223,100,0.2) 70%, rgba(180,150,40,0.22) 100%)",
+                    background: "radial-gradient(ellipse at 35% 30%, rgba(255,223,100,0.3) 0%, rgba(212,175,55,0.25) 30%, rgba(180,150,40,0.3) 60%, rgba(140,110,30,0.25) 100%)",
                     backdropFilter: "blur(16px)",
                     WebkitBackdropFilter: "blur(16px)",
                   }}
                 />
-                {/* Shine sweep */}
+                {/* Top-left light reflection */}
                 <div
-                  className="absolute inset-[8px] rounded-full opacity-50 transition-opacity duration-500 group-hover:opacity-80"
+                  className="absolute inset-[8px] rounded-full opacity-60 transition-opacity duration-500 group-hover:opacity-90"
                   style={{
-                    background: "linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.08) 25%, transparent 45%, transparent 65%, rgba(255,255,255,0.06) 100%)",
+                    background: "radial-gradient(ellipse at 30% 25%, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.08) 35%, transparent 60%)",
                   }}
                 />
-                {/* Inner decorative ring */}
-                <div className="absolute inset-[20px] rounded-full border-[1.5px] border-[hsl(46,56%,51%)]/20 md:inset-[26px]" />
-                {/* Inner-inner ring */}
-                <div className="absolute inset-[24px] rounded-full border border-[hsl(46,56%,51%)]/10 md:inset-[30px]" />
+                {/* Decorative rings (coin detail) */}
+                <div className="absolute inset-[18px] rounded-full border-[2px] border-[hsl(46,56%,51%)]/20 md:inset-[24px]" />
+                <div className="absolute inset-[22px] rounded-full border border-[hsl(46,56%,51%)]/10 md:inset-[28px]" />
+                {/* Coin emboss ring */}
+                <div
+                  className="absolute inset-[26px] rounded-full md:inset-[32px]"
+                  style={{
+                    boxShadow: "inset 0 1px 2px rgba(255,255,255,0.1), inset 0 -1px 2px rgba(0,0,0,0.15)",
+                  }}
+                />
                 {/* Text */}
                 <div className="relative z-10 flex flex-col items-center justify-center gap-3 text-center">
                   <h2
                     className="text-gold-gradient text-3xl font-light uppercase tracking-[0.2em] md:text-4xl"
-                    style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+                    style={{
+                      fontFamily: "'Playfair Display', Georgia, serif",
+                      textShadow: "0 2px 8px rgba(212,175,55,0.3), 0 1px 2px rgba(0,0,0,0.4)",
+                    }}
                   >
                     Bazar
                   </h2>
-                  <p className="text-xs font-medium uppercase tracking-[0.15em] text-white/80 transition-colors duration-500 group-hover:text-white">
+                  <p
+                    className="text-xs font-medium uppercase tracking-[0.15em] text-white/90 transition-colors duration-500 group-hover:text-white"
+                    style={{ textShadow: "0 1px 4px rgba(0,0,0,0.6)" }}
+                  >
                     Casa de Empeño
                   </p>
                 </div>
@@ -199,10 +223,11 @@ const Index = () => {
             </Link>
 
             {/* Joyería Coin */}
-            <Link to="/joyeria" className="group relative">
+            <Link to="/joyeria" className="group relative" style={{ perspective: "800px" }}>
               <motion.div
                 initial={{ y: -120, opacity: 0, rotateX: 60 }}
                 animate={{ y: 0, opacity: 1, rotateX: 0 }}
+                whileHover={{ rotateY: -8, rotateX: -4, scale: 1.05 }}
                 transition={{
                   delay: 1.1,
                   type: "spring",
@@ -211,35 +236,55 @@ const Index = () => {
                   mass: 1.2,
                 }}
                 className="relative flex h-56 w-56 items-center justify-center rounded-full md:h-72 md:w-72"
-                style={{ perspective: "600px" }}
+                style={{ transformStyle: "preserve-3d" }}
               >
+                <div
+                  className="absolute inset-0 rounded-full"
+                  style={{
+                    background: "linear-gradient(180deg, rgba(212,175,55,0.4) 0%, rgba(140,110,30,0.5) 100%)",
+                    transform: "translateZ(-8px)",
+                    boxShadow: "0 12px 30px rgba(0,0,0,0.5), 0 4px 12px rgba(212,175,55,0.15)",
+                  }}
+                />
                 <div className="absolute inset-0 rounded-full shadow-[0_0_50px_12px_rgba(212,175,55,0.2),inset_0_0_40px_rgba(212,175,55,0.08)] transition-shadow duration-700 group-hover:shadow-[0_0_70px_20px_rgba(212,175,55,0.35),inset_0_0_50px_rgba(212,175,55,0.15)]" />
-                <div className="absolute inset-0 rounded-full border-[3px] border-[hsl(46,56%,51%)]/40 transition-all duration-500 group-hover:border-[hsl(46,56%,51%)]/70" />
-                <div className="absolute inset-[5px] rounded-full border-2 border-[hsl(46,56%,51%)]/20 transition-all duration-500 group-hover:border-[hsl(46,56%,51%)]/40" />
+                <div className="absolute inset-0 rounded-full border-[3px] border-[hsl(46,56%,51%)]/50 transition-all duration-500 group-hover:border-[hsl(46,56%,51%)]/80" />
+                <div className="absolute inset-[4px] rounded-full border-2 border-[hsl(46,56%,51%)]/25 transition-all duration-500 group-hover:border-[hsl(46,56%,51%)]/45" />
                 <div
                   className="absolute inset-[8px] rounded-full transition-all duration-700"
                   style={{
-                    background: "linear-gradient(145deg, rgba(212,175,55,0.18) 0%, rgba(180,150,40,0.25) 25%, rgba(212,175,55,0.3) 50%, rgba(255,223,100,0.2) 70%, rgba(180,150,40,0.22) 100%)",
+                    background: "radial-gradient(ellipse at 35% 30%, rgba(255,223,100,0.3) 0%, rgba(212,175,55,0.25) 30%, rgba(180,150,40,0.3) 60%, rgba(140,110,30,0.25) 100%)",
                     backdropFilter: "blur(16px)",
                     WebkitBackdropFilter: "blur(16px)",
                   }}
                 />
                 <div
-                  className="absolute inset-[8px] rounded-full opacity-50 transition-opacity duration-500 group-hover:opacity-80"
+                  className="absolute inset-[8px] rounded-full opacity-60 transition-opacity duration-500 group-hover:opacity-90"
                   style={{
-                    background: "linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.08) 25%, transparent 45%, transparent 65%, rgba(255,255,255,0.06) 100%)",
+                    background: "radial-gradient(ellipse at 30% 25%, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.08) 35%, transparent 60%)",
                   }}
                 />
-                <div className="absolute inset-[20px] rounded-full border-[1.5px] border-[hsl(46,56%,51%)]/20 md:inset-[26px]" />
-                <div className="absolute inset-[24px] rounded-full border border-[hsl(46,56%,51%)]/10 md:inset-[30px]" />
+                <div className="absolute inset-[18px] rounded-full border-[2px] border-[hsl(46,56%,51%)]/20 md:inset-[24px]" />
+                <div className="absolute inset-[22px] rounded-full border border-[hsl(46,56%,51%)]/10 md:inset-[28px]" />
+                <div
+                  className="absolute inset-[26px] rounded-full md:inset-[32px]"
+                  style={{
+                    boxShadow: "inset 0 1px 2px rgba(255,255,255,0.1), inset 0 -1px 2px rgba(0,0,0,0.15)",
+                  }}
+                />
                 <div className="relative z-10 flex flex-col items-center justify-center gap-3 text-center">
                   <h2
                     className="text-gold-gradient text-3xl font-light uppercase tracking-[0.2em] md:text-4xl"
-                    style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+                    style={{
+                      fontFamily: "'Playfair Display', Georgia, serif",
+                      textShadow: "0 2px 8px rgba(212,175,55,0.3), 0 1px 2px rgba(0,0,0,0.4)",
+                    }}
                   >
                     Joyería
                   </h2>
-                  <p className="text-xs font-medium uppercase tracking-[0.15em] text-white/80 transition-colors duration-500 group-hover:text-white">
+                  <p
+                    className="text-xs font-medium uppercase tracking-[0.15em] text-white/90 transition-colors duration-500 group-hover:text-white"
+                    style={{ textShadow: "0 1px 4px rgba(0,0,0,0.6)" }}
+                  >
                     Centenario
                   </p>
                 </div>

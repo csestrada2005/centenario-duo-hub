@@ -1,15 +1,14 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { SlidersHorizontal } from "lucide-react";
+import heroHome from "@/assets/hero-home.jpg";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
 };
 
 const mockProducts = Array.from({ length: 12 }, (_, i) => ({
@@ -34,9 +33,9 @@ const FilterPanel = ({
   material: string;
   setMaterial: (v: string) => void;
 }) => (
-  <div className="space-y-4">
+  <div className="space-y-6">
     <div>
-      <label className="mb-1 block text-sm font-medium">Categoría</label>
+      <label className="mb-2 block text-xs font-medium uppercase tracking-[0.15em]">Categoría</label>
       <Select value={category} onValueChange={setCategory}>
         <SelectTrigger><SelectValue /></SelectTrigger>
         <SelectContent>
@@ -45,7 +44,7 @@ const FilterPanel = ({
       </Select>
     </div>
     <div>
-      <label className="mb-1 block text-sm font-medium">Material</label>
+      <label className="mb-2 block text-xs font-medium uppercase tracking-[0.15em]">Material</label>
       <Select value={material} onValueChange={setMaterial}>
         <SelectTrigger><SelectValue /></SelectTrigger>
         <SelectContent>
@@ -68,57 +67,75 @@ const Joyeria = () => {
 
   return (
     <div>
-      <section className="bg-secondary/30 py-12 text-center">
-        <div className="container">
-          <h1 className="text-3xl font-bold md:text-4xl">Joyería Centenario</h1>
-          <p className="mt-2 text-muted-foreground">Piezas con garantía y diseño premium</p>
+      {/* Hero editorial */}
+      <section className="relative flex min-h-[70vh] items-end overflow-hidden pb-20">
+        <div className="absolute inset-0 z-0">
+          <img src={heroHome} alt="" className="h-full w-full object-cover" loading="eager" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[hsl(var(--background))] via-[hsl(var(--background))]/60 to-transparent" />
+        </div>
+        <div className="relative z-10 px-6 md:px-10">
+          <motion.div initial="hidden" animate="visible" variants={fadeUp}>
+            <h1
+              className="text-5xl font-normal leading-[1.05] md:text-7xl lg:text-8xl"
+              style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+            >
+              Discover<br />our collection
+            </h1>
+            <p className="mt-4 max-w-md text-sm text-muted-foreground">
+              Piezas únicas elaboradas con los más altos estándares de calidad. Cada joya cuenta una historia.
+            </p>
+          </motion.div>
         </div>
       </section>
 
-      <div className="container py-8">
-        <div className="flex gap-8">
+      {/* Catalog */}
+      <div className="px-6 py-16 md:px-10">
+        <div className="mx-auto flex max-w-7xl gap-12">
           {/* Desktop filters */}
-          <aside className="hidden w-56 shrink-0 md:block">
-            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider">Filtros</h3>
+          <aside className="hidden w-48 shrink-0 md:block">
+            <h3 className="mb-6 text-xs font-medium uppercase tracking-[0.2em]">Filtros</h3>
             <FilterPanel category={category} setCategory={setCategory} material={material} setMaterial={setMaterial} />
           </aside>
 
           <div className="flex-1">
-            {/* Mobile filter button */}
-            <div className="mb-4 md:hidden">
+            {/* Mobile filter */}
+            <div className="mb-6 md:hidden">
               <Sheet>
                 <SheetTrigger asChild>
-                  <Button variant="outline" size="sm">
-                    <SlidersHorizontal className="mr-2 h-4 w-4" /> Filtrar
-                  </Button>
+                  <button className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.15em] text-muted-foreground transition-colors hover:text-foreground">
+                    <SlidersHorizontal className="h-4 w-4" /> Filtrar
+                  </button>
                 </SheetTrigger>
-                <SheetContent side="left" className="w-72">
-                  <h3 className="mb-4 text-lg font-semibold">Filtros</h3>
+                <SheetContent side="left" className="w-72 bg-background">
+                  <h3 className="mb-6 text-sm" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>Filtros</h3>
                   <FilterPanel category={category} setCategory={setCategory} material={material} setMaterial={setMaterial} />
                 </SheetContent>
               </Sheet>
             </div>
 
-            <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
+            {/* Product grid — editorial */}
+            <div className="grid grid-cols-2 gap-x-6 gap-y-12 lg:grid-cols-3">
               {filtered.map((product) => (
                 <motion.div key={product.id} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
-                  <Card className="overflow-hidden transition-shadow hover:shadow-md">
-                    <div className="aspect-square bg-muted" />
-                    <CardContent className="p-4">
-                      <h3 className="text-sm font-semibold">{product.name}</h3>
-                      <p className="text-xs text-muted-foreground">{product.material}</p>
-                      <p className="mt-1 font-semibold">${product.price.toLocaleString()} MXN</p>
-                      <Button asChild variant="outline" size="sm" className="mt-3 w-full">
-                        <Link to={`/joyeria/${product.id}`}>Ver detalle</Link>
-                      </Button>
-                    </CardContent>
-                  </Card>
+                  <Link to={`/joyeria/${product.id}`} className="group block">
+                    <div className="relative aspect-[3/4] overflow-hidden bg-muted">
+                      {/* Hover overlay */}
+                      <div className="absolute inset-0 z-10 flex items-end bg-gradient-to-t from-black/40 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 p-4">
+                        <span className="text-xs font-medium uppercase tracking-[0.15em] text-white">Ver detalle</span>
+                      </div>
+                    </div>
+                    <div className="mt-3">
+                      <h3 className="text-sm" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>{product.name}</h3>
+                      <p className="mt-0.5 text-xs text-muted-foreground">{product.material}</p>
+                      <p className="mt-1 text-sm">${product.price.toLocaleString()} MXN</p>
+                    </div>
+                  </Link>
                 </motion.div>
               ))}
             </div>
 
             {filtered.length === 0 && (
-              <p className="py-12 text-center text-muted-foreground">No se encontraron productos con estos filtros.</p>
+              <p className="py-20 text-center text-sm text-muted-foreground">No se encontraron productos con estos filtros.</p>
             )}
           </div>
         </div>

@@ -85,15 +85,17 @@ const ScrollReveal = ({ children, className = "", delay = 0 }: { children: React
   );
 };
 
-/* ── 3D Coin with mouse tracking ── */
+/* ── 3D Coin with mouse tracking + coin-toss animation ── */
 const Coin3D = ({ to, title, subtitle, delay }: { to: string; title: string; subtitle: string; delay: number }) => {
   const ref = useRef<HTMLDivElement>(null);
   const rotateX = useMotionValue(0);
   const rotateY = useMotionValue(0);
   const smoothX = useSpring(rotateX, { stiffness: 150, damping: 20 });
   const smoothY = useSpring(rotateY, { stiffness: 150, damping: 20 });
+  const [landed, setLanded] = useState(false);
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (!landed) return;
     const el = ref.current;
     if (!el) return;
     const rect = el.getBoundingClientRect();
@@ -103,7 +105,7 @@ const Coin3D = ({ to, title, subtitle, delay }: { to: string; title: string; sub
     const py = (e.clientY - cy) / (rect.height / 2);
     rotateY.set(px * 25);
     rotateX.set(-py * 25);
-  }, [rotateX, rotateY]);
+  }, [rotateX, rotateY, landed]);
 
   const handleMouseLeave = useCallback(() => {
     rotateX.set(0);
@@ -111,70 +113,103 @@ const Coin3D = ({ to, title, subtitle, delay }: { to: string; title: string; sub
   }, [rotateX, rotateY]);
 
   return (
-    <Link to={to} className="group relative" style={{ perspective: "500px" }}>
+    <Link to={to} className="group relative" style={{ perspective: "600px" }}>
       <motion.div
         ref={ref}
-        initial={{ opacity: 1 }}
-        style={{ rotateX: smoothX, rotateY: smoothY, transformStyle: "preserve-3d" }}
+        initial={{ y: -600, opacity: 0, rotateX: 720, scale: 0.6 }}
+        animate={{ y: 0, opacity: 1, rotateX: 0, scale: 1 }}
+        transition={{
+          y: { delay, duration: 1.2, ease: [0.22, 1, 0.36, 1] },
+          opacity: { delay, duration: 0.3 },
+          rotateX: { delay, duration: 1.2, ease: [0.22, 1, 0.36, 1] },
+          scale: { delay: delay + 0.8, duration: 0.4, type: "spring", stiffness: 400, damping: 12 },
+        }}
+        onAnimationComplete={() => setLanded(true)}
+        style={{ rotateX: landed ? smoothX : undefined, rotateY: landed ? smoothY : undefined, transformStyle: "preserve-3d" }}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        className="relative flex h-56 w-56 cursor-pointer items-center justify-center rounded-full md:h-72 md:w-72"
+        className="relative flex h-52 w-52 cursor-pointer items-center justify-center rounded-full md:h-72 md:w-72"
       >
-        {/* 3D depth layers */}
-        {[16, 12, 8, 4].map((z, i) => (
+        {/* Edge / thickness layers */}
+        {[20, 16, 12, 8, 4].map((z, i) => (
           <div
             key={z}
             className="absolute inset-0 rounded-full"
             style={{
               transform: `translateZ(-${z}px)`,
-              background: `linear-gradient(${170 + i * 10}deg, rgba(212,175,55,${0.2 + i * 0.08}) 0%, rgba(140,110,30,${0.3 + i * 0.06}) 100%)`,
-              boxShadow: i === 0 ? "0 16px 40px rgba(0,0,0,0.6), 0 6px 16px rgba(212,175,55,0.2)" : "none",
+              background: i === 0
+                ? "linear-gradient(180deg, rgba(180,145,30,0.9) 0%, rgba(120,95,20,0.95) 100%)"
+                : `linear-gradient(${170 + i * 10}deg, rgba(212,175,55,${0.25 + i * 0.1}) 0%, rgba(160,130,35,${0.35 + i * 0.08}) 100%)`,
+              boxShadow: i === 0 ? "0 20px 50px rgba(0,0,0,0.7), 0 8px 20px rgba(212,175,55,0.15)" : "none",
             }}
           />
         ))}
-        <div className="absolute inset-0 rounded-full shadow-[0_0_60px_16px_rgba(212,175,55,0.25),inset_0_0_50px_rgba(212,175,55,0.1)] transition-shadow duration-700 group-hover:shadow-[0_0_90px_24px_rgba(212,175,55,0.4),inset_0_0_60px_rgba(212,175,55,0.2)]" />
-        <div className="absolute inset-0 rounded-full border-[4px] border-[hsl(46,56%,51%)]/55 transition-all duration-500 group-hover:border-[hsl(46,56%,51%)]/85" />
-        <div className="absolute inset-[5px] rounded-full border-[2.5px] border-[hsl(46,56%,51%)]/30 transition-all duration-500 group-hover:border-[hsl(46,56%,51%)]/50" />
+
+        {/* Outer glow */}
+        <div className="absolute inset-0 rounded-full shadow-[0_0_60px_16px_rgba(212,175,55,0.2),inset_0_0_40px_rgba(212,175,55,0.08)] transition-shadow duration-700 group-hover:shadow-[0_0_80px_24px_rgba(212,175,55,0.35),inset_0_0_50px_rgba(212,175,55,0.15)]" />
+
+        {/* Raised rim */}
+        <div className="absolute inset-0 rounded-full border-[3px] border-[hsl(46,56%,51%)]/60 transition-all duration-500 group-hover:border-[hsl(46,56%,51%)]/90" />
+        <div className="absolute inset-[4px] rounded-full border-[2px] border-[hsl(46,56%,51%)]/25" />
+
+        {/* Main coin face — gold gradient */}
         <div
-          className="absolute inset-[9px] rounded-full transition-all duration-700"
+          className="absolute inset-[6px] rounded-full"
           style={{
-            background: "radial-gradient(ellipse at 30% 25%, rgba(255,223,100,0.4) 0%, rgba(212,175,55,0.35) 25%, rgba(180,150,40,0.35) 50%, rgba(160,130,35,0.3) 75%, rgba(140,110,30,0.3) 100%)",
-            backdropFilter: "blur(20px)",
-            WebkitBackdropFilter: "blur(20px)",
+            background: "radial-gradient(ellipse at 35% 30%, hsl(48,75%,65%) 0%, hsl(46,65%,55%) 25%, hsl(44,55%,48%) 50%, hsl(42,50%,42%) 75%, hsl(40,45%,35%) 100%)",
           }}
         />
+
+        {/* Specular highlight */}
         <div
-          className="absolute inset-[9px] rounded-full opacity-70 transition-opacity duration-500 group-hover:opacity-100"
-          style={{ background: "radial-gradient(ellipse at 25% 20%, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.12) 30%, transparent 55%)" }}
+          className="absolute inset-[6px] rounded-full opacity-80 transition-opacity duration-500 group-hover:opacity-100"
+          style={{ background: "radial-gradient(ellipse at 30% 22%, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.15) 25%, transparent 50%)" }}
         />
+
+        {/* Bottom shadow for depth */}
         <div
-          className="absolute inset-[9px] rounded-full"
-          style={{ background: "radial-gradient(ellipse at 75% 80%, rgba(0,0,0,0.2) 0%, transparent 50%)" }}
+          className="absolute inset-[6px] rounded-full"
+          style={{ background: "radial-gradient(ellipse at 70% 80%, rgba(0,0,0,0.25) 0%, transparent 45%)" }}
         />
-        <div className="absolute inset-[18px] rounded-full border-[2.5px] border-[hsl(46,56%,51%)]/25 md:inset-[24px]" />
-        <div className="absolute inset-[23px] rounded-full border-[1.5px] border-[hsl(46,56%,51%)]/15 md:inset-[29px]" />
+
+        {/* Inner ring details */}
+        <div className="absolute inset-[16px] rounded-full border-[2px] border-[hsl(46,56%,51%)]/20 md:inset-[22px]" />
+        <div className="absolute inset-[20px] rounded-full border-[1px] border-[hsl(46,56%,51%)]/10 md:inset-[26px]" />
+
+        {/* Engraved inner area */}
         <div
-          className="absolute inset-[28px] rounded-full md:inset-[34px]"
-          style={{ boxShadow: "inset 0 2px 4px rgba(255,255,255,0.15), inset 0 -2px 4px rgba(0,0,0,0.2)" }}
+          className="absolute inset-[24px] rounded-full md:inset-[30px]"
+          style={{ boxShadow: "inset 0 2px 6px rgba(255,255,255,0.12), inset 0 -3px 6px rgba(0,0,0,0.25)" }}
         />
-        <div className="relative z-10 flex flex-col items-center justify-center gap-3 text-center" style={{ transform: "translateZ(6px)" }}>
+
+        {/* Text */}
+        <div className="relative z-10 flex flex-col items-center justify-center gap-2 text-center" style={{ transform: "translateZ(8px)" }}>
           <h2
-            className="text-3xl font-light uppercase tracking-[0.2em] text-white md:text-4xl"
+            className="text-2xl font-light uppercase tracking-[0.2em] text-white md:text-4xl"
             style={{
               fontFamily: "'Playfair Display', Georgia, serif",
-              textShadow: "0 2px 10px rgba(212,175,55,0.4), 0 1px 3px rgba(0,0,0,0.5)",
+              textShadow: "0 2px 8px rgba(120,95,20,0.6), 0 1px 2px rgba(0,0,0,0.4)",
             }}
           >
             {title}
           </h2>
           <p
-            className="text-xs font-semibold uppercase tracking-[0.15em] text-white"
-            style={{ textShadow: "0 1px 6px rgba(0,0,0,0.7)" }}
+            className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/90 md:text-xs"
+            style={{ textShadow: "0 1px 4px rgba(0,0,0,0.6)" }}
           >
             {subtitle}
           </p>
         </div>
       </motion.div>
+
+      {/* Landing shadow */}
+      <motion.div
+        initial={{ opacity: 0, scaleX: 0.3 }}
+        animate={{ opacity: 0.4, scaleX: 1 }}
+        transition={{ delay: delay + 0.6, duration: 0.5, ease: "easeOut" }}
+        className="mx-auto -mt-2 h-4 w-40 rounded-full md:w-56"
+        style={{ background: "radial-gradient(ellipse, rgba(0,0,0,0.5) 0%, transparent 70%)" }}
+      />
     </Link>
   );
 };

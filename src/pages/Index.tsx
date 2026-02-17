@@ -140,37 +140,71 @@ const Index = () => {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.8 }}
-            className="mt-24 grid gap-[1px] md:grid-cols-2"
+            className="mt-24 flex flex-col items-center gap-8 md:flex-row md:gap-0"
           >
             {/* Bazar */}
             <Link
               to="/bazar"
-              className="gold-border-card group relative flex flex-col items-center justify-center gap-5 px-12 py-20 transition-all duration-500 hover:bg-white/[0.04]"
+              className="group relative flex w-full flex-col items-center justify-center gap-6 px-12 py-24 transition-all duration-500 hover:bg-white/[0.06] md:w-1/2"
+              style={{
+                clipPath: "polygon(0% 0%, 92% 0%, 100% 50%, 92% 100%, 0% 100%)",
+              }}
             >
-              <h2 className="text-2xl font-light uppercase tracking-[0.25em] text-white md:text-3xl">
+              {/* Gold border overlay */}
+              <div
+                className="pointer-events-none absolute inset-0 border border-[hsl(46,56%,51%)]/25 transition-all duration-500 group-hover:border-[hsl(46,56%,51%)]/50"
+                style={{
+                  clipPath: "polygon(0% 0%, 92% 0%, 100% 50%, 92% 100%, 0% 100%)",
+                }}
+              />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[hsl(46,56%,51%)]/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+              <h2
+                className="text-gold-gradient text-4xl font-light uppercase tracking-[0.3em] md:text-5xl"
+                style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+              >
                 Bazar
               </h2>
-              <p className="text-xs font-light text-white/50 transition-colors duration-500 group-hover:text-[hsl(46,56%,51%)]">
+              <p className="text-sm font-light text-white/50 transition-colors duration-500 group-hover:text-white/70">
                 Casa de empeño y compra de metales preciosos
               </p>
-              <span className="mt-3 inline-flex items-center gap-2 text-[10px] font-medium uppercase tracking-[0.3em] text-white/40 transition-all duration-500 group-hover:gap-4 group-hover:text-[hsl(46,56%,51%)]">
-                Entrar <ArrowRight className="h-3 w-3 transition-transform duration-500 group-hover:translate-x-1" />
+              <span className="mt-2 inline-flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.3em] text-[hsl(46,56%,51%)]/60 transition-all duration-500 group-hover:gap-5 group-hover:text-[hsl(46,56%,51%)]">
+                Entrar <ArrowRight className="h-4 w-4 transition-transform duration-500 group-hover:translate-x-2" />
               </span>
             </Link>
+
+            {/* Gold diamond divider */}
+            <div className="relative z-10 -my-2 flex flex-col items-center gap-3 md:-mx-6 md:my-0 md:flex-col">
+              <div className="h-8 w-px bg-gradient-to-b from-transparent via-[hsl(46,56%,51%)]/40 to-transparent md:h-20" />
+              <div className="h-4 w-4 rotate-45 border border-[hsl(46,56%,51%)]/50 bg-[hsl(46,56%,51%)]/10" />
+              <div className="h-8 w-px bg-gradient-to-b from-transparent via-[hsl(46,56%,51%)]/40 to-transparent md:h-20" />
+            </div>
 
             {/* Joyería */}
             <Link
               to="/joyeria"
-              className="gold-border-card group relative flex flex-col items-center justify-center gap-5 px-12 py-20 transition-all duration-500 hover:bg-white/[0.04]"
+              className="group relative flex w-full flex-col items-center justify-center gap-6 px-12 py-24 transition-all duration-500 hover:bg-white/[0.06] md:w-1/2"
+              style={{
+                clipPath: "polygon(8% 0%, 100% 0%, 100% 100%, 8% 100%, 0% 50%)",
+              }}
             >
-              <h2 className="text-2xl font-light uppercase tracking-[0.25em] text-white md:text-3xl">
+              <div
+                className="pointer-events-none absolute inset-0 border border-[hsl(46,56%,51%)]/25 transition-all duration-500 group-hover:border-[hsl(46,56%,51%)]/50"
+                style={{
+                  clipPath: "polygon(8% 0%, 100% 0%, 100% 100%, 8% 100%, 0% 50%)",
+                }}
+              />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-l from-[hsl(46,56%,51%)]/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+              <h2
+                className="text-gold-gradient text-4xl font-light uppercase tracking-[0.3em] md:text-5xl"
+                style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+              >
                 Joyería
               </h2>
-              <p className="text-xs font-light text-white/50 transition-colors duration-500 group-hover:text-[hsl(46,56%,51%)]">
+              <p className="text-sm font-light text-white/50 transition-colors duration-500 group-hover:text-white/70">
                 Piezas únicas con garantía y diseño premium
               </p>
-              <span className="mt-3 inline-flex items-center gap-2 text-[10px] font-medium uppercase tracking-[0.3em] text-white/40 transition-all duration-500 group-hover:gap-4 group-hover:text-[hsl(46,56%,51%)]">
-                Entrar <ArrowRight className="h-3 w-3 transition-transform duration-500 group-hover:translate-x-1" />
+              <span className="mt-2 inline-flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.3em] text-[hsl(46,56%,51%)]/60 transition-all duration-500 group-hover:gap-5 group-hover:text-[hsl(46,56%,51%)]">
+                Entrar <ArrowRight className="h-4 w-4 transition-transform duration-500 group-hover:translate-x-2" />
               </span>
             </Link>
           </motion.div>

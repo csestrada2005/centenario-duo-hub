@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
+import { useRef } from "react";
 import heroBazar from "@/assets/hero-bazar.jpg";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import {
   Accordion, AccordionContent, AccordionItem, AccordionTrigger,
@@ -10,33 +11,96 @@ import {
   Gem, Shield, MapPin, MessageCircle, Package, ChevronDown,
 } from "lucide-react";
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.7 } },
+/* ── Scroll-triggered reveal ── */
+const Reveal = ({
+  children,
+  className = "",
+  delay = 0,
+  direction = "up",
+}: {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+  direction?: "up" | "left" | "right";
+}) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const initial = {
+    opacity: 0,
+    x: direction === "left" ? -60 : direction === "right" ? 60 : 0,
+    y: direction === "up" ? 40 : 0,
+  };
+  return (
+    <motion.div
+      ref={ref}
+      initial={initial}
+      animate={inView ? { opacity: 1, x: 0, y: 0 } : {}}
+      transition={{ duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
+/* ── Parallax floating element ── */
+const FloatLayer = ({
+  children,
+  className = "",
+  speed = 0.3,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  speed?: number;
+}) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const y = useTransform(scrollYProgress, [0, 1], [speed * 100, -speed * 100]);
+  return (
+    <motion.div ref={ref} style={{ y }} className={className}>
+      {children}
+    </motion.div>
+  );
 };
 
 const stagger = {
   hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { staggerChildren: 0.15 } },
 };
+const fadeUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7 } },
+};
 
 const Bazar = () => {
+  const heroRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
+  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "25%"]);
+  const heroContentOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
+  const heroContentY = useTransform(scrollYProgress, [0, 0.6], [0, -60]);
+
   return (
     <div>
-      {/* Hero fullwidth with parallax */}
-      <section className="relative flex min-h-screen items-center justify-center overflow-hidden">
-        <div
-          className="parallax-bg absolute inset-0 z-0"
-          style={{ backgroundImage: `url(${heroBazar})` }}
-        />
-        <div className="absolute inset-0 z-0 bg-gradient-to-b from-black/80 via-black/60 to-[hsl(var(--background))]" />
+      {/* ═══ Hero fullwidth with real parallax ═══ */}
+      <section ref={heroRef} className="relative flex min-h-screen items-center justify-center overflow-hidden">
+        <motion.div style={{ y: bgY }} className="absolute inset-0 z-0 will-change-transform">
+          <img src={heroBazar} alt="" className="h-[130%] w-full object-cover opacity-50" loading="eager" />
+        </motion.div>
+        <div className="absolute inset-0 z-0 bg-gradient-to-b from-black/70 via-black/50 to-[hsl(var(--background))]" />
 
-        <div className="relative z-10 mx-auto max-w-3xl px-6 text-center">
+        <motion.div
+          style={{ opacity: heroContentOpacity, y: heroContentY }}
+          className="relative z-10 mx-auto max-w-3xl px-6 text-center"
+        >
           <motion.div initial="hidden" animate="visible" variants={stagger}>
             <motion.p variants={fadeUp} className="mb-6 text-xs font-medium uppercase tracking-[0.35em] text-white/50">
               Casa de empeño y compra de metales preciosos
             </motion.p>
-            <motion.h1 variants={fadeUp} className="text-gold-gradient text-5xl font-light leading-[1.1] md:text-7xl lg:text-8xl">
+            <motion.h1
+              variants={fadeUp}
+              className="text-gold-gradient text-5xl font-light leading-[1.1] md:text-7xl lg:text-8xl"
+              style={{ filter: "drop-shadow(0 0 30px rgba(212,175,55,0.3))" }}
+            >
               Bazar Centenario
             </motion.h1>
             <motion.p variants={fadeUp} className="mx-auto mt-6 max-w-md text-sm font-light leading-relaxed text-white/60 md:text-base">
@@ -51,48 +115,53 @@ const Bazar = () => {
               </Button>
             </motion.div>
           </motion.div>
-        </div>
+        </motion.div>
 
-        {/* Scroll arrow */}
         <motion.div
           animate={{ y: [0, 10, 0] }}
           transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
           className="absolute bottom-10 left-1/2 z-10 -translate-x-1/2"
         >
-          <ChevronDown className="h-6 w-6 text-white/30" />
+          <ChevronDown className="h-6 w-6 text-[hsl(46,56%,51%)]/50" />
         </motion.div>
       </section>
 
-      {/* Cómo funciona */}
+      {/* ═══ Cómo funciona — cards slide in from sides ═══ */}
       <section className="px-6 py-28 md:px-10">
         <div className="mx-auto max-w-4xl">
-          <motion.h2 initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="mb-16 text-center text-3xl font-light uppercase tracking-[0.1em] md:text-4xl">
-            Cómo funciona
-          </motion.h2>
+          <Reveal className="mb-16 text-center">
+            <h2 className="text-3xl font-light uppercase tracking-[0.1em] md:text-4xl">
+              Cómo funciona
+            </h2>
+          </Reveal>
           <div className="grid gap-16 md:grid-cols-3">
             {[
-              { icon: Package, title: "Trae tu artículo", desc: "Lleva tu artículo o metal precioso a cualquier sucursal." },
-              { icon: CircleDollarSign, title: "Valuación gratuita", desc: "Nuestros expertos lo evalúan sin costo ni compromiso." },
-              { icon: ArrowRight, title: "Recibe tu dinero", desc: "Obtén tu dinero en el momento, de forma segura." },
+              { icon: Package, title: "Trae tu artículo", desc: "Lleva tu artículo o metal precioso a cualquier sucursal.", dir: "left" as const },
+              { icon: CircleDollarSign, title: "Valuación gratuita", desc: "Nuestros expertos lo evalúan sin costo ni compromiso.", dir: "up" as const },
+              { icon: ArrowRight, title: "Recibe tu dinero", desc: "Obtén tu dinero en el momento, de forma segura.", dir: "right" as const },
             ].map((step, i) => (
-              <motion.div key={i} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center">
-                <step.icon className="mx-auto h-8 w-8 text-primary" strokeWidth={1} />
+              <Reveal key={i} delay={i * 0.12} direction={step.dir} className="text-center">
+                <FloatLayer speed={0.15}>
+                  <step.icon className="mx-auto h-8 w-8 text-primary" strokeWidth={1} />
+                </FloatLayer>
                 <h3 className="mt-6 text-lg font-light uppercase tracking-[0.1em]">{step.title}</h3>
                 <p className="mt-3 text-sm font-light leading-relaxed text-muted-foreground">{step.desc}</p>
-              </motion.div>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Servicios */}
+      {/* ═══ Servicios — slide in from left/right ═══ */}
       <section className="px-6 py-28 md:px-10">
         <div className="mx-auto max-w-4xl">
-          <motion.h2 initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="mb-16 text-center text-3xl font-light uppercase tracking-[0.1em] md:text-4xl">
-            Nuestros servicios
-          </motion.h2>
+          <Reveal className="mb-16 text-center">
+            <h2 className="text-3xl font-light uppercase tracking-[0.1em] md:text-4xl">
+              Nuestros servicios
+            </h2>
+          </Reveal>
           <div className="grid gap-12 md:grid-cols-2">
-            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="group">
+            <Reveal direction="left" className="group">
               <h3 className="text-xl font-light uppercase tracking-wide">Empeño de artículos</h3>
               <div className="mt-2 h-px w-12 bg-primary transition-all duration-500 group-hover:w-full" />
               <p className="mt-4 text-sm font-light leading-relaxed text-muted-foreground">
@@ -104,8 +173,8 @@ const Bazar = () => {
               >
                 Simular empeño <ArrowRight className="h-3 w-3" />
               </Link>
-            </motion.div>
-            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="group">
+            </Reveal>
+            <Reveal direction="right" delay={0.1} className="group">
               <h3 className="text-xl font-light uppercase tracking-wide">Compra de metales preciosos</h3>
               <div className="mt-2 h-px w-12 bg-primary transition-all duration-500 group-hover:w-full" />
               <p className="mt-4 text-sm font-light leading-relaxed text-muted-foreground">
@@ -117,17 +186,19 @@ const Bazar = () => {
               >
                 Simular cotización <ArrowRight className="h-3 w-3" />
               </Link>
-            </motion.div>
+            </Reveal>
           </div>
         </div>
       </section>
 
-      {/* Simula fácil — icon grid */}
+      {/* ═══ Simula fácil — icons with staggered entrance + float ═══ */}
       <section className="px-6 py-28 md:px-10">
         <div className="mx-auto max-w-3xl">
-          <motion.h2 initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="mb-16 text-center text-3xl font-light uppercase tracking-[0.1em] md:text-4xl">
-            Simula fácil
-          </motion.h2>
+          <Reveal className="mb-16 text-center">
+            <h2 className="text-3xl font-light uppercase tracking-[0.1em] md:text-4xl">
+              Simula fácil
+            </h2>
+          </Reveal>
           <div className="grid grid-cols-3 gap-6 md:grid-cols-6">
             {[
               { icon: Smartphone, label: "Celular" },
@@ -136,59 +207,67 @@ const Bazar = () => {
               { icon: Tv, label: "Electro" },
               { icon: Car, label: "Auto" },
               { icon: Gem, label: "Metales" },
-            ].map((cat) => (
-              <motion.div key={cat.label} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
+            ].map((cat, i) => (
+              <Reveal key={cat.label} delay={i * 0.08}>
                 <Link
                   to={cat.label === "Metales" ? "/bazar/simuladores?tab=metales" : "/bazar/simuladores"}
                   className="group flex flex-col items-center gap-3 py-6 text-center transition-colors"
                 >
-                  <cat.icon className="h-7 w-7 text-muted-foreground transition-colors group-hover:text-primary" strokeWidth={1} />
+                  <FloatLayer speed={0.1 + i * 0.03}>
+                    <cat.icon className="h-7 w-7 text-muted-foreground transition-all duration-300 group-hover:text-primary group-hover:scale-110" strokeWidth={1} />
+                  </FloatLayer>
                   <span className="text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground transition-colors group-hover:text-foreground">{cat.label}</span>
                 </Link>
-              </motion.div>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Confianza */}
+      {/* ═══ Confianza — shield floats at different speed ═══ */}
       <section className="px-6 py-28 md:px-10">
-        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="mx-auto max-w-2xl text-center">
-          <Shield className="mx-auto h-10 w-10 text-primary" strokeWidth={1} />
+        <Reveal className="mx-auto max-w-2xl text-center">
+          <FloatLayer speed={0.25}>
+            <Shield className="mx-auto h-10 w-10 text-primary" strokeWidth={1} />
+          </FloatLayer>
           <h2 className="mt-8 text-3xl font-light uppercase tracking-[0.1em] md:text-4xl">Tu tranquilidad es nuestra prioridad</h2>
           <p className="mt-6 text-sm font-light leading-relaxed text-muted-foreground">
             Más de 25 años brindando un servicio profesional, seguro y sin juicios. Tu confianza es lo más importante.
           </p>
-        </motion.div>
+        </Reveal>
       </section>
 
-      {/* FAQ */}
+      {/* ═══ FAQ ═══ */}
       <section className="px-6 py-28 md:px-10">
         <div className="mx-auto max-w-2xl">
-          <motion.h2 initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="mb-16 text-center text-3xl font-light uppercase tracking-[0.1em] md:text-4xl">
-            Preguntas frecuentes
-          </motion.h2>
-          <Accordion type="single" collapsible>
-            {[
-              { q: "¿Qué requisitos necesito para empeñar?", a: "Solo necesitas una identificación oficial vigente y el artículo a empeñar." },
-              { q: "¿Cuánto tiempo tengo para pagar mi empeño?", a: "El plazo estándar es de 30 días, con posibilidad de refrendar." },
-              { q: "¿Qué artículos aceptan?", a: "Electrónicos, herramientas, autos, electrodomésticos, oro, plata y diamantes." },
-              { q: "¿Cómo calculan el valor de mi artículo?", a: "Nuestros valuadores certificados evalúan marca, estado y mercado actual." },
-              { q: "¿Cobran por la valuación?", a: "No, la valuación es completamente gratuita y sin compromiso." },
-              { q: "¿Puedo vender mi oro directamente?", a: "Sí, compramos oro, plata y diamantes al mejor precio del mercado." },
-            ].map((item, i) => (
-              <AccordionItem key={i} value={`faq-${i}`} className="border-border">
-                <AccordionTrigger className="text-sm font-light tracking-wide hover:text-primary">{item.q}</AccordionTrigger>
-                <AccordionContent className="text-sm font-light text-muted-foreground">{item.a}</AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
+          <Reveal className="mb-16 text-center">
+            <h2 className="text-3xl font-light uppercase tracking-[0.1em] md:text-4xl">
+              Preguntas frecuentes
+            </h2>
+          </Reveal>
+          {[
+            { q: "¿Qué requisitos necesito para empeñar?", a: "Solo necesitas una identificación oficial vigente y el artículo a empeñar." },
+            { q: "¿Cuánto tiempo tengo para pagar mi empeño?", a: "El plazo estándar es de 30 días, con posibilidad de refrendar." },
+            { q: "¿Qué artículos aceptan?", a: "Electrónicos, herramientas, autos, electrodomésticos, oro, plata y diamantes." },
+            { q: "¿Cómo calculan el valor de mi artículo?", a: "Nuestros valuadores certificados evalúan marca, estado y mercado actual." },
+            { q: "¿Cobran por la valuación?", a: "No, la valuación es completamente gratuita y sin compromiso." },
+            { q: "¿Puedo vender mi oro directamente?", a: "Sí, compramos oro, plata y diamantes al mejor precio del mercado." },
+          ].map((item, i) => (
+            <Reveal key={i} delay={i * 0.06} direction={i % 2 === 0 ? "left" : "right"}>
+              <Accordion type="single" collapsible>
+                <AccordionItem value={`faq-${i}`} className="border-border">
+                  <AccordionTrigger className="text-sm font-light tracking-wide hover:text-primary">{item.q}</AccordionTrigger>
+                  <AccordionContent className="text-sm font-light text-muted-foreground">{item.a}</AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </Reveal>
+          ))}
         </div>
       </section>
 
-      {/* CTA final */}
+      {/* ═══ CTA final ═══ */}
       <section className="px-6 py-28 md:px-10">
-        <div className="mx-auto flex max-w-xl flex-col items-center gap-4 text-center sm:flex-row sm:justify-center">
+        <Reveal className="mx-auto flex max-w-xl flex-col items-center gap-4 text-center sm:flex-row sm:justify-center">
           <Button asChild size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 text-xs uppercase tracking-[0.15em]">
             <Link to="/bazar/sucursales"><MapPin className="mr-2 h-4 w-4" /> Visita tu sucursal</Link>
           </Button>
@@ -197,7 +276,7 @@ const Bazar = () => {
               <MessageCircle className="mr-2 h-4 w-4" /> WhatsApp
             </a>
           </Button>
-        </div>
+        </Reveal>
       </section>
     </div>
   );

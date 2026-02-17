@@ -3,6 +3,8 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import { ArrowRight, Gem, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import GoldCursorGlow from "@/components/GoldCursorGlow";
+import MagneticText from "@/components/MagneticText";
 import heroImg from "@/assets/joyeria-hero.jpg";
 import feat1 from "@/assets/joyeria-featured-1.jpg";
 import feat2 from "@/assets/joyeria-featured-2.jpg";
@@ -120,16 +122,21 @@ const JoyeriaHome = () => {
             >
               Colección 2026
             </motion.p>
-            <motion.h1
+            <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className="text-5xl font-normal leading-[1.05] text-foreground md:text-7xl lg:text-[90px]"
-              style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
             >
-              The Art<br />
-              of Gold
-            </motion.h1>
+              <MagneticText
+                as="h1"
+                intensity={0.12}
+                className="text-5xl font-normal leading-[1.05] text-foreground md:text-7xl lg:text-[90px]"
+              >
+                <span style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
+                  The Art<br />of Gold
+                </span>
+              </MagneticText>
+            </motion.div>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -164,6 +171,7 @@ const JoyeriaHome = () => {
               loading="eager"
             />
           </motion.div>
+          <GoldCursorGlow size={300} opacity={0.1} />
           <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-background to-transparent md:hidden" />
         </div>
       </section>
@@ -174,12 +182,13 @@ const JoyeriaHome = () => {
           <p className="text-[10px] font-medium uppercase tracking-[0.4em] text-muted-foreground">
             Discover
           </p>
-          <h2
+          <MagneticText
+            as="h2"
+            intensity={0.18}
             className="mt-3 text-4xl font-normal md:text-5xl"
-            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
           >
-            Piezas destacadas
-          </h2>
+            <span style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>Piezas destacadas</span>
+          </MagneticText>
         </Reveal>
 
         <div className="mt-16 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
@@ -264,12 +273,13 @@ const JoyeriaHome = () => {
             <p className="text-[10px] font-medium uppercase tracking-[0.4em] text-muted-foreground">
               Nuestra historia
             </p>
-            <h2
+            <MagneticText
+              as="h2"
+              intensity={0.15}
               className="mt-3 text-3xl font-normal md:text-4xl"
-              style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
             >
-              El Atelier Centenario
-            </h2>
+              <span style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>El Atelier Centenario</span>
+            </MagneticText>
             <p className="mt-6 text-sm font-light leading-[1.8] text-muted-foreground">
               Desde hace más de un siglo, cada pieza que sale de nuestro taller lleva consigo la dedicación de artesanos expertos. Trabajamos con los materiales más nobles — oro, plata, diamantes — para crear joyas que trascienden generaciones.
             </p>
@@ -290,12 +300,13 @@ const JoyeriaHome = () => {
       <section className="px-8 py-28 md:px-16">
         <Reveal className="mx-auto max-w-lg text-center">
           <FloatLayer speed={0.1}>
-            <h2
+            <MagneticText
+              as="h2"
+              intensity={0.15}
               className="text-3xl font-normal md:text-4xl"
-              style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
             >
-              Mantente al día
-            </h2>
+              <span style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>Mantente al día</span>
+            </MagneticText>
           </FloatLayer>
           <p className="mt-4 text-sm font-light text-muted-foreground">
             Recibe novedades sobre nuevas colecciones y eventos exclusivos.

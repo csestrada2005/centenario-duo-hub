@@ -9,20 +9,83 @@ import galleryJewelry from "@/assets/gallery-jewelry-1.jpg";
 import galleryHands from "@/assets/gallery-hands.jpg";
 import galleryStore from "@/assets/gallery-store.jpg";
 
-/* ── Scroll reveal wrapper ── */
-const Reveal = ({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) => {
+/* ── Directional scroll reveal ── */
+const Reveal = ({
+  children,
+  className = "",
+  delay = 0,
+  direction = "up",
+}: {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+  direction?: "up" | "left" | "right";
+}) => {
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const initial = {
+    opacity: 0,
+    x: direction === "left" ? -60 : direction === "right" ? 60 : 0,
+    y: direction === "up" ? 40 : 0,
+  };
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 30 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.7, delay, ease: "easeOut" }}
+      initial={initial}
+      animate={inView ? { opacity: 1, x: 0, y: 0 } : {}}
+      transition={{ duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] }}
       className={className}
     >
       {children}
     </motion.div>
+  );
+};
+
+/* ── Parallax floating layer ── */
+const FloatLayer = ({
+  children,
+  className = "",
+  speed = 0.3,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  speed?: number;
+}) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const y = useTransform(scrollYProgress, [0, 1], [speed * 100, -speed * 100]);
+  return (
+    <motion.div ref={ref} style={{ y }} className={className}>
+      {children}
+    </motion.div>
+  );
+};
+
+/* ── Parallax image with independent speed ── */
+const ParallaxImage = ({
+  src,
+  alt,
+  className = "",
+  speed = 0.15,
+}: {
+  src: string;
+  alt: string;
+  className?: string;
+  speed?: number;
+}) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const y = useTransform(scrollYProgress, [0, 1], [speed * 150, -speed * 150]);
+  return (
+    <div ref={ref} className={`overflow-hidden ${className}`}>
+      <motion.img
+        src={src}
+        alt={alt}
+        loading="lazy"
+        style={{ y }}
+        className="h-[120%] w-full object-cover will-change-transform"
+      />
+    </div>
   );
 };
 
@@ -38,38 +101,55 @@ const JoyeriaHome = () => {
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
   const imgY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
+  const heroTextOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const heroTextY = useTransform(scrollYProgress, [0, 0.5], [0, -50]);
 
   return (
     <div>
-      {/* ═══════ HERO — Split editorial ═══════ */}
+      {/* ═══════ HERO — Split editorial with parallax ═══════ */}
       <section ref={heroRef} className="relative grid min-h-screen md:grid-cols-2">
-        {/* Left — Typography */}
+        {/* Left — Typography with fade-out on scroll */}
         <div className="flex flex-col justify-end px-8 pb-20 pt-32 md:justify-center md:px-16 md:pb-0 md:pt-0">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 0.2 }}
-          >
-            <p className="mb-4 text-[10px] font-medium uppercase tracking-[0.4em] text-muted-foreground">
+          <motion.div style={{ opacity: heroTextOpacity, y: heroTextY }}>
+            <motion.p
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+              className="mb-4 text-[10px] font-medium uppercase tracking-[0.4em] text-muted-foreground"
+            >
               Colección 2026
-            </p>
-            <h1
+            </motion.p>
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
               className="text-5xl font-normal leading-[1.05] text-foreground md:text-7xl lg:text-[90px]"
               style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
             >
               The Art<br />
               of Gold
-            </h1>
-            <p className="mt-6 max-w-sm text-sm font-light leading-relaxed text-muted-foreground">
-              Piezas artesanales que capturan la esencia del lujo contemporáneo. Cada creación es única, cada detalle importa.
-            </p>
-            <Link
-              to="/joyeria/catalogo"
-              className="group mt-10 inline-flex items-center gap-3 text-xs font-medium uppercase tracking-[0.2em] text-foreground transition-colors hover:text-primary"
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
+              className="mt-6 max-w-sm text-sm font-light leading-relaxed text-muted-foreground"
             >
-              Shop Collection
-              <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
-            </Link>
+              Piezas artesanales que capturan la esencia del lujo contemporáneo. Cada creación es única, cada detalle importa.
+            </motion.p>
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.9, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <Link
+                to="/joyeria/catalogo"
+                className="group mt-10 inline-flex items-center gap-3 text-xs font-medium uppercase tracking-[0.2em] text-foreground transition-colors hover:text-primary"
+              >
+                Shop Collection
+                <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+              </Link>
+            </motion.div>
           </motion.div>
         </div>
 
@@ -83,14 +163,13 @@ const JoyeriaHome = () => {
               loading="eager"
             />
           </motion.div>
-          {/* Soft edge blending on mobile */}
           <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-background to-transparent md:hidden" />
         </div>
       </section>
 
-      {/* ═══════ FEATURED COLLECTION — Editorial grid ═══════ */}
+      {/* ═══════ FEATURED COLLECTION — staggered with directions ═══════ */}
       <section className="px-8 py-32 md:px-16">
-        <Reveal>
+        <Reveal direction="left">
           <p className="text-[10px] font-medium uppercase tracking-[0.4em] text-muted-foreground">
             Discover
           </p>
@@ -104,15 +183,17 @@ const JoyeriaHome = () => {
 
         <div className="mt-16 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
           {mockFeatured.map((p, i) => (
-            <Reveal key={p.id} delay={i * 0.08}>
+            <Reveal key={p.id} delay={i * 0.1} direction={i % 2 === 0 ? "up" : "right"}>
               <Link to={`/joyeria/${p.id}`} className="group block">
                 <div className="relative aspect-[3/4] overflow-hidden bg-muted">
-                  <img
-                    src={p.img}
-                    alt={p.name}
-                    loading="lazy"
-                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
+                  <FloatLayer speed={0.08 + i * 0.02} className="h-full">
+                    <img
+                      src={p.img}
+                      alt={p.name}
+                      loading="lazy"
+                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                  </FloatLayer>
                   <div className="absolute inset-0 flex items-end bg-gradient-to-t from-black/30 to-transparent p-4 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
                     <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-white">Ver detalle</span>
                   </div>
@@ -127,7 +208,7 @@ const JoyeriaHome = () => {
           ))}
         </div>
 
-        <Reveal className="mt-16 text-center">
+        <Reveal className="mt-16 text-center" delay={0.2}>
           <Link
             to="/joyeria/catalogo"
             className="group inline-flex items-center gap-3 text-xs font-medium uppercase tracking-[0.2em] text-foreground transition-colors hover:text-primary"
@@ -138,50 +219,47 @@ const JoyeriaHome = () => {
         </Reveal>
       </section>
 
-      {/* ═══════ COLLECTIONS — Two big blocks ═══════ */}
+      {/* ═══════ COLLECTIONS — Two blocks with parallax images ═══════ */}
       <section className="grid md:grid-cols-2">
         {[
-          { title: "Anillos", desc: "Diseños que marcan momentos eternos", img: feat1, link: "/joyeria/catalogo" },
-          { title: "Collares", desc: "Elegancia que enmarca cada gesto", img: feat2, link: "/joyeria/catalogo" },
+          { title: "Anillos", desc: "Diseños que marcan momentos eternos", img: feat1, link: "/joyeria/catalogo", dir: "left" as const },
+          { title: "Collares", desc: "Elegancia que enmarca cada gesto", img: feat2, link: "/joyeria/catalogo", dir: "right" as const },
         ].map((col, i) => (
-          <Reveal key={col.title} delay={i * 0.1}>
+          <Reveal key={col.title} delay={i * 0.15} direction={col.dir}>
             <Link to={col.link} className="group relative block aspect-square overflow-hidden md:aspect-auto md:h-[80vh]">
-              <img
-                src={col.img}
-                alt={col.title}
-                loading="lazy"
-                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-              />
+              <ParallaxImage src={col.img} alt={col.title} className="absolute inset-0" speed={0.12} />
               <div className="absolute inset-0 bg-black/20 transition-all duration-500 group-hover:bg-black/35" />
               <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white">
-                <h3
-                  className="text-3xl font-normal md:text-4xl"
-                  style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-                >
-                  {col.title}
-                </h3>
-                <p className="mt-2 text-xs font-light text-white/70">{col.desc}</p>
-                <span className="mt-6 inline-flex items-center gap-2 text-[10px] font-medium uppercase tracking-[0.25em] text-white/60 transition-colors duration-300 group-hover:text-white">
-                  Explorar <ArrowRight className="h-3 w-3" />
-                </span>
+                <FloatLayer speed={0.08}>
+                  <h3
+                    className="text-3xl font-normal md:text-4xl"
+                    style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+                  >
+                    {col.title}
+                  </h3>
+                  <p className="mt-2 text-xs font-light text-white/70">{col.desc}</p>
+                  <span className="mt-6 inline-flex items-center gap-2 text-[10px] font-medium uppercase tracking-[0.25em] text-white/60 transition-colors duration-300 group-hover:text-white">
+                    Explorar <ArrowRight className="h-3 w-3" />
+                  </span>
+                </FloatLayer>
               </div>
             </Link>
           </Reveal>
         ))}
       </section>
 
-      {/* ═══════ STORY / ATELIER ═══════ */}
+      {/* ═══════ STORY / ATELIER — image parallax + text from right ═══════ */}
       <section className="px-8 py-32 md:px-16">
         <div className="mx-auto grid max-w-6xl items-center gap-16 md:grid-cols-2">
-          <Reveal>
-            <img
+          <Reveal direction="left">
+            <ParallaxImage
               src={galleryStore}
               alt="Interior del atelier"
-              loading="lazy"
-              className="aspect-[4/5] w-full object-cover"
+              className="aspect-[4/5] w-full"
+              speed={0.18}
             />
           </Reveal>
-          <Reveal delay={0.15}>
+          <Reveal delay={0.15} direction="right">
             <p className="text-[10px] font-medium uppercase tracking-[0.4em] text-muted-foreground">
               Nuestra historia
             </p>
@@ -211,12 +289,14 @@ const JoyeriaHome = () => {
       {/* ═══════ NEWSLETTER ═══════ */}
       <section className="px-8 py-28 md:px-16">
         <Reveal className="mx-auto max-w-lg text-center">
-          <h2
-            className="text-3xl font-normal md:text-4xl"
-            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-          >
-            Mantente al día
-          </h2>
+          <FloatLayer speed={0.1}>
+            <h2
+              className="text-3xl font-normal md:text-4xl"
+              style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+            >
+              Mantente al día
+            </h2>
+          </FloatLayer>
           <p className="mt-4 text-sm font-light text-muted-foreground">
             Recibe novedades sobre nuevas colecciones y eventos exclusivos.
           </p>

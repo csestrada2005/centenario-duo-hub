@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import WhatsAppButton from "./WhatsAppButton";
 import GoldSparkles from "./GoldSparkles";
 import CustomCursor from "./CustomCursor";
+import CinematicIntro from "./CinematicIntro";
 
 const bazarNav = [
   { label: "Inicio", href: "/bazar" },
@@ -16,10 +17,12 @@ const bazarNav = [
 
 const BazarLayout = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [introShown, setIntroShown] = useState(true);
   const location = useLocation();
 
   return (
     <div className="bazar-theme flex min-h-screen flex-col bg-background text-foreground">
+      {introShown && <CinematicIntro variant="bazar" onComplete={() => setIntroShown(false)} />}
       <GoldSparkles maxSparkles={14} />
       <CustomCursor />
       {/* Header */}

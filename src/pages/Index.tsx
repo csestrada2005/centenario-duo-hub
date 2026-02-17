@@ -154,41 +154,44 @@ const Index = () => {
                   damping: 18,
                   mass: 1.2,
                 }}
-                className="relative flex h-52 w-52 items-center justify-center rounded-full md:h-64 md:w-64"
+                className="relative flex h-56 w-56 items-center justify-center rounded-full md:h-72 md:w-72"
                 style={{ perspective: "600px" }}
               >
-                {/* Outer glow ring */}
-                <div className="absolute inset-0 rounded-full shadow-[0_0_40px_8px_rgba(212,175,55,0.15),inset_0_0_30px_rgba(212,175,55,0.05)] transition-shadow duration-700 group-hover:shadow-[0_0_60px_16px_rgba(212,175,55,0.3),inset_0_0_40px_rgba(212,175,55,0.1)]" />
-                {/* Gold border ring */}
-                <div className="absolute inset-0 rounded-full border-2 border-[hsl(46,56%,51%)]/30 transition-all duration-500 group-hover:border-[hsl(46,56%,51%)]/60" />
-                <div className="absolute inset-[3px] rounded-full border border-[hsl(46,56%,51%)]/15 transition-all duration-500 group-hover:border-[hsl(46,56%,51%)]/30" />
-                {/* Liquid glass fill */}
+                {/* Outer glow */}
+                <div className="absolute inset-0 rounded-full shadow-[0_0_50px_12px_rgba(212,175,55,0.2),inset_0_0_40px_rgba(212,175,55,0.08)] transition-shadow duration-700 group-hover:shadow-[0_0_70px_20px_rgba(212,175,55,0.35),inset_0_0_50px_rgba(212,175,55,0.15)]" />
+                {/* Thick outer border */}
+                <div className="absolute inset-0 rounded-full border-[3px] border-[hsl(46,56%,51%)]/40 transition-all duration-500 group-hover:border-[hsl(46,56%,51%)]/70" />
+                {/* Second ring */}
+                <div className="absolute inset-[5px] rounded-full border-2 border-[hsl(46,56%,51%)]/20 transition-all duration-500 group-hover:border-[hsl(46,56%,51%)]/40" />
+                {/* Solid coin background */}
                 <div
-                  className="absolute inset-[6px] rounded-full transition-all duration-700"
+                  className="absolute inset-[8px] rounded-full transition-all duration-700"
                   style={{
-                    background: "linear-gradient(145deg, rgba(212,175,55,0.08) 0%, rgba(212,175,55,0.15) 30%, rgba(255,223,100,0.1) 50%, rgba(212,175,55,0.05) 70%, rgba(180,150,40,0.12) 100%)",
-                    backdropFilter: "blur(12px)",
-                    WebkitBackdropFilter: "blur(12px)",
+                    background: "linear-gradient(145deg, rgba(212,175,55,0.18) 0%, rgba(180,150,40,0.25) 25%, rgba(212,175,55,0.3) 50%, rgba(255,223,100,0.2) 70%, rgba(180,150,40,0.22) 100%)",
+                    backdropFilter: "blur(16px)",
+                    WebkitBackdropFilter: "blur(16px)",
                   }}
                 />
-                {/* Inner shine sweep */}
+                {/* Shine sweep */}
                 <div
-                  className="absolute inset-[6px] rounded-full opacity-40 transition-opacity duration-500 group-hover:opacity-70"
+                  className="absolute inset-[8px] rounded-full opacity-50 transition-opacity duration-500 group-hover:opacity-80"
                   style={{
-                    background: "linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 40%, transparent 60%, rgba(255,255,255,0.05) 100%)",
+                    background: "linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.08) 25%, transparent 45%, transparent 65%, rgba(255,255,255,0.06) 100%)",
                   }}
                 />
-                {/* Inner ring detail */}
-                <div className="absolute inset-[18px] rounded-full border border-[hsl(46,56%,51%)]/10 md:inset-[22px]" />
+                {/* Inner decorative ring */}
+                <div className="absolute inset-[20px] rounded-full border-[1.5px] border-[hsl(46,56%,51%)]/20 md:inset-[26px]" />
+                {/* Inner-inner ring */}
+                <div className="absolute inset-[24px] rounded-full border border-[hsl(46,56%,51%)]/10 md:inset-[30px]" />
                 {/* Text */}
-                <div className="relative z-10 flex flex-col items-center gap-2">
+                <div className="relative z-10 flex flex-col items-center justify-center gap-3 text-center">
                   <h2
                     className="text-gold-gradient text-3xl font-light uppercase tracking-[0.2em] md:text-4xl"
                     style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
                   >
                     Bazar
                   </h2>
-                  <p className="text-[10px] font-light uppercase tracking-[0.2em] text-white/40 transition-colors duration-500 group-hover:text-white/60 md:text-[11px]">
+                  <p className="text-xs font-medium uppercase tracking-[0.15em] text-white/80 transition-colors duration-500 group-hover:text-white">
                     Casa de Empeño
                   </p>
                 </div>
@@ -207,35 +210,36 @@ const Index = () => {
                   damping: 18,
                   mass: 1.2,
                 }}
-                className="relative flex h-52 w-52 items-center justify-center rounded-full md:h-64 md:w-64"
+                className="relative flex h-56 w-56 items-center justify-center rounded-full md:h-72 md:w-72"
                 style={{ perspective: "600px" }}
               >
-                <div className="absolute inset-0 rounded-full shadow-[0_0_40px_8px_rgba(212,175,55,0.15),inset_0_0_30px_rgba(212,175,55,0.05)] transition-shadow duration-700 group-hover:shadow-[0_0_60px_16px_rgba(212,175,55,0.3),inset_0_0_40px_rgba(212,175,55,0.1)]" />
-                <div className="absolute inset-0 rounded-full border-2 border-[hsl(46,56%,51%)]/30 transition-all duration-500 group-hover:border-[hsl(46,56%,51%)]/60" />
-                <div className="absolute inset-[3px] rounded-full border border-[hsl(46,56%,51%)]/15 transition-all duration-500 group-hover:border-[hsl(46,56%,51%)]/30" />
+                <div className="absolute inset-0 rounded-full shadow-[0_0_50px_12px_rgba(212,175,55,0.2),inset_0_0_40px_rgba(212,175,55,0.08)] transition-shadow duration-700 group-hover:shadow-[0_0_70px_20px_rgba(212,175,55,0.35),inset_0_0_50px_rgba(212,175,55,0.15)]" />
+                <div className="absolute inset-0 rounded-full border-[3px] border-[hsl(46,56%,51%)]/40 transition-all duration-500 group-hover:border-[hsl(46,56%,51%)]/70" />
+                <div className="absolute inset-[5px] rounded-full border-2 border-[hsl(46,56%,51%)]/20 transition-all duration-500 group-hover:border-[hsl(46,56%,51%)]/40" />
                 <div
-                  className="absolute inset-[6px] rounded-full transition-all duration-700"
+                  className="absolute inset-[8px] rounded-full transition-all duration-700"
                   style={{
-                    background: "linear-gradient(145deg, rgba(212,175,55,0.08) 0%, rgba(212,175,55,0.15) 30%, rgba(255,223,100,0.1) 50%, rgba(212,175,55,0.05) 70%, rgba(180,150,40,0.12) 100%)",
-                    backdropFilter: "blur(12px)",
-                    WebkitBackdropFilter: "blur(12px)",
+                    background: "linear-gradient(145deg, rgba(212,175,55,0.18) 0%, rgba(180,150,40,0.25) 25%, rgba(212,175,55,0.3) 50%, rgba(255,223,100,0.2) 70%, rgba(180,150,40,0.22) 100%)",
+                    backdropFilter: "blur(16px)",
+                    WebkitBackdropFilter: "blur(16px)",
                   }}
                 />
                 <div
-                  className="absolute inset-[6px] rounded-full opacity-40 transition-opacity duration-500 group-hover:opacity-70"
+                  className="absolute inset-[8px] rounded-full opacity-50 transition-opacity duration-500 group-hover:opacity-80"
                   style={{
-                    background: "linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 40%, transparent 60%, rgba(255,255,255,0.05) 100%)",
+                    background: "linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.08) 25%, transparent 45%, transparent 65%, rgba(255,255,255,0.06) 100%)",
                   }}
                 />
-                <div className="absolute inset-[18px] rounded-full border border-[hsl(46,56%,51%)]/10 md:inset-[22px]" />
-                <div className="relative z-10 flex flex-col items-center gap-2">
+                <div className="absolute inset-[20px] rounded-full border-[1.5px] border-[hsl(46,56%,51%)]/20 md:inset-[26px]" />
+                <div className="absolute inset-[24px] rounded-full border border-[hsl(46,56%,51%)]/10 md:inset-[30px]" />
+                <div className="relative z-10 flex flex-col items-center justify-center gap-3 text-center">
                   <h2
                     className="text-gold-gradient text-3xl font-light uppercase tracking-[0.2em] md:text-4xl"
                     style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
                   >
                     Joyería
                   </h2>
-                  <p className="text-[10px] font-light uppercase tracking-[0.2em] text-white/40 transition-colors duration-500 group-hover:text-white/60 md:text-[11px]">
+                  <p className="text-xs font-medium uppercase tracking-[0.15em] text-white/80 transition-colors duration-500 group-hover:text-white">
                     Centenario
                   </p>
                 </div>

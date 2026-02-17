@@ -242,7 +242,7 @@ const Index = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.6 }}
-            className="mt-28 flex flex-col items-center gap-12"
+            className="mt-28 flex flex-col items-center gap-12 md:flex-row md:justify-center md:gap-20"
           >
             <Coin3D to="/bazar" title="Bazar" subtitle="Casa de Empeño" delay={0.8} />
             <Coin3D to="/joyeria" title="Joyería" subtitle="Centenario" delay={1.1} />

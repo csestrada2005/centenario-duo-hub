@@ -10,8 +10,6 @@ import {
   ArrowRight, Smartphone, Laptop, Wrench, Car, Tv, CircleDollarSign,
   Gem, Shield, MapPin, MessageCircle, Package, ChevronDown, Sparkles,
 } from "lucide-react";
-import GoldCursorGlow from "@/components/GoldCursorGlow";
-import GoldSparkles from "@/components/GoldSparkles";
 import MagneticText from "@/components/MagneticText";
 
 /* ── Scroll-triggered reveal ── */
@@ -90,8 +88,6 @@ const Bazar = () => {
           <img src={heroBazar} alt="" className="h-[130%] w-full object-cover opacity-50" loading="eager" />
         </motion.div>
         <div className="absolute inset-0 z-0 bg-gradient-to-b from-black/70 via-black/50 to-[hsl(var(--background))]" />
-        <GoldCursorGlow size={400} opacity={0.15} />
-        <GoldSparkles maxSparkles={10} />
 
         <motion.div
           style={{ opacity: heroContentOpacity, y: heroContentY }}

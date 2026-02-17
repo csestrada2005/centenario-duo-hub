@@ -3,7 +3,6 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import { ArrowRight, Gem, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import GoldCursorGlow from "@/components/GoldCursorGlow";
 import MagneticText from "@/components/MagneticText";
 import heroImg from "@/assets/joyeria-hero.jpg";
 import feat1 from "@/assets/joyeria-featured-1.jpg";
@@ -171,7 +170,6 @@ const JoyeriaHome = () => {
               loading="eager"
             />
           </motion.div>
-          <GoldCursorGlow size={300} opacity={0.1} />
           <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-background to-transparent md:hidden" />
         </div>
       </section>

@@ -9,6 +9,7 @@ import JoyeriaLayout from "./components/JoyeriaLayout";
 import Bazar from "./pages/Bazar";
 import Simuladores from "./pages/Simuladores";
 import Sucursales from "./pages/Sucursales";
+import JoyeriaHome from "./pages/JoyeriaHome";
 import Joyeria from "./pages/Joyeria";
 import ProductDetail from "./pages/ProductDetail";
 import Carrito from "./pages/Carrito";
@@ -35,7 +36,8 @@ const App = () => (
 
           {/* Joyería routes */}
           <Route element={<JoyeriaLayout />}>
-            <Route path="/joyeria" element={<Joyeria />} />
+            <Route path="/joyeria" element={<JoyeriaHome />} />
+            <Route path="/joyeria/catalogo" element={<Joyeria />} />
             <Route path="/joyeria/:id" element={<ProductDetail />} />
             <Route path="/joyeria/carrito" element={<Carrito />} />
             <Route path="/joyeria/checkout" element={<Checkout />} />

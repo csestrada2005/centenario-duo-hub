@@ -5,7 +5,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import WhatsAppButton from "./WhatsAppButton";
 
 const joyeriaNav = [
-  { label: "Catálogo", href: "/joyeria" },
+  { label: "Inicio", href: "/joyeria" },
+  { label: "Catálogo", href: "/joyeria/catalogo" },
   { label: "Carrito", href: "/joyeria/carrito" },
 ];
 
@@ -115,7 +116,7 @@ const JoyeriaLayout = () => {
             <div>
               <h4 className="mb-3 text-xs font-medium uppercase tracking-[0.15em] text-foreground">Information</h4>
               <ul className="space-y-2 text-muted-foreground">
-                <li><Link to="/joyeria" className="transition-colors hover:text-foreground">Catálogo</Link></li>
+                <li><Link to="/joyeria/catalogo" className="transition-colors hover:text-foreground">Catálogo</Link></li>
                 <li><Link to="/joyeria/carrito" className="transition-colors hover:text-foreground">Carrito</Link></li>
               </ul>
             </div>

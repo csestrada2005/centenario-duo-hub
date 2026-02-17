@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import { useRef, useEffect, useState, useCallback } from "react";
 import { ChevronDown, ArrowRight, Instagram, Facebook, MapPin, Phone, Mail, Clock } from "lucide-react";
+import CinematicIntro from "@/components/CinematicIntro";
 import heroImage from "@/assets/hero-home.jpg";
 import galleryJewelry from "@/assets/gallery-jewelry-1.jpg";
 import galleryMetals from "@/assets/gallery-metals.jpg";
@@ -85,6 +86,8 @@ const ScrollReveal = ({ children, className = "", delay = 0 }: { children: React
 };
 
 const Index = () => {
+  const [introDone, setIntroDone] = useState(false);
+
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
   const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
@@ -96,6 +99,7 @@ const Index = () => {
 
   return (
     <div className="bg-[hsl(0,0%,4%)] text-[hsl(0,0%,96%)]">
+      {!introDone && <CinematicIntro onComplete={() => setIntroDone(true)} />}
 
       {/* ═══════════ HERO — Parallax + Sequential Fade-in ═══════════ */}
       <section ref={heroRef} className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden">

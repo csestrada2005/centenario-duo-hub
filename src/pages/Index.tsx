@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import { useRef, useEffect, useState, useCallback } from "react";
-import { ChevronDown, ArrowRight, Instagram, Facebook, MapPin, Phone, Mail, Clock } from "lucide-react";
+import { ChevronDown, Instagram, Facebook, MapPin, Phone, Mail, Clock } from "lucide-react";
 import CinematicIntro from "@/components/CinematicIntro";
 import heroImage from "@/assets/hero-home.jpg";
 import galleryJewelry from "@/assets/gallery-jewelry-1.jpg";
@@ -137,75 +137,109 @@ const Index = () => {
 
           {/* Two doors */}
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.8 }}
-            className="mt-24 flex flex-col items-center gap-8 md:flex-row md:gap-0"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6, duration: 0.6 }}
+            className="mt-28 flex flex-col items-center gap-12 md:flex-row md:justify-center md:gap-20"
           >
-            {/* Bazar */}
-            <Link
-              to="/bazar"
-              className="group relative flex w-full flex-col items-center justify-center gap-6 px-12 py-24 transition-all duration-500 hover:bg-white/[0.06] md:w-1/2"
-              style={{
-                clipPath: "polygon(0% 0%, 92% 0%, 100% 50%, 92% 100%, 0% 100%)",
-              }}
-            >
-              {/* Gold border overlay */}
-              <div
-                className="pointer-events-none absolute inset-0 border border-[hsl(46,56%,51%)]/25 transition-all duration-500 group-hover:border-[hsl(46,56%,51%)]/50"
-                style={{
-                  clipPath: "polygon(0% 0%, 92% 0%, 100% 50%, 92% 100%, 0% 100%)",
+            {/* Bazar Coin */}
+            <Link to="/bazar" className="group relative">
+              <motion.div
+                initial={{ y: -120, opacity: 0, rotateX: 60 }}
+                animate={{ y: 0, opacity: 1, rotateX: 0 }}
+                transition={{
+                  delay: 0.8,
+                  type: "spring",
+                  stiffness: 300,
+                  damping: 18,
+                  mass: 1.2,
                 }}
-              />
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[hsl(46,56%,51%)]/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-              <h2
-                className="text-gold-gradient text-4xl font-light uppercase tracking-[0.3em] md:text-5xl"
-                style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+                className="relative flex h-52 w-52 items-center justify-center rounded-full md:h-64 md:w-64"
+                style={{ perspective: "600px" }}
               >
-                Bazar
-              </h2>
-              <p className="text-sm font-light text-white/50 transition-colors duration-500 group-hover:text-white/70">
-                Casa de empeño y compra de metales preciosos
-              </p>
-              <span className="mt-2 inline-flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.3em] text-[hsl(46,56%,51%)]/60 transition-all duration-500 group-hover:gap-5 group-hover:text-[hsl(46,56%,51%)]">
-                Entrar <ArrowRight className="h-4 w-4 transition-transform duration-500 group-hover:translate-x-2" />
-              </span>
+                {/* Outer glow ring */}
+                <div className="absolute inset-0 rounded-full shadow-[0_0_40px_8px_rgba(212,175,55,0.15),inset_0_0_30px_rgba(212,175,55,0.05)] transition-shadow duration-700 group-hover:shadow-[0_0_60px_16px_rgba(212,175,55,0.3),inset_0_0_40px_rgba(212,175,55,0.1)]" />
+                {/* Gold border ring */}
+                <div className="absolute inset-0 rounded-full border-2 border-[hsl(46,56%,51%)]/30 transition-all duration-500 group-hover:border-[hsl(46,56%,51%)]/60" />
+                <div className="absolute inset-[3px] rounded-full border border-[hsl(46,56%,51%)]/15 transition-all duration-500 group-hover:border-[hsl(46,56%,51%)]/30" />
+                {/* Liquid glass fill */}
+                <div
+                  className="absolute inset-[6px] rounded-full transition-all duration-700"
+                  style={{
+                    background: "linear-gradient(145deg, rgba(212,175,55,0.08) 0%, rgba(212,175,55,0.15) 30%, rgba(255,223,100,0.1) 50%, rgba(212,175,55,0.05) 70%, rgba(180,150,40,0.12) 100%)",
+                    backdropFilter: "blur(12px)",
+                    WebkitBackdropFilter: "blur(12px)",
+                  }}
+                />
+                {/* Inner shine sweep */}
+                <div
+                  className="absolute inset-[6px] rounded-full opacity-40 transition-opacity duration-500 group-hover:opacity-70"
+                  style={{
+                    background: "linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 40%, transparent 60%, rgba(255,255,255,0.05) 100%)",
+                  }}
+                />
+                {/* Inner ring detail */}
+                <div className="absolute inset-[18px] rounded-full border border-[hsl(46,56%,51%)]/10 md:inset-[22px]" />
+                {/* Text */}
+                <div className="relative z-10 flex flex-col items-center gap-2">
+                  <h2
+                    className="text-gold-gradient text-3xl font-light uppercase tracking-[0.2em] md:text-4xl"
+                    style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+                  >
+                    Bazar
+                  </h2>
+                  <p className="text-[10px] font-light uppercase tracking-[0.2em] text-white/40 transition-colors duration-500 group-hover:text-white/60 md:text-[11px]">
+                    Casa de Empeño
+                  </p>
+                </div>
+              </motion.div>
             </Link>
 
-            {/* Gold diamond divider */}
-            <div className="relative z-10 -my-2 flex flex-col items-center gap-3 md:-mx-6 md:my-0 md:flex-col">
-              <div className="h-8 w-px bg-gradient-to-b from-transparent via-[hsl(46,56%,51%)]/40 to-transparent md:h-20" />
-              <div className="h-4 w-4 rotate-45 border border-[hsl(46,56%,51%)]/50 bg-[hsl(46,56%,51%)]/10" />
-              <div className="h-8 w-px bg-gradient-to-b from-transparent via-[hsl(46,56%,51%)]/40 to-transparent md:h-20" />
-            </div>
-
-            {/* Joyería */}
-            <Link
-              to="/joyeria"
-              className="group relative flex w-full flex-col items-center justify-center gap-6 px-12 py-24 transition-all duration-500 hover:bg-white/[0.06] md:w-1/2"
-              style={{
-                clipPath: "polygon(8% 0%, 100% 0%, 100% 100%, 8% 100%, 0% 50%)",
-              }}
-            >
-              <div
-                className="pointer-events-none absolute inset-0 border border-[hsl(46,56%,51%)]/25 transition-all duration-500 group-hover:border-[hsl(46,56%,51%)]/50"
-                style={{
-                  clipPath: "polygon(8% 0%, 100% 0%, 100% 100%, 8% 100%, 0% 50%)",
+            {/* Joyería Coin */}
+            <Link to="/joyeria" className="group relative">
+              <motion.div
+                initial={{ y: -120, opacity: 0, rotateX: 60 }}
+                animate={{ y: 0, opacity: 1, rotateX: 0 }}
+                transition={{
+                  delay: 1.1,
+                  type: "spring",
+                  stiffness: 300,
+                  damping: 18,
+                  mass: 1.2,
                 }}
-              />
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-l from-[hsl(46,56%,51%)]/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-              <h2
-                className="text-gold-gradient text-4xl font-light uppercase tracking-[0.3em] md:text-5xl"
-                style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+                className="relative flex h-52 w-52 items-center justify-center rounded-full md:h-64 md:w-64"
+                style={{ perspective: "600px" }}
               >
-                Joyería
-              </h2>
-              <p className="text-sm font-light text-white/50 transition-colors duration-500 group-hover:text-white/70">
-                Piezas únicas con garantía y diseño premium
-              </p>
-              <span className="mt-2 inline-flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.3em] text-[hsl(46,56%,51%)]/60 transition-all duration-500 group-hover:gap-5 group-hover:text-[hsl(46,56%,51%)]">
-                Entrar <ArrowRight className="h-4 w-4 transition-transform duration-500 group-hover:translate-x-2" />
-              </span>
+                <div className="absolute inset-0 rounded-full shadow-[0_0_40px_8px_rgba(212,175,55,0.15),inset_0_0_30px_rgba(212,175,55,0.05)] transition-shadow duration-700 group-hover:shadow-[0_0_60px_16px_rgba(212,175,55,0.3),inset_0_0_40px_rgba(212,175,55,0.1)]" />
+                <div className="absolute inset-0 rounded-full border-2 border-[hsl(46,56%,51%)]/30 transition-all duration-500 group-hover:border-[hsl(46,56%,51%)]/60" />
+                <div className="absolute inset-[3px] rounded-full border border-[hsl(46,56%,51%)]/15 transition-all duration-500 group-hover:border-[hsl(46,56%,51%)]/30" />
+                <div
+                  className="absolute inset-[6px] rounded-full transition-all duration-700"
+                  style={{
+                    background: "linear-gradient(145deg, rgba(212,175,55,0.08) 0%, rgba(212,175,55,0.15) 30%, rgba(255,223,100,0.1) 50%, rgba(212,175,55,0.05) 70%, rgba(180,150,40,0.12) 100%)",
+                    backdropFilter: "blur(12px)",
+                    WebkitBackdropFilter: "blur(12px)",
+                  }}
+                />
+                <div
+                  className="absolute inset-[6px] rounded-full opacity-40 transition-opacity duration-500 group-hover:opacity-70"
+                  style={{
+                    background: "linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 40%, transparent 60%, rgba(255,255,255,0.05) 100%)",
+                  }}
+                />
+                <div className="absolute inset-[18px] rounded-full border border-[hsl(46,56%,51%)]/10 md:inset-[22px]" />
+                <div className="relative z-10 flex flex-col items-center gap-2">
+                  <h2
+                    className="text-gold-gradient text-3xl font-light uppercase tracking-[0.2em] md:text-4xl"
+                    style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+                  >
+                    Joyería
+                  </h2>
+                  <p className="text-[10px] font-light uppercase tracking-[0.2em] text-white/40 transition-colors duration-500 group-hover:text-white/60 md:text-[11px]">
+                    Centenario
+                  </p>
+                </div>
+              </motion.div>
             </Link>
           </motion.div>
         </motion.div>

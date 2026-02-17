@@ -101,7 +101,7 @@ const Index = () => {
       <section ref={heroRef} className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden">
         {/* Parallax background */}
         <motion.div style={{ y: bgY }} className="absolute inset-0 z-0 will-change-transform">
-          <img src={heroImage} alt="" className="h-[120%] w-full object-cover opacity-25" loading="eager" />
+          <img src={heroImage} alt="" className="h-[120%] w-full object-cover opacity-40" loading="eager" />
         </motion.div>
         <div className="absolute inset-0 z-[1] bg-gradient-to-b from-black/40 via-transparent to-[hsl(0,0%,4%)]" />
 
@@ -111,7 +111,7 @@ const Index = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.8 }}
-            className="mb-8 text-[10px] font-medium uppercase tracking-[0.5em] text-white/35"
+            className="mb-8 text-[11px] font-medium uppercase tracking-[0.5em] text-white/60"
           >
             Bienvenido
           </motion.p>
@@ -125,8 +125,7 @@ const Index = () => {
             style={{
               fontFamily: "'Playfair Display', Georgia, serif",
               letterSpacing: "0.08em",
-              filter: "drop-shadow(0 0 25px rgba(212,175,55,0.35))",
-              WebkitTextStroke: "1px rgba(212,175,55,0.15)",
+              filter: "drop-shadow(0 0 35px rgba(212,175,55,0.5))",
             }}
           >
             Centenario
@@ -142,38 +141,33 @@ const Index = () => {
             {/* Bazar */}
             <Link
               to="/bazar"
-              className="group relative flex flex-col items-center justify-center gap-5 px-12 py-20 transition-all duration-500 hover:bg-white/[0.03]"
-              style={{ boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.06)" }}
+              className="gold-border-card group relative flex flex-col items-center justify-center gap-5 px-12 py-20 transition-all duration-500 hover:bg-white/[0.04]"
             >
               <h2 className="text-2xl font-light uppercase tracking-[0.25em] text-white md:text-3xl">
                 Bazar
               </h2>
-              <p className="text-xs font-light text-white/35 transition-colors duration-500 group-hover:text-[hsl(46,56%,51%)]">
+              <p className="text-xs font-light text-white/50 transition-colors duration-500 group-hover:text-[hsl(46,56%,51%)]">
                 Casa de empeño y compra de metales preciosos
               </p>
-              <span className="mt-3 inline-flex items-center gap-2 text-[10px] font-medium uppercase tracking-[0.3em] text-white/25 transition-all duration-500 group-hover:gap-4 group-hover:text-[hsl(46,56%,51%)]">
+              <span className="mt-3 inline-flex items-center gap-2 text-[10px] font-medium uppercase tracking-[0.3em] text-white/40 transition-all duration-500 group-hover:gap-4 group-hover:text-[hsl(46,56%,51%)]">
                 Entrar <ArrowRight className="h-3 w-3 transition-transform duration-500 group-hover:translate-x-1" />
               </span>
-              {/* Gold glow on hover */}
-              <div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100" style={{ boxShadow: "inset 0 0 60px rgba(212,175,55,0.06)" }} />
             </Link>
 
             {/* Joyería */}
             <Link
               to="/joyeria"
-              className="group relative flex flex-col items-center justify-center gap-5 px-12 py-20 transition-all duration-500 hover:bg-white/[0.03]"
-              style={{ boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.06)" }}
+              className="gold-border-card group relative flex flex-col items-center justify-center gap-5 px-12 py-20 transition-all duration-500 hover:bg-white/[0.04]"
             >
               <h2 className="text-2xl font-light uppercase tracking-[0.25em] text-white md:text-3xl">
                 Joyería
               </h2>
-              <p className="text-xs font-light text-white/35 transition-colors duration-500 group-hover:text-[hsl(46,56%,51%)]">
+              <p className="text-xs font-light text-white/50 transition-colors duration-500 group-hover:text-[hsl(46,56%,51%)]">
                 Piezas únicas con garantía y diseño premium
               </p>
-              <span className="mt-3 inline-flex items-center gap-2 text-[10px] font-medium uppercase tracking-[0.3em] text-white/25 transition-all duration-500 group-hover:gap-4 group-hover:text-[hsl(46,56%,51%)]">
+              <span className="mt-3 inline-flex items-center gap-2 text-[10px] font-medium uppercase tracking-[0.3em] text-white/40 transition-all duration-500 group-hover:gap-4 group-hover:text-[hsl(46,56%,51%)]">
                 Entrar <ArrowRight className="h-3 w-3 transition-transform duration-500 group-hover:translate-x-1" />
               </span>
-              <div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100" style={{ boxShadow: "inset 0 0 60px rgba(212,175,55,0.06)" }} />
             </Link>
           </motion.div>
         </motion.div>

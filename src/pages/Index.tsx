@@ -148,14 +148,18 @@ const Index = () => {
             <Link to="/bazar" className="group relative" style={{ perspective: "800px" }}>
               <motion.div
                 initial={{ y: -120, opacity: 0, rotateX: 60 }}
-                animate={{ y: 0, opacity: 1, rotateX: 0 }}
-                whileHover={{ rotateY: 8, rotateX: -4, scale: 1.05 }}
+                animate={{
+                  y: 0,
+                  opacity: 1,
+                  rotateX: [0, 3, -3, 0],
+                  rotateY: [0, 5, -5, 0],
+                }}
+                whileHover={{ rotateY: 12, rotateX: -6, scale: 1.08 }}
                 transition={{
-                  delay: 0.8,
-                  type: "spring",
-                  stiffness: 300,
-                  damping: 18,
-                  mass: 1.2,
+                  y: { delay: 0.8, type: "spring", stiffness: 300, damping: 18, mass: 1.2 },
+                  opacity: { delay: 0.8, duration: 0.4 },
+                  rotateX: { delay: 2, duration: 6, repeat: Infinity, ease: "easeInOut" },
+                  rotateY: { delay: 2, duration: 8, repeat: Infinity, ease: "easeInOut" },
                 }}
                 className="relative flex h-56 w-56 items-center justify-center rounded-full md:h-72 md:w-72"
                 style={{ transformStyle: "preserve-3d" }}
@@ -191,30 +195,28 @@ const Index = () => {
                     background: "radial-gradient(ellipse at 30% 25%, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.08) 35%, transparent 60%)",
                   }}
                 />
-                {/* Decorative rings (coin detail) */}
+                {/* Decorative rings */}
                 <div className="absolute inset-[18px] rounded-full border-[2px] border-[hsl(46,56%,51%)]/20 md:inset-[24px]" />
                 <div className="absolute inset-[22px] rounded-full border border-[hsl(46,56%,51%)]/10 md:inset-[28px]" />
                 {/* Coin emboss ring */}
                 <div
                   className="absolute inset-[26px] rounded-full md:inset-[32px]"
-                  style={{
-                    boxShadow: "inset 0 1px 2px rgba(255,255,255,0.1), inset 0 -1px 2px rgba(0,0,0,0.15)",
-                  }}
+                  style={{ boxShadow: "inset 0 1px 2px rgba(255,255,255,0.1), inset 0 -1px 2px rgba(0,0,0,0.15)" }}
                 />
-                {/* Text */}
+                {/* Text — all white */}
                 <div className="relative z-10 flex flex-col items-center justify-center gap-3 text-center">
                   <h2
-                    className="text-gold-gradient text-3xl font-light uppercase tracking-[0.2em] md:text-4xl"
+                    className="text-3xl font-light uppercase tracking-[0.2em] text-white md:text-4xl"
                     style={{
                       fontFamily: "'Playfair Display', Georgia, serif",
-                      textShadow: "0 2px 8px rgba(212,175,55,0.3), 0 1px 2px rgba(0,0,0,0.4)",
+                      textShadow: "0 2px 10px rgba(212,175,55,0.4), 0 1px 3px rgba(0,0,0,0.5)",
                     }}
                   >
                     Bazar
                   </h2>
                   <p
-                    className="text-xs font-medium uppercase tracking-[0.15em] text-white/90 transition-colors duration-500 group-hover:text-white"
-                    style={{ textShadow: "0 1px 4px rgba(0,0,0,0.6)" }}
+                    className="text-xs font-semibold uppercase tracking-[0.15em] text-white"
+                    style={{ textShadow: "0 1px 6px rgba(0,0,0,0.7)" }}
                   >
                     Casa de Empeño
                   </p>
@@ -226,14 +228,18 @@ const Index = () => {
             <Link to="/joyeria" className="group relative" style={{ perspective: "800px" }}>
               <motion.div
                 initial={{ y: -120, opacity: 0, rotateX: 60 }}
-                animate={{ y: 0, opacity: 1, rotateX: 0 }}
-                whileHover={{ rotateY: -8, rotateX: -4, scale: 1.05 }}
+                animate={{
+                  y: 0,
+                  opacity: 1,
+                  rotateX: [0, -3, 3, 0],
+                  rotateY: [0, -5, 5, 0],
+                }}
+                whileHover={{ rotateY: -12, rotateX: -6, scale: 1.08 }}
                 transition={{
-                  delay: 1.1,
-                  type: "spring",
-                  stiffness: 300,
-                  damping: 18,
-                  mass: 1.2,
+                  y: { delay: 1.1, type: "spring", stiffness: 300, damping: 18, mass: 1.2 },
+                  opacity: { delay: 1.1, duration: 0.4 },
+                  rotateX: { delay: 2.5, duration: 7, repeat: Infinity, ease: "easeInOut" },
+                  rotateY: { delay: 2.5, duration: 9, repeat: Infinity, ease: "easeInOut" },
                 }}
                 className="relative flex h-56 w-56 items-center justify-center rounded-full md:h-72 md:w-72"
                 style={{ transformStyle: "preserve-3d" }}
@@ -267,23 +273,22 @@ const Index = () => {
                 <div className="absolute inset-[22px] rounded-full border border-[hsl(46,56%,51%)]/10 md:inset-[28px]" />
                 <div
                   className="absolute inset-[26px] rounded-full md:inset-[32px]"
-                  style={{
-                    boxShadow: "inset 0 1px 2px rgba(255,255,255,0.1), inset 0 -1px 2px rgba(0,0,0,0.15)",
-                  }}
+                  style={{ boxShadow: "inset 0 1px 2px rgba(255,255,255,0.1), inset 0 -1px 2px rgba(0,0,0,0.15)" }}
                 />
+                {/* Text — all white */}
                 <div className="relative z-10 flex flex-col items-center justify-center gap-3 text-center">
                   <h2
-                    className="text-gold-gradient text-3xl font-light uppercase tracking-[0.2em] md:text-4xl"
+                    className="text-3xl font-light uppercase tracking-[0.2em] text-white md:text-4xl"
                     style={{
                       fontFamily: "'Playfair Display', Georgia, serif",
-                      textShadow: "0 2px 8px rgba(212,175,55,0.3), 0 1px 2px rgba(0,0,0,0.4)",
+                      textShadow: "0 2px 10px rgba(212,175,55,0.4), 0 1px 3px rgba(0,0,0,0.5)",
                     }}
                   >
                     Joyería
                   </h2>
                   <p
-                    className="text-xs font-medium uppercase tracking-[0.15em] text-white/90 transition-colors duration-500 group-hover:text-white"
-                    style={{ textShadow: "0 1px 4px rgba(0,0,0,0.6)" }}
+                    className="text-xs font-semibold uppercase tracking-[0.15em] text-white"
+                    style={{ textShadow: "0 1px 6px rgba(0,0,0,0.7)" }}
                   >
                     Centenario
                   </p>

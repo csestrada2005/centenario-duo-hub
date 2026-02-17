@@ -114,12 +114,7 @@ const Coin3D = ({ to, title, subtitle, delay }: { to: string; title: string; sub
     <Link to={to} className="group relative" style={{ perspective: "500px" }}>
       <motion.div
         ref={ref}
-        initial={{ y: -160, opacity: 0, rotateX: 70 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{
-          y: { delay, type: "spring", stiffness: 280, damping: 16, mass: 1.4 },
-          opacity: { delay, duration: 0.4 },
-        }}
+        initial={{ opacity: 1 }}
         style={{ rotateX: smoothX, rotateY: smoothY, transformStyle: "preserve-3d" }}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}

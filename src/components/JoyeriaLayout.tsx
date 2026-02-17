@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import AnimatedOutlet from "./AnimatedOutlet";
 import { Menu, X, ShoppingCart } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import WhatsAppButton from "./WhatsAppButton";
@@ -106,7 +107,7 @@ const JoyeriaLayout = () => {
 
       {/* Main */}
       <main className="flex-1 pt-14">
-        <Outlet />
+        <AnimatedOutlet />
       </main>
 
       {/* Footer */}

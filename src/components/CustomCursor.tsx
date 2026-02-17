@@ -4,11 +4,11 @@ import { motion, AnimatePresence } from "framer-motion";
 type CursorVariant = "default" | "link" | "button" | "text" | "image";
 
 const CURSOR_SIZE = {
-  default: 16,
-  link: 44,
-  button: 52,
-  text: 4,
-  image: 68,
+  default: 32,
+  link: 56,
+  button: 64,
+  text: 8,
+  image: 80,
 };
 
 /** Diamond SVG shape reused across variants */
@@ -134,7 +134,7 @@ const CustomCursor = () => {
             exit={{ scale: 0, rotate: 45 }}
             className="flex h-full w-full items-center justify-center"
           >
-            <DiamondShape size={16} />
+            <DiamondShape size={28} />
           </motion.div>
         )}
 
@@ -151,7 +151,7 @@ const CustomCursor = () => {
               boxShadow: "0 0 16px hsl(46 56% 51% / 0.4), inset 0 0 8px hsl(46 56% 51% / 0.1)",
             }}
           >
-            <DiamondShape size={14} />
+            <DiamondShape size={24} />
           </motion.div>
         )}
 
@@ -173,7 +173,7 @@ const CustomCursor = () => {
               animate={{ scale: [1, 1.15, 1] }}
               transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
             >
-              <DiamondShape size={18} />
+              <DiamondShape size={30} />
             </motion.div>
           </motion.div>
         )}
@@ -187,7 +187,7 @@ const CustomCursor = () => {
             exit={{ scaleY: 0 }}
             className="flex h-full w-full items-center justify-center"
           >
-            <DiamondShape size={10} glow={false} />
+            <DiamondShape size={18} glow={false} />
           </motion.div>
         )}
 
@@ -205,7 +205,7 @@ const CustomCursor = () => {
               boxShadow: "0 0 20px hsl(46 56% 51% / 0.25)",
             }}
           >
-            <DiamondShape size={22} />
+            <DiamondShape size={36} />
           </motion.div>
         )}
       </AnimatePresence>

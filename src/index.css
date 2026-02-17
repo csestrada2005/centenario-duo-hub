@@ -92,9 +92,31 @@
     @apply border-border;
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     @apply bg-background text-foreground antialiased;
     font-family: "Inter", system-ui, -apple-system, sans-serif;
+  }
+
+  /* ── Global subtle transitions ── */
+  a, button, [role="button"] {
+    @apply transition-all duration-300 ease-out;
+  }
+
+  img {
+    @apply transition-transform duration-700 ease-out;
+  }
+
+  input, textarea, select {
+    @apply transition-all duration-300 ease-out;
+  }
+
+  /* Focus ring animation */
+  input:focus, textarea:focus {
+    @apply ring-1 ring-ring/30;
   }
 
   h1, h2, h3, h4, h5, h6 {

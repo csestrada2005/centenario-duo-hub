@@ -99,11 +99,11 @@ const EmpenyoSim = () => {
             onChange={(e) => setApproxValue(e.target.value)}
           />
           <div className="flex gap-3 pt-4">
-            <Button variant="outline" onClick={() => setStep(1)} className="border-border text-foreground">
-              <ArrowLeft className="mr-1 h-4 w-4" /> Atrás
+            <Button variant="goldOutline" onClick={() => setStep(1)} className="group">
+              <ArrowLeft className="mr-1 h-4 w-4 group-hover:-translate-x-1" /> Atrás
             </Button>
-            <Button className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90" disabled={!brand || !condition || !approxValue} onClick={() => setStep(3)}>
-              Continuar <ArrowRight className="ml-1 h-4 w-4" />
+            <Button variant="gold" className="group flex-1" disabled={!brand || !condition || !approxValue} onClick={() => setStep(3)}>
+              Continuar <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1" />
             </Button>
           </div>
         </motion.div>
@@ -120,11 +120,11 @@ const EmpenyoSim = () => {
             Esta cifra es solo una estimación. La valuación final se realiza en sucursal.
           </p>
           <div className="mt-8 flex gap-3">
-            <Button variant="outline" onClick={() => setStep(2)} className="border-border text-foreground">
-              <ArrowLeft className="mr-1 h-4 w-4" /> Atrás
+            <Button variant="goldOutline" onClick={() => setStep(2)} className="group">
+              <ArrowLeft className="mr-1 h-4 w-4 group-hover:-translate-x-1" /> Atrás
             </Button>
-            <Button className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90" onClick={() => setStep(4)}>
-              Siguiente <ArrowRight className="ml-1 h-4 w-4" />
+            <Button variant="gold" className="group flex-1" onClick={() => setStep(4)}>
+              Siguiente <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1" />
             </Button>
           </div>
         </motion.div>
@@ -135,12 +135,12 @@ const EmpenyoSim = () => {
           <h3 className="mb-6 text-lg font-light uppercase tracking-[0.1em]">¿Listo para continuar?</h3>
           <p className="text-sm font-light text-muted-foreground">Visita tu sucursal más cercana para la valuación final.</p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
-            <Button asChild className="bg-primary text-primary-foreground hover:bg-primary/90">
-              <Link to="/bazar/sucursales"><MapPin className="mr-2 h-4 w-4" /> Sucursales</Link>
+            <Button asChild variant="gold" className="group">
+              <Link to="/bazar/sucursales"><MapPin className="mr-2 h-4 w-4 group-hover:scale-110" /> Sucursales</Link>
             </Button>
-            <Button variant="outline" asChild className="border-border text-foreground">
+            <Button variant="goldOutline" asChild className="group">
               <a href="https://wa.me/5551234567" target="_blank" rel="noopener noreferrer">
-                <MessageCircle className="mr-2 h-4 w-4" /> WhatsApp
+                <MessageCircle className="mr-2 h-4 w-4 group-hover:scale-110" /> WhatsApp
               </a>
             </Button>
           </div>
@@ -231,11 +231,11 @@ const MetalesSim = () => {
             </Select>
           </div>
           <div className="flex gap-3 pt-4">
-            <Button variant="outline" onClick={() => setStep(1)} className="border-border text-foreground">
-              <ArrowLeft className="mr-1 h-4 w-4" /> Atrás
+            <Button variant="goldOutline" onClick={() => setStep(1)} className="group">
+              <ArrowLeft className="mr-1 h-4 w-4 group-hover:-translate-x-1" /> Atrás
             </Button>
-            <Button className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90" disabled={!karat || (!isDiamond && !weight)} onClick={() => setStep(3)}>
-              Continuar <ArrowRight className="ml-1 h-4 w-4" />
+            <Button variant="gold" className="group flex-1" disabled={!karat || (!isDiamond && !weight)} onClick={() => setStep(3)}>
+              Continuar <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1" />
             </Button>
           </div>
         </motion.div>
@@ -252,11 +252,11 @@ const MetalesSim = () => {
             Esta cifra es solo una estimación. La valuación final se realiza en sucursal.
           </p>
           <div className="mt-8 flex gap-3">
-            <Button variant="outline" onClick={() => setStep(2)} className="border-border text-foreground">
-              <ArrowLeft className="mr-1 h-4 w-4" /> Atrás
+            <Button variant="goldOutline" onClick={() => setStep(2)} className="group">
+              <ArrowLeft className="mr-1 h-4 w-4 group-hover:-translate-x-1" /> Atrás
             </Button>
-            <Button className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90" onClick={() => setStep(4)}>
-              Siguiente <ArrowRight className="ml-1 h-4 w-4" />
+            <Button variant="gold" className="group flex-1" onClick={() => setStep(4)}>
+              Siguiente <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1" />
             </Button>
           </div>
         </motion.div>
@@ -267,12 +267,12 @@ const MetalesSim = () => {
           <h3 className="mb-6 text-lg font-light uppercase tracking-[0.1em]">¿Listo para continuar?</h3>
           <p className="text-sm font-light text-muted-foreground">Visítanos para una valuación profesional.</p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
-            <Button asChild className="bg-primary text-primary-foreground hover:bg-primary/90">
-              <Link to="/bazar/sucursales"><MapPin className="mr-2 h-4 w-4" /> Sucursales</Link>
+            <Button asChild variant="gold" className="group">
+              <Link to="/bazar/sucursales"><MapPin className="mr-2 h-4 w-4 group-hover:scale-110" /> Sucursales</Link>
             </Button>
-            <Button variant="outline" asChild className="border-border text-foreground">
+            <Button variant="goldOutline" asChild className="group">
               <a href="https://wa.me/5551234567" target="_blank" rel="noopener noreferrer">
-                <MessageCircle className="mr-2 h-4 w-4" /> WhatsApp
+                <MessageCircle className="mr-2 h-4 w-4 group-hover:scale-110" /> WhatsApp
               </a>
             </Button>
           </div>

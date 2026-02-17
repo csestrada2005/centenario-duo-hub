@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { motion } from "framer-motion";
+import { Lock, ShieldCheck } from "lucide-react";
 
 const Checkout = () => {
   return (
@@ -79,8 +80,10 @@ const Checkout = () => {
               <div className="flex justify-between"><span className="text-muted-foreground">Envío</span><span>$199</span></div>
               <div className="flex justify-between border-t border-border pt-3 font-medium"><span>Total</span><span>$16,099 MXN</span></div>
             </div>
-            <Button className="mt-6 w-full bg-foreground text-background hover:bg-foreground/90 active:scale-[0.97]" size="lg">
+            <Button variant="editorial" className="group mt-6 w-full" size="lg">
+              <Lock className="mr-2 h-4 w-4 group-hover:scale-110 transition-transform" />
               Confirmar pedido
+              <ShieldCheck className="ml-2 h-4 w-4 opacity-50" />
             </Button>
           </motion.div>
         </div>

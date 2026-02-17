@@ -15,6 +15,12 @@ const buttonVariants = cva(
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
+        // Bazar gold luxury
+        gold: "bg-[hsl(var(--gold))] text-[hsl(var(--gold-foreground))] hover:bg-[hsl(var(--gold))]/90 hover:shadow-[0_0_20px_hsl(var(--gold)/0.3)] font-medium uppercase tracking-[0.12em] text-xs",
+        goldOutline: "border border-[hsl(var(--gold))/0.4] text-[hsl(var(--gold))] bg-transparent hover:bg-[hsl(var(--gold))]/10 hover:border-[hsl(var(--gold))] font-medium uppercase tracking-[0.12em] text-xs",
+        // Joyería editorial
+        editorial: "bg-foreground text-background hover:bg-foreground/85 uppercase tracking-[0.15em] text-xs font-medium",
+        editorialOutline: "border border-foreground/20 text-foreground bg-transparent hover:border-foreground/60 hover:bg-foreground/5 uppercase tracking-[0.15em] text-xs font-medium",
       },
       size: {
         default: "h-10 px-4 py-2",

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Minus, Plus, Trash2 } from "lucide-react";
+import { Minus, Plus, Trash2, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 
 const cartItems = [
@@ -96,8 +96,11 @@ const Carrito = () => {
                   <span>Total</span>
                   <span>${total.toLocaleString()} MXN</span>
                 </div>
-                <Button asChild className="mt-6 w-full bg-foreground text-background hover:bg-foreground/90 active:scale-[0.97]" size="lg">
-                  <Link to="/joyeria/checkout">Proceder al pago</Link>
+                <Button asChild variant="editorial" className="group mt-6 w-full" size="lg">
+                  <Link to="/joyeria/checkout">
+                    Proceder al pago
+                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  </Link>
                 </Button>
               </div>
             </motion.div>

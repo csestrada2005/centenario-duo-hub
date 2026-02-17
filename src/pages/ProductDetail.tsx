@@ -1,7 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import { useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ShoppingCart, Check } from "lucide-react";
+import { ArrowLeft, ShoppingCart, Check, Gem } from "lucide-react";
 import { motion, useInView } from "framer-motion";
 import { useState } from "react";
 
@@ -98,10 +98,11 @@ const ProductDetail = () => {
               <Button
                 size="lg"
                 onClick={handleAdd}
-                className={`mt-8 w-full md:w-auto overflow-hidden ${
+                variant={added ? "default" : "editorial"}
+                className={`mt-8 w-full md:w-auto overflow-hidden group ${
                   added
                     ? "bg-green-700 text-white hover:bg-green-700"
-                    : "bg-foreground text-background hover:bg-foreground/90 active:scale-[0.97]"
+                    : ""
                 }`}
               >
                 <motion.span
@@ -115,7 +116,7 @@ const ProductDetail = () => {
                   {added ? (
                     <><Check className="mr-2 h-4 w-4" /> Agregado</>
                   ) : (
-                    <><ShoppingCart className="mr-2 h-4 w-4" /> Agregar al carrito</>
+                    <><ShoppingCart className="mr-2 h-4 w-4 group-hover:-rotate-12 transition-transform" /> Agregar al carrito</>
                   )}
                 </motion.span>
               </Button>

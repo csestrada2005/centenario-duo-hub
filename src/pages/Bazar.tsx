@@ -10,6 +10,9 @@ import {
   ArrowRight, Smartphone, Laptop, Wrench, Car, Tv, CircleDollarSign,
   Gem, Shield, MapPin, MessageCircle, Package, ChevronDown, Sparkles,
 } from "lucide-react";
+import GoldCursorGlow from "@/components/GoldCursorGlow";
+import GoldSparkles from "@/components/GoldSparkles";
+import MagneticText from "@/components/MagneticText";
 
 /* ── Scroll-triggered reveal ── */
 const Reveal = ({
@@ -87,6 +90,8 @@ const Bazar = () => {
           <img src={heroBazar} alt="" className="h-[130%] w-full object-cover opacity-50" loading="eager" />
         </motion.div>
         <div className="absolute inset-0 z-0 bg-gradient-to-b from-black/70 via-black/50 to-[hsl(var(--background))]" />
+        <GoldCursorGlow size={400} opacity={0.15} />
+        <GoldSparkles maxSparkles={10} />
 
         <motion.div
           style={{ opacity: heroContentOpacity, y: heroContentY }}
@@ -96,13 +101,19 @@ const Bazar = () => {
             <motion.p variants={fadeUp} className="mb-6 text-xs font-medium uppercase tracking-[0.35em] text-white/50">
               Casa de empeño y compra de metales preciosos
             </motion.p>
-            <motion.h1
-              variants={fadeUp}
-              className="text-gold-gradient text-5xl font-light leading-[1.1] md:text-7xl lg:text-8xl"
-              style={{ filter: "drop-shadow(0 0 30px rgba(212,175,55,0.3))" }}
-            >
-              Bazar Centenario
-            </motion.h1>
+            <motion.div variants={fadeUp}>
+              <MagneticText
+                intensity={0.15}
+                className="text-5xl font-light leading-[1.1] md:text-7xl lg:text-8xl"
+              >
+                <h1
+                  className="text-gold-gradient"
+                  style={{ filter: "drop-shadow(0 0 30px rgba(212,175,55,0.3))" }}
+                >
+                  Bazar Centenario
+                </h1>
+              </MagneticText>
+            </motion.div>
             <motion.p variants={fadeUp} className="mx-auto mt-6 max-w-md text-sm font-light leading-relaxed text-white/60 md:text-base">
               Empeña tus artículos o vende tu oro, plata y diamantes. Sin complicaciones, con total transparencia.
             </motion.p>
@@ -134,9 +145,9 @@ const Bazar = () => {
       <section className="px-6 py-28 md:px-10">
         <div className="mx-auto max-w-4xl">
           <Reveal className="mb-16 text-center">
-            <h2 className="text-3xl font-light uppercase tracking-[0.1em] md:text-4xl">
+            <MagneticText as="h2" intensity={0.2} className="text-3xl font-light uppercase tracking-[0.1em] md:text-4xl">
               Cómo funciona
-            </h2>
+            </MagneticText>
           </Reveal>
           <div className="grid gap-16 md:grid-cols-3">
             {[
@@ -160,9 +171,9 @@ const Bazar = () => {
       <section className="px-6 py-28 md:px-10">
         <div className="mx-auto max-w-4xl">
           <Reveal className="mb-16 text-center">
-            <h2 className="text-3xl font-light uppercase tracking-[0.1em] md:text-4xl">
+            <MagneticText as="h2" intensity={0.2} className="text-3xl font-light uppercase tracking-[0.1em] md:text-4xl">
               Nuestros servicios
-            </h2>
+            </MagneticText>
           </Reveal>
           <div className="grid gap-12 md:grid-cols-2">
             <Reveal direction="left" className="group">
@@ -199,9 +210,9 @@ const Bazar = () => {
       <section className="px-6 py-28 md:px-10">
         <div className="mx-auto max-w-3xl">
           <Reveal className="mb-16 text-center">
-            <h2 className="text-3xl font-light uppercase tracking-[0.1em] md:text-4xl">
+            <MagneticText as="h2" intensity={0.2} className="text-3xl font-light uppercase tracking-[0.1em] md:text-4xl">
               Simula fácil
-            </h2>
+            </MagneticText>
           </Reveal>
           <div className="grid grid-cols-3 gap-6 md:grid-cols-6">
             {[
@@ -234,7 +245,7 @@ const Bazar = () => {
           <FloatLayer speed={0.25}>
             <Shield className="mx-auto h-10 w-10 text-primary" strokeWidth={1} />
           </FloatLayer>
-          <h2 className="mt-8 text-3xl font-light uppercase tracking-[0.1em] md:text-4xl">Tu tranquilidad es nuestra prioridad</h2>
+          <MagneticText as="h2" intensity={0.15} className="mt-8 text-3xl font-light uppercase tracking-[0.1em] md:text-4xl">Tu tranquilidad es nuestra prioridad</MagneticText>
           <p className="mt-6 text-sm font-light leading-relaxed text-muted-foreground">
             Más de 25 años brindando un servicio profesional, seguro y sin juicios. Tu confianza es lo más importante.
           </p>
@@ -245,9 +256,9 @@ const Bazar = () => {
       <section className="px-6 py-28 md:px-10">
         <div className="mx-auto max-w-2xl">
           <Reveal className="mb-16 text-center">
-            <h2 className="text-3xl font-light uppercase tracking-[0.1em] md:text-4xl">
+            <MagneticText as="h2" intensity={0.2} className="text-3xl font-light uppercase tracking-[0.1em] md:text-4xl">
               Preguntas frecuentes
-            </h2>
+            </MagneticText>
           </Reveal>
           {[
             { q: "¿Qué requisitos necesito para empeñar?", a: "Solo necesitas una identificación oficial vigente y el artículo a empeñar." },

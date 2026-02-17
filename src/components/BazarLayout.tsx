@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import AnimatedOutlet from "./AnimatedOutlet";
 import { Menu, X, MessageCircle, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
@@ -113,7 +114,7 @@ const BazarLayout = () => {
 
       {/* Main */}
       <main className="flex-1 pt-16">
-        <Outlet />
+        <AnimatedOutlet />
       </main>
 
       {/* Footer */}

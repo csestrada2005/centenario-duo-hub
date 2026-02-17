@@ -13,18 +13,18 @@ interface Sparkle {
  * Place once in a layout — it listens on `document` and renders particles
  * in a fixed viewport overlay.
  */
-const GoldSparkles = ({ maxSparkles = 14 }: { maxSparkles?: number }) => {
+const GoldSparkles = ({ maxSparkles = 20 }: { maxSparkles?: number }) => {
   const [sparkles, setSparkles] = useState<Sparkle[]>([]);
   const idRef = useRef(0);
 
   const handleMove = useCallback(
     (e: MouseEvent) => {
-      if (Math.random() > 0.3) return; // keep subtle
+      if (Math.random() > 0.45) return;
       const sparkle: Sparkle = {
         id: idRef.current++,
         x: e.clientX,
         y: e.clientY,
-        size: 2 + Math.random() * 4,
+        size: 1.5 + Math.random() * 3,
       };
       setSparkles((prev) => [...prev.slice(-(maxSparkles - 1)), sparkle]);
     },
@@ -41,7 +41,7 @@ const GoldSparkles = ({ maxSparkles = 14 }: { maxSparkles?: number }) => {
     if (sparkles.length === 0) return;
     const timer = setTimeout(() => {
       setSparkles((prev) => prev.slice(1));
-    }, 600);
+    }, 450);
     return () => clearTimeout(timer);
   }, [sparkles]);
 

@@ -5,6 +5,7 @@ import { Menu, X, MessageCircle, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import WhatsAppButton from "./WhatsAppButton";
+import GoldSparkles from "./GoldSparkles";
 
 const bazarNav = [
   { label: "Inicio", href: "/bazar" },
@@ -18,6 +19,7 @@ const BazarLayout = () => {
 
   return (
     <div className="bazar-theme flex min-h-screen flex-col bg-background text-foreground">
+      <GoldSparkles maxSparkles={14} />
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-md">
         <div className="flex h-16 items-center justify-between px-6 md:px-10">

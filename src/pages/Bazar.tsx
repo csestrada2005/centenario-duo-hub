@@ -1,42 +1,35 @@
 import { Link } from "react-router-dom";
 import { useRef } from "react";
 import heroBazar from "@/assets/hero-bazar.jpg";
-import { motion, useScroll, useTransform, useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import {
   Accordion, AccordionContent, AccordionItem, AccordionTrigger,
 } from "@/components/ui/accordion";
 import {
-  ArrowRight, Smartphone, Laptop, Wrench, Car, Tv, CircleDollarSign,
-  Gem, Shield, MapPin, MessageCircle, Package, ChevronDown, Sparkles,
+  ArrowRight, Smartphone, Laptop, Wrench, Car, Tv,
+  Gem, ShieldCheck, MapPin, MessageCircle, Clock, CheckCircle2,
+  PhoneCall, Banknote, Star,
 } from "lucide-react";
-import MagneticText from "@/components/MagneticText";
 
-/* ── Scroll-triggered reveal ── */
+/* ── Scroll reveal ── */
 const Reveal = ({
   children,
   className = "",
   delay = 0,
-  direction = "up",
 }: {
   children: React.ReactNode;
   className?: string;
   delay?: number;
-  direction?: "up" | "left" | "right";
 }) => {
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
-  const initial = {
-    opacity: 0,
-    x: direction === "left" ? -60 : direction === "right" ? 60 : 0,
-    y: direction === "up" ? 40 : 0,
-  };
+  const inView = useInView(ref, { once: true, margin: "-60px" });
   return (
     <motion.div
       ref={ref}
-      initial={initial}
-      animate={inView ? { opacity: 1, x: 0, y: 0 } : {}}
-      transition={{ duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] }}
+      initial={{ opacity: 0, y: 24 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.55, delay, ease: [0.22, 1, 0.36, 1] }}
       className={className}
     >
       {children}
@@ -44,233 +37,272 @@ const Reveal = ({
   );
 };
 
-/* ── Parallax floating element ── */
-const FloatLayer = ({
-  children,
-  className = "",
-  speed = 0.3,
-}: {
-  children: React.ReactNode;
-  className?: string;
-  speed?: number;
-}) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], [speed * 100, -speed * 100]);
-  return (
-    <motion.div ref={ref} style={{ y }} className={className}>
-      {children}
-    </motion.div>
-  );
-};
-
-const stagger = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { staggerChildren: 0.15 } },
-};
-const fadeUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.7 } },
-};
-
 const Bazar = () => {
-  const heroRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "40%"]);
-  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
-  const heroContentOpacity = useTransform(scrollYProgress, [0, 0.45], [1, 0]);
-  const heroContentY = useTransform(scrollYProgress, [0, 0.5], [0, -100]);
-  const overlayOpacity = useTransform(scrollYProgress, [0, 0.6], [0.5, 0.85]);
-
   return (
-    <div>
-      {/* ═══ Hero fullwidth with real parallax ═══ */}
-      <section ref={heroRef} className="relative flex min-h-screen items-center justify-center overflow-hidden">
-        <motion.div style={{ y: bgY, scale: bgScale }} className="absolute inset-0 z-0 will-change-transform">
-          <img src={heroBazar} alt="" className="h-[140%] w-full object-cover" loading="eager" />
-        </motion.div>
-        <motion.div style={{ opacity: overlayOpacity }} className="absolute inset-0 z-0 bg-gradient-to-b from-black via-black/60 to-[hsl(var(--background))]" />
+    <div className="bg-background text-foreground">
 
-        <motion.div
-          style={{ opacity: heroContentOpacity, y: heroContentY }}
-          className="relative z-10 mx-auto max-w-3xl px-6 text-center"
-        >
-          <motion.div initial="hidden" animate="visible" variants={stagger}>
-            <motion.p variants={fadeUp} className="mb-6 text-xs font-medium uppercase tracking-[0.35em] text-white/50">
-              Casa de empeño y compra de metales preciosos
-            </motion.p>
-            <motion.div variants={fadeUp}>
-              <MagneticText
-                intensity={0.15}
-                className="text-5xl font-light leading-[1.1] md:text-7xl lg:text-8xl"
-              >
-                <h1
-                  className="text-gold-gradient"
-                  style={{ filter: "drop-shadow(0 0 30px rgba(212,175,55,0.3))" }}
-                >
-                  Bazar Centenario
-                </h1>
-              </MagneticText>
-            </motion.div>
-            <motion.p variants={fadeUp} className="mx-auto mt-6 max-w-md text-sm font-light leading-relaxed text-white/60 md:text-base">
-              Empeña tus artículos o vende tu oro, plata y diamantes. Sin complicaciones, con total transparencia.
-            </motion.p>
-            <motion.div variants={fadeUp} className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-              <Button asChild size="lg" variant="gold" className="group px-8">
+      {/* ═══ HERO ═══ */}
+      <section className="relative flex min-h-[90vh] items-center overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img src={heroBazar} alt="" className="h-full w-full object-cover" loading="eager" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[hsl(220_60%_8%/0.92)] via-[hsl(220_60%_8%/0.75)] to-[hsl(220_60%_8%/0.3)]" />
+        </div>
+
+        <div className="relative z-10 mx-auto max-w-6xl px-6 py-20 md:px-10">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          >
+            {/* Trust badge */}
+            <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-xs font-medium text-white/80 backdrop-blur-sm">
+              <ShieldCheck className="h-3.5 w-3.5 text-green-400" />
+              +25 años de confianza · 100% seguro · Valuación gratis
+            </div>
+
+            <h1 className="text-4xl font-extrabold leading-tight text-white md:text-6xl lg:text-7xl">
+              Necesitas dinero<br />
+              <span className="text-[hsl(214_80%_65%)]">hoy mismo.</span>
+            </h1>
+            <p className="mt-5 max-w-xl text-lg font-normal leading-relaxed text-white/70">
+              Empeña tu celular, laptop, oro o cualquier artículo de valor y sal con dinero en efectivo en menos de 30 minutos.
+            </p>
+
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <Button asChild size="lg" className="bg-[hsl(214_80%_40%)] px-8 text-base font-bold text-white hover:bg-[hsl(214_80%_35%)]">
                 <Link to="/bazar/simuladores">
-                  <CircleDollarSign className="mr-2 h-4 w-4 group-hover:rotate-12" /> Cotizar ahora
+                  <Banknote className="mr-2 h-5 w-5" /> Cuánto me dan por mi artículo
                 </Link>
               </Button>
-              <Button asChild size="lg" variant="goldOutline" className="group px-8">
-                <Link to="/bazar/sucursales">
-                  <MapPin className="mr-2 h-4 w-4 group-hover:scale-110" /> Ver sucursales
-                </Link>
+              <Button asChild size="lg" variant="outline" className="border-white/30 bg-white/10 px-8 text-base font-medium text-white backdrop-blur-sm hover:bg-white/20">
+                <a href="https://wa.me/5551234567" target="_blank" rel="noopener noreferrer">
+                  <PhoneCall className="mr-2 h-5 w-5" /> Hablar con un asesor
+                </a>
               </Button>
-            </motion.div>
+            </div>
+
+            {/* Quick stats */}
+            <div className="mt-10 flex flex-wrap gap-6">
+              {[
+                { val: "30 min", label: "y sales con efectivo" },
+                { val: "Gratis", label: "valuación sin compromiso" },
+                { val: "100%", label: "confidencial y seguro" },
+              ].map((s) => (
+                <div key={s.val}>
+                  <p className="text-2xl font-bold text-white">{s.val}</p>
+                  <p className="text-xs text-white/55">{s.label}</p>
+                </div>
+              ))}
+            </div>
           </motion.div>
-        </motion.div>
-
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-          className="absolute bottom-10 left-1/2 z-10 -translate-x-1/2"
-        >
-          <ChevronDown className="h-6 w-6 text-[hsl(46,56%,51%)]/50" />
-        </motion.div>
+        </div>
       </section>
 
-      {/* ═══ Cómo funciona — cards slide in from sides ═══ */}
-      <section className="px-6 py-28 md:px-10">
-        <div className="mx-auto max-w-4xl">
-          <Reveal className="mb-16 text-center">
-            <MagneticText as="h2" intensity={0.2} className="text-3xl font-light uppercase tracking-[0.1em] md:text-4xl">
-              Cómo funciona
-            </MagneticText>
+      {/* ═══ URGENCIA banner ═══ */}
+      <div className="bg-[hsl(214_80%_40%)] py-4">
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-6 md:px-10">
+          <div className="flex items-center gap-3 text-white">
+            <Clock className="h-5 w-5 shrink-0" />
+            <p className="text-sm font-semibold">¿Necesitas dinero urgente? Estamos abiertos Lun–Sáb 9:00–18:00. <span className="font-normal opacity-80">Ven hoy y sal con efectivo.</span></p>
+          </div>
+          <Button asChild size="sm" className="bg-white text-[hsl(214_80%_40%)] font-bold hover:bg-white/90">
+            <Link to="/bazar/sucursales">Ver sucursal más cercana →</Link>
+          </Button>
+        </div>
+      </div>
+
+      {/* ═══ CÓMO FUNCIONA ═══ */}
+      <section className="bg-background px-6 py-20 md:px-10">
+        <div className="mx-auto max-w-5xl">
+          <Reveal className="mb-12 text-center">
+            <h2 className="text-3xl font-extrabold md:text-4xl">Así de fácil funciona</h2>
+            <p className="mt-3 text-muted-foreground">Sin papeleos complicados. Sin esperas largas.</p>
           </Reveal>
-          <div className="grid gap-16 md:grid-cols-3">
+
+          <div className="grid gap-6 md:grid-cols-3">
             {[
-              { icon: Package, title: "Trae tu artículo", desc: "Lleva tu artículo o metal precioso a cualquier sucursal.", dir: "left" as const },
-              { icon: CircleDollarSign, title: "Valuación gratuita", desc: "Nuestros expertos lo evalúan sin costo ni compromiso.", dir: "up" as const },
-              { icon: ArrowRight, title: "Recibe tu dinero", desc: "Obtén tu dinero en el momento, de forma segura.", dir: "right" as const },
-            ].map((step, i) => (
-              <Reveal key={i} delay={i * 0.12} direction={step.dir} className="text-center">
-                <FloatLayer speed={0.15}>
-                  <step.icon className="mx-auto h-8 w-8 text-primary" strokeWidth={1} />
-                </FloatLayer>
-                <h3 className="mt-6 text-lg font-light uppercase tracking-[0.1em]">{step.title}</h3>
-                <p className="mt-3 text-sm font-light leading-relaxed text-muted-foreground">{step.desc}</p>
+              {
+                step: "1",
+                icon: MapPin,
+                title: "Llega a la sucursal",
+                desc: "Trae tu artículo o metal precioso a cualquier sucursal. Solo necesitas una identificación oficial.",
+                color: "hsl(214 80% 40%)",
+              },
+              {
+                step: "2",
+                icon: CheckCircle2,
+                title: "Te valuamos gratis",
+                desc: "En minutos te decimos exactamente cuánto te damos. Sin costo, sin compromiso.",
+                color: "hsl(214 80% 40%)",
+              },
+              {
+                step: "3",
+                icon: Banknote,
+                title: "Sales con tu dinero",
+                desc: "Aceptas y recibes el efectivo al instante. Tu artículo queda seguro con nosotros.",
+                color: "hsl(142 55% 38%)",
+              },
+            ].map((s, i) => (
+              <Reveal key={i} delay={i * 0.1}>
+                <div className="relative rounded-xl border border-border bg-card p-6 shadow-sm">
+                  <div
+                    className="mb-4 flex h-10 w-10 items-center justify-center rounded-full text-sm font-extrabold text-white"
+                    style={{ background: s.color }}
+                  >
+                    {s.step}
+                  </div>
+                  <s.icon className="mb-3 h-6 w-6" style={{ color: s.color }} strokeWidth={1.5} />
+                  <h3 className="text-base font-bold">{s.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{s.desc}</p>
+                </div>
               </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ═══ Servicios — slide in from left/right ═══ */}
-      <section className="px-6 py-28 md:px-10">
-        <div className="mx-auto max-w-4xl">
-          <Reveal className="mb-16 text-center">
-            <MagneticText as="h2" intensity={0.2} className="text-3xl font-light uppercase tracking-[0.1em] md:text-4xl">
-              Nuestros servicios
-            </MagneticText>
+      {/* ═══ QUÉ ACEPTAMOS ═══ */}
+      <section className="bg-[hsl(214_15%_96%)] px-6 py-20 md:px-10">
+        <div className="mx-auto max-w-5xl">
+          <Reveal className="mb-12 text-center">
+            <h2 className="text-3xl font-extrabold md:text-4xl">¿Qué puedes empeñar?</h2>
+            <p className="mt-3 text-muted-foreground">Aceptamos todo tipo de artículos de valor</p>
           </Reveal>
-          <div className="grid gap-12 md:grid-cols-2">
-            <Reveal direction="left" className="group">
-              <h3 className="text-xl font-light uppercase tracking-wide">Empeño de artículos</h3>
-              <div className="mt-2 h-px w-12 bg-primary transition-all duration-500 group-hover:w-full" />
-              <p className="mt-4 text-sm font-light leading-relaxed text-muted-foreground">
-                Electrónicos, herramienta, autos, electrodomésticos, oro y plata. Valuación justa e inmediata.
-              </p>
-              <Link
-                to="/bazar/simuladores"
-                className="mt-4 inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.15em] text-primary transition-colors hover:text-primary/80"
-              >
-                Simular empeño <ArrowRight className="h-3 w-3" />
-              </Link>
-            </Reveal>
-            <Reveal direction="right" delay={0.1} className="group">
-              <h3 className="text-xl font-light uppercase tracking-wide">Compra de metales preciosos</h3>
-              <div className="mt-2 h-px w-12 bg-primary transition-all duration-500 group-hover:w-full" />
-              <p className="mt-4 text-sm font-light leading-relaxed text-muted-foreground">
-                Compramos tus metales preciosos al mejor precio del mercado.
-              </p>
-              <Link
-                to="/bazar/simuladores?tab=metales"
-                className="mt-4 inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.15em] text-primary transition-colors hover:text-primary/80"
-              >
-                Simular cotización <ArrowRight className="h-3 w-3" />
-              </Link>
-            </Reveal>
-          </div>
-        </div>
-      </section>
 
-      {/* ═══ Simula fácil — icons with staggered entrance + float ═══ */}
-      <section className="px-6 py-28 md:px-10">
-        <div className="mx-auto max-w-3xl">
-          <Reveal className="mb-16 text-center">
-            <MagneticText as="h2" intensity={0.2} className="text-3xl font-light uppercase tracking-[0.1em] md:text-4xl">
-              Simula fácil
-            </MagneticText>
-          </Reveal>
-          <div className="grid grid-cols-3 gap-6 md:grid-cols-6">
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-6">
             {[
-              { icon: Smartphone, label: "Celular" },
-              { icon: Laptop, label: "Laptop" },
+              { icon: Smartphone, label: "Celulares" },
+              { icon: Laptop, label: "Laptops" },
               { icon: Wrench, label: "Herramienta" },
-              { icon: Tv, label: "Electro" },
-              { icon: Car, label: "Auto" },
-              { icon: Gem, label: "Metales" },
+              { icon: Tv, label: "Electrónicos" },
+              { icon: Car, label: "Autos" },
+              { icon: Gem, label: "Oro y plata" },
             ].map((cat, i) => (
-              <Reveal key={cat.label} delay={i * 0.08}>
+              <Reveal key={cat.label} delay={i * 0.06}>
                 <Link
-                  to={cat.label === "Metales" ? "/bazar/simuladores?tab=metales" : "/bazar/simuladores"}
-                  className="group flex flex-col items-center gap-3 py-6 text-center transition-colors"
+                  to={cat.label === "Oro y plata" ? "/bazar/simuladores?tab=metales" : "/bazar/simuladores"}
+                  className="flex flex-col items-center gap-3 rounded-xl border border-border bg-card px-4 py-6 text-center transition-all hover:border-[hsl(214_80%_40%)] hover:shadow-md"
                 >
-                  <FloatLayer speed={0.1 + i * 0.03}>
-                    <cat.icon className="h-7 w-7 text-muted-foreground transition-all duration-300 group-hover:text-primary group-hover:scale-110" strokeWidth={1} />
-                  </FloatLayer>
-                  <span className="text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground transition-colors group-hover:text-foreground">{cat.label}</span>
+                  <cat.icon className="h-8 w-8 text-[hsl(214_80%_40%)]" strokeWidth={1.5} />
+                  <span className="text-xs font-semibold text-foreground">{cat.label}</span>
                 </Link>
               </Reveal>
             ))}
           </div>
+
+          <Reveal delay={0.3} className="mt-8 text-center">
+            <Button asChild size="lg" className="bg-[hsl(214_80%_40%)] px-10 font-bold text-white hover:bg-[hsl(214_80%_35%)]">
+              <Link to="/bazar/simuladores">
+                Cotiza tu artículo ahora <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </Reveal>
         </div>
       </section>
 
-      {/* ═══ Confianza — shield floats at different speed ═══ */}
-      <section className="px-6 py-28 md:px-10">
-        <Reveal className="mx-auto max-w-2xl text-center">
-          <FloatLayer speed={0.25}>
-            <Shield className="mx-auto h-10 w-10 text-primary" strokeWidth={1} />
-          </FloatLayer>
-          <MagneticText as="h2" intensity={0.15} className="mt-8 text-3xl font-light uppercase tracking-[0.1em] md:text-4xl">Tu tranquilidad es nuestra prioridad</MagneticText>
-          <p className="mt-6 text-sm font-light leading-relaxed text-muted-foreground">
-            Más de 25 años brindando un servicio profesional, seguro y sin juicios. Tu confianza es lo más importante.
-          </p>
-        </Reveal>
+      {/* ═══ POR QUÉ NOSOTROS ═══ */}
+      <section className="bg-background px-6 py-20 md:px-10">
+        <div className="mx-auto max-w-5xl">
+          <div className="grid gap-12 md:grid-cols-2 md:items-center">
+            <Reveal>
+              <h2 className="text-3xl font-extrabold md:text-4xl">
+                Somos la casa de empeño de confianza en tu ciudad
+              </h2>
+              <p className="mt-4 text-muted-foreground leading-relaxed">
+                Llevamos más de 25 años ayudando a familias como la tuya. Tratamos a cada cliente con respeto, sin juzgar. Tu situación es privada y la valuación es completamente gratuita.
+              </p>
+              <ul className="mt-6 space-y-3">
+                {[
+                  "Valuación gratuita y sin compromiso",
+                  "Dinero en efectivo al instante",
+                  "Tu artículo 100% seguro y asegurado",
+                  "Sin preguntas incómodas, sin burocracia",
+                  "Precios justos basados en el mercado actual",
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-3 text-sm">
+                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[hsl(142_55%_38%)]" strokeWidth={2} />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <Button asChild size="lg" className="mt-8 bg-[hsl(214_80%_40%)] px-8 font-bold text-white hover:bg-[hsl(214_80%_35%)]">
+                <Link to="/bazar/sucursales">
+                  <MapPin className="mr-2 h-4 w-4" /> Encuentra tu sucursal
+                </Link>
+              </Button>
+            </Reveal>
+
+            <Reveal delay={0.15}>
+              <div className="grid grid-cols-2 gap-4">
+                {[
+                  { val: "25+", label: "años de experiencia", sub: "Desde 1999" },
+                  { val: "50K+", label: "clientes atendidos", sub: "En toda la ciudad" },
+                  { val: "30 min", label: "y sales con dinero", sub: "Proceso rápido" },
+                  { val: "4.8★", label: "calificación promedio", sub: "Miles de reseñas" },
+                ].map((stat) => (
+                  <div key={stat.val} className="rounded-xl border border-border bg-card p-5 text-center shadow-sm">
+                    <p className="text-2xl font-extrabold text-[hsl(214_80%_40%)]">{stat.val}</p>
+                    <p className="mt-1 text-xs font-semibold">{stat.label}</p>
+                    <p className="mt-0.5 text-xs text-muted-foreground">{stat.sub}</p>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ TESTIMONIOS ═══ */}
+      <section className="bg-[hsl(214_15%_96%)] px-6 py-20 md:px-10">
+        <div className="mx-auto max-w-5xl">
+          <Reveal className="mb-12 text-center">
+            <h2 className="text-3xl font-extrabold md:text-4xl">Lo que dicen nuestros clientes</h2>
+          </Reveal>
+          <div className="grid gap-5 md:grid-cols-3">
+            {[
+              { name: "María G.", text: "Necesitaba dinero urgente para el médico. En 20 minutos salí con el efectivo. Excelente trato.", stars: 5 },
+              { name: "Jorge L.", text: "Muy profesionales. Me explicaron todo bien, sin letras chicas. Regresé 3 veces ya.", stars: 5 },
+              { name: "Rosa M.", text: "Me dieron buen precio por mi laptop. El proceso fue rápido y me trataron con respeto.", stars: 5 },
+            ].map((t, i) => (
+              <Reveal key={i} delay={i * 0.1}>
+                <div className="rounded-xl border border-border bg-card p-5 shadow-sm">
+                  <div className="flex gap-0.5 mb-3">
+                    {Array.from({ length: t.stars }).map((_, j) => (
+                      <Star key={j} className="h-4 w-4 fill-[hsl(214_80%_40%)] text-[hsl(214_80%_40%)]" />
+                    ))}
+                  </div>
+                  <p className="text-sm leading-relaxed text-muted-foreground">"{t.text}"</p>
+                  <p className="mt-3 text-xs font-bold">{t.name}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* ═══ FAQ ═══ */}
-      <section className="px-6 py-28 md:px-10">
+      <section className="bg-background px-6 py-20 md:px-10">
         <div className="mx-auto max-w-2xl">
-          <Reveal className="mb-16 text-center">
-            <MagneticText as="h2" intensity={0.2} className="text-3xl font-light uppercase tracking-[0.1em] md:text-4xl">
-              Preguntas frecuentes
-            </MagneticText>
+          <Reveal className="mb-12 text-center">
+            <h2 className="text-3xl font-extrabold md:text-4xl">Preguntas frecuentes</h2>
           </Reveal>
           {[
-            { q: "¿Qué requisitos necesito para empeñar?", a: "Solo necesitas una identificación oficial vigente y el artículo a empeñar." },
-            { q: "¿Cuánto tiempo tengo para pagar mi empeño?", a: "El plazo estándar es de 30 días, con posibilidad de refrendar." },
-            { q: "¿Qué artículos aceptan?", a: "Electrónicos, herramientas, autos, electrodomésticos, oro, plata y diamantes." },
-            { q: "¿Cómo calculan el valor de mi artículo?", a: "Nuestros valuadores certificados evalúan marca, estado y mercado actual." },
-            { q: "¿Cobran por la valuación?", a: "No, la valuación es completamente gratuita y sin compromiso." },
-            { q: "¿Puedo vender mi oro directamente?", a: "Sí, compramos oro, plata y diamantes al mejor precio del mercado." },
+            { q: "¿Qué necesito para empeñar?", a: "Solo una identificación oficial vigente (INE, pasaporte) y el artículo que quieres empeñar. Sin más trámites." },
+            { q: "¿Cuánto tiempo tarda el proceso?", a: "Generalmente 20 a 30 minutos desde que llegas hasta que sales con tu dinero en efectivo." },
+            { q: "¿Cuánto tiempo tengo para pagar?", a: "El plazo es de 30 días. Si necesitas más tiempo, puedes pagar solo los intereses y extender el plazo." },
+            { q: "¿Es confidencial?", a: "Sí, 100%. Nadie se entera de tu operación. Tratamos cada caso con total discreción y respeto." },
+            { q: "¿Cobran por la valuación?", a: "No. La valuación es completamente gratis y sin ningún compromiso de tu parte." },
+            { q: "¿Puedo vender mi oro directamente?", a: "Sí, compramos oro, plata y diamantes al mejor precio del mercado. Sin citas ni esperas." },
           ].map((item, i) => (
-            <Reveal key={i} delay={i * 0.06} direction={i % 2 === 0 ? "left" : "right"}>
+            <Reveal key={i} delay={i * 0.05}>
               <Accordion type="single" collapsible>
                 <AccordionItem value={`faq-${i}`} className="border-border">
-                  <AccordionTrigger className="text-sm font-light tracking-wide hover:text-primary">{item.q}</AccordionTrigger>
-                  <AccordionContent className="text-sm font-light text-muted-foreground">{item.a}</AccordionContent>
+                  <AccordionTrigger className="text-sm font-semibold hover:text-[hsl(214_80%_40%)] text-left">
+                    {item.q}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-sm leading-relaxed text-muted-foreground">
+                    {item.a}
+                  </AccordionContent>
                 </AccordionItem>
               </Accordion>
             </Reveal>
@@ -278,19 +310,27 @@ const Bazar = () => {
         </div>
       </section>
 
-      {/* ═══ CTA final ═══ */}
-      <section className="px-6 py-28 md:px-10">
-        <Reveal className="mx-auto flex max-w-xl flex-col items-center gap-4 text-center sm:flex-row sm:justify-center">
-          <Button asChild size="lg" variant="gold" className="group px-8">
-            <Link to="/bazar/sucursales">
-              <MapPin className="mr-2 h-4 w-4 group-hover:bounce" /> Visita tu sucursal
-            </Link>
-          </Button>
-          <Button asChild variant="goldOutline" size="lg" className="group px-8">
-            <a href="https://wa.me/5551234567" target="_blank" rel="noopener noreferrer">
-              <MessageCircle className="mr-2 h-4 w-4 group-hover:scale-110" /> WhatsApp
-            </a>
-          </Button>
+      {/* ═══ CTA FINAL ═══ */}
+      <section className="bg-[hsl(214_80%_40%)] px-6 py-20 md:px-10">
+        <Reveal className="mx-auto max-w-2xl text-center">
+          <h2 className="text-3xl font-extrabold text-white md:text-4xl">
+            No esperes más. Empeña hoy.
+          </h2>
+          <p className="mt-4 text-white/75 text-base">
+            Ven a cualquier sucursal o escríbenos por WhatsApp. En 30 minutos puedes tener tu dinero.
+          </p>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
+            <Button asChild size="lg" className="bg-white px-10 text-base font-bold text-[hsl(214_80%_40%)] hover:bg-white/90">
+              <Link to="/bazar/simuladores">
+                <Banknote className="mr-2 h-5 w-5" /> Cotizar mi artículo
+              </Link>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="border-white/40 bg-white/10 px-10 text-base font-semibold text-white hover:bg-white/20">
+              <a href="https://wa.me/5551234567" target="_blank" rel="noopener noreferrer">
+                <MessageCircle className="mr-2 h-5 w-5" /> Escribir por WhatsApp
+              </a>
+            </Button>
+          </div>
         </Reveal>
       </section>
     </div>

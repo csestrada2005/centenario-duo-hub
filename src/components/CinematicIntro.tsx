@@ -16,11 +16,11 @@ const THEMES = {
     isLight: false,
   },
   bazar: {
-    bg: "hsl(0 0% 6%)",
-    title: "Bazar",
-    subtitle: "Centenario",
+    bg: "hsl(220 25% 10%)",
+    title: "Bazar Centenario",
+    subtitle: "Casa de empeño",
     font: "'Inter', system-ui, sans-serif",
-    accentMid: "hsl(46 56% 51%)",
+    accentMid: "hsl(214 80% 60%)",
     isLight: false,
   },
   joyeria: {
@@ -60,12 +60,13 @@ const CinematicIntro = ({ onComplete, variant = "default" }: CinematicIntroProps
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className={`text-4xl font-light md:text-6xl ${theme.isLight ? "" : "text-gold-gradient"}`}
+            className="text-4xl font-light md:text-6xl"
             style={{
               fontFamily: theme.font,
-              letterSpacing: "0.15em",
-              color: theme.isLight ? theme.accentMid : undefined,
-              filter: theme.isLight ? undefined : "drop-shadow(0 0 20px rgba(212,175,55,0.3))",
+              letterSpacing: variant === "bazar" ? "-0.01em" : "0.15em",
+              fontWeight: variant === "bazar" ? 800 : 300,
+              color: theme.isLight ? theme.accentMid : "white",
+              filter: variant === "joyeria" ? undefined : variant === "bazar" ? undefined : "drop-shadow(0 0 20px rgba(212,175,55,0.3))",
             }}
           >
             {theme.title}

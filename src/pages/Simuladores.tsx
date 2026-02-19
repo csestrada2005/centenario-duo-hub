@@ -163,17 +163,36 @@ const metalTypes = [
   { icon: Gem, label: "Diamantes", color: "text-foreground" },
 ];
 
+// Precios actualizados: 19/Feb/2026 — Fuente: precio spot MXN/gramo
+// El bazar paga aprox 80–90% del spot (rango bajo–alto)
+const GOLD_UPDATED = "19/Feb/2026";
+
 const karatOptions: Record<string, string[]> = {
-  Oro: ["10k", "14k", "18k", "24k"],
+  Oro: ["8k (33%)", "9k (38%)", "10k (42%)", "12k (50%)", "14k (58%)", "18k (75%)", "21.6k (90%)", "22k (92%)", "24k (99.9%)"],
   Plata: ["925", "950", "999"],
   Diamantes: ["0.25ct", "0.5ct", "1ct", "2ct+"],
 };
 
-const pricePerGram: Record<string, Record<string, number>> = {
-  Oro: { "10k": 450, "14k": 650, "18k": 850, "24k": 1100 },
-  Plata: { "925": 12, "950": 14, "999": 16 },
-  Diamantes: { "0.25ct": 3000, "0.5ct": 8000, "1ct": 20000, "2ct+": 50000 },
+// Precio spot MXN/gramo según quilataje real (datos 19/Feb/2026)
+const spotPricePerGram: Record<string, Record<string, number>> = {
+  Oro: {
+    "8k (33%)":    912.98,
+    "9k (38%)":   1051.31,
+    "10k (42%)":  1161.97,
+    "12k (50%)":  1383.30,
+    "14k (58%)":  1604.63,
+    "18k (75%)":  2074.95,
+    "21.6k (90%)": 2489.95,
+    "22k (92%)":  2545.28,
+    "24k (99.9%)": 2766.61,
+  },
+  Plata: { "925": 12.5, "950": 13.2, "999": 14.0 },
+  Diamantes: { "0.25ct": 4500, "0.5ct": 10000, "1ct": 25000, "2ct+": 60000 },
 };
+
+// El bazar paga entre 78% y 88% del spot (margen de compra real)
+const BUY_RATIO_LOW = 0.78;
+const BUY_RATIO_HIGH = 0.88;
 
 const MetalesSim = () => {
   const [step, setStep] = useState(1);
@@ -181,11 +200,11 @@ const MetalesSim = () => {
   const [weight, setWeight] = useState("");
   const [karat, setKarat] = useState("");
 
-  const priceBase = pricePerGram[metalType]?.[karat] || 0;
+  const spotBase = spotPricePerGram[metalType]?.[karat] || 0;
   const w = Number(weight) || 0;
   const isDiamond = metalType === "Diamantes";
-  const low = isDiamond ? Math.round(priceBase * 0.6) : Math.round(priceBase * w * 0.8);
-  const high = isDiamond ? Math.round(priceBase * 0.9) : Math.round(priceBase * w * 1.0);
+  const low = isDiamond ? Math.round(spotBase * BUY_RATIO_LOW) : Math.round(spotBase * w * BUY_RATIO_LOW);
+  const high = isDiamond ? Math.round(spotBase * BUY_RATIO_HIGH) : Math.round(spotBase * w * BUY_RATIO_HIGH);
 
   return (
     <div>
@@ -244,9 +263,19 @@ const MetalesSim = () => {
       {step === 3 && (
         <motion.div initial="hidden" animate="visible" variants={fadeUp} className="mx-auto max-w-md text-center">
           <h3 className="mb-8 text-lg font-light uppercase tracking-[0.1em]">Estimación de cotización</h3>
-          <div className="py-10">
+          {/* Precio spot badge */}
+          {metalType === "Oro" && karat && (
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs text-muted-foreground">
+              <span className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse inline-block" />
+              Spot {karat}: ${spotPricePerGram.Oro[karat]?.toLocaleString("es-MX", { maximumFractionDigits: 2 })} MXN/g — {GOLD_UPDATED}
+            </div>
+          )}
+          <div className="py-8">
             <p className="text-gold-gradient text-4xl font-light md:text-5xl">${low.toLocaleString()} — ${high.toLocaleString()}</p>
             <p className="mt-2 text-xs uppercase tracking-[0.2em] text-muted-foreground">MXN</p>
+            {!isDiamond && w > 0 && (
+              <p className="mt-3 text-xs text-muted-foreground">Basado en {w}g × {karat} al {Math.round(BUY_RATIO_LOW * 100)}–{Math.round(BUY_RATIO_HIGH * 100)}% del precio spot</p>
+            )}
           </div>
           <p className="text-xs font-light text-muted-foreground">
             Esta cifra es solo una estimación. La valuación final se realiza en sucursal.

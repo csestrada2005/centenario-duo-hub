@@ -124,14 +124,15 @@ const CustomCursor = () => {
         opacity: { duration: 0.15 },
       }}
     >
-      <AnimatePresence mode="wait">
+      <AnimatePresence mode="popLayout">
         {/* Default — gold diamond */}
         {variant === "default" && (
           <motion.div
             key="default"
-            initial={{ scale: 0, rotate: -45 }}
-            animate={{ scale: 1, rotate: 0 }}
-            exit={{ scale: 0, rotate: 45 }}
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.8, opacity: 0 }}
+            transition={{ duration: 0.12, ease: "easeOut" }}
             className="flex h-full w-full items-center justify-center"
           >
             <DiamondShape size={20} />
@@ -142,9 +143,10 @@ const CustomCursor = () => {
         {variant === "link" && (
           <motion.div
             key="link"
-            initial={{ scale: 0, opacity: 0 }}
+            initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0, opacity: 0 }}
+            exit={{ scale: 0.8, opacity: 0 }}
+            transition={{ duration: 0.12, ease: "easeOut" }}
             className="flex h-full w-full items-center justify-center rounded-full border-2"
             style={{
               borderColor: "hsl(46 56% 51%)",
@@ -159,9 +161,10 @@ const CustomCursor = () => {
         {variant === "button" && (
           <motion.div
             key="button"
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            exit={{ scale: 0 }}
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.8, opacity: 0 }}
+            transition={{ duration: 0.12, ease: "easeOut" }}
             className="flex h-full w-full items-center justify-center rounded-full"
             style={{
               background: "radial-gradient(circle, hsl(46 56% 51% / 0.12), transparent 70%)",
@@ -182,9 +185,10 @@ const CustomCursor = () => {
         {variant === "text" && (
           <motion.div
             key="text"
-            initial={{ scaleY: 0 }}
-            animate={{ scaleY: 1 }}
-            exit={{ scaleY: 0 }}
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.8, opacity: 0 }}
+            transition={{ duration: 0.12, ease: "easeOut" }}
             className="flex h-full w-full items-center justify-center"
           >
             <DiamondShape size={14} glow={false} />
@@ -195,10 +199,10 @@ const CustomCursor = () => {
         {variant === "image" && (
           <motion.div
             key="image"
-            initial={{ scale: 0 }}
-            animate={{ scale: 1, rotate: [0, 5, -5, 0] }}
-            exit={{ scale: 0 }}
-            transition={{ rotate: { repeat: Infinity, duration: 3, ease: "easeInOut" } }}
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.8, opacity: 0 }}
+            transition={{ duration: 0.12, ease: "easeOut" }}
             className="flex h-full w-full items-center justify-center rounded-full border"
             style={{
               borderColor: "hsl(46 56% 51% / 0.4)",

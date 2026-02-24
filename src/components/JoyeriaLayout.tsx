@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import AnimatedOutlet from "./AnimatedOutlet";
-import { Menu, X, ShoppingCart } from "lucide-react";
+import { Menu, X, Gem } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import WhatsAppButton from "./WhatsAppButton";
 import GoldSparkles from "./GoldSparkles";
@@ -43,7 +43,7 @@ const JoyeriaLayout = () => {
 
           {/* Cart right */}
           <Link to="/joyeria/carrito" className="text-foreground/60 transition-colors hover:text-foreground">
-            <ShoppingCart className="h-5 w-5" />
+            <Gem className="h-5 w-5" strokeWidth={1.5} />
           </Link>
         </div>
         <div className="mx-6 h-px bg-border md:mx-10" />
@@ -122,7 +122,7 @@ const JoyeriaLayout = () => {
         <div className="mx-auto max-w-6xl px-6 py-16 md:px-10">
           <div className="grid gap-10 text-sm md:grid-cols-4">
             <div>
-              <h4 className="mb-3 text-xs font-medium uppercase tracking-[0.15em] text-foreground">Information</h4>
+              <h4 className="mb-3 text-xs font-medium uppercase tracking-[0.15em] text-foreground">Información</h4>
               <ul className="space-y-2 text-muted-foreground">
                 <li><Link to="/joyeria/catalogo" className="transition-colors hover:text-foreground">Catálogo</Link></li>
                 <li><Link to="/joyeria/carrito" className="transition-colors hover:text-foreground">Carrito</Link></li>
@@ -140,7 +140,7 @@ const JoyeriaLayout = () => {
               <p className="text-muted-foreground">Av. Principal #100<br />Col. Centro, Ciudad</p>
             </div>
             <div>
-              <h4 className="mb-3 text-xs font-medium uppercase tracking-[0.15em] text-foreground">Connect</h4>
+              <h4 className="mb-3 text-xs font-medium uppercase tracking-[0.15em] text-foreground">Explorar</h4>
               <ul className="space-y-2 text-muted-foreground">
                 <li><Link to="/bazar" className="transition-colors hover:text-foreground">Bazar Centenario</Link></li>
               </ul>

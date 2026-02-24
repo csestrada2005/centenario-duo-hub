@@ -133,7 +133,7 @@ const JoyeriaHome = () => {
                 className="text-5xl font-normal leading-[1.05] text-foreground md:text-7xl lg:text-[90px]"
               >
                 <span style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
-                  The Art<br />of Gold
+                  El Arte<br />del Oro
                 </span>
               </MagneticText>
             </motion.div>
@@ -153,7 +153,7 @@ const JoyeriaHome = () => {
               <Button asChild variant="editorial" size="lg" className="group mt-10">
                 <Link to="/joyeria/catalogo">
                   <Gem className="mr-2 h-4 w-4 group-hover:rotate-12 transition-transform" />
-                  Shop Collection
+                  Ver Colección
                   <ArrowRight className="ml-2 h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
                 </Link>
               </Button>
@@ -179,7 +179,7 @@ const JoyeriaHome = () => {
       <section className="px-8 py-32 md:px-16">
         <Reveal direction="left">
           <p className="text-[10px] font-medium uppercase tracking-[0.4em] text-muted-foreground">
-            Discover
+            Descubrir
           </p>
           <MagneticText
             as="h2"

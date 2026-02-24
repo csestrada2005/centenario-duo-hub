@@ -133,7 +133,7 @@ const ProductDetail = () => {
             className="mb-8 text-2xl"
             style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
           >
-            You may also like
+            También te puede gustar
           </motion.h2>
           <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
             {[1, 2, 3, 4].map((i) => (

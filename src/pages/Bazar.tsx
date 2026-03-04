@@ -7,7 +7,7 @@ import {
   Accordion, AccordionContent, AccordionItem, AccordionTrigger,
 } from "@/components/ui/accordion";
 import {
-  ArrowRight, Smartphone, Laptop, Wrench, Car, Tv,
+  ArrowRight, Laptop, Wrench, Car, Tv,
   Gem, ShieldCheck, MapPin, MessageCircle, Clock, CheckCircle2,
   PhoneCall, Banknote, Star,
 } from "lucide-react";
@@ -56,22 +56,22 @@ const Bazar = () => {
           >
             {/* Trust badge */}
             <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-xs font-medium text-white/80 backdrop-blur-sm">
-              <ShieldCheck className="h-3.5 w-3.5 text-green-400" />
-              +25 años de confianza · 100% seguro · Valuación gratis
+              <ShieldCheck className="h-3.5 w-3.5 text-[hsl(155_44%_33%)]" />
+              +8 años de confianza · 100% seguro · Valuación gratis
             </div>
 
             <h1 className="text-4xl font-extrabold leading-tight text-white md:text-6xl lg:text-7xl">
-              Necesitas dinero<br />
-              <span className="text-[hsl(214_80%_65%)]">hoy mismo.</span>
+              Bazar Centenario,<br />
+              <span className="text-[hsl(155_44%_33%)]">Te saca del Apuro.</span>
             </h1>
             <p className="mt-5 max-w-xl text-lg font-normal leading-relaxed text-white/70">
-              Empeña tu celular, laptop, oro o cualquier artículo de valor y sal con dinero en efectivo en menos de 30 minutos.
+              Te ofrecemos soluciones financieras rápidas y efectivas. Al empeñar o vender tu artículo o pieza de joyería, tendrás tu dinero en efectivo en menos de 30 minutos.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Button asChild size="lg" className="bg-[hsl(214_80%_40%)] px-8 text-base font-bold text-white hover:bg-[hsl(214_80%_35%)]">
+              <Button asChild size="lg" className="bg-primary px-8 text-base font-bold text-primary-foreground hover:bg-primary/90">
                 <Link to="/bazar/simuladores">
-                  <Banknote className="mr-2 h-5 w-5" /> Cuánto me dan por mi artículo
+                  <Banknote className="mr-2 h-5 w-5" /> Cotizar mi prenda
                 </Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="border-white/30 bg-white/10 px-8 text-base font-medium text-white backdrop-blur-sm hover:bg-white/20">
@@ -99,13 +99,13 @@ const Bazar = () => {
       </section>
 
       {/* ═══ URGENCIA banner ═══ */}
-      <div className="bg-[hsl(214_80%_40%)] py-4">
+      <div className="bg-primary py-4">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-6 md:px-10">
-          <div className="flex items-center gap-3 text-white">
+          <div className="flex items-center gap-3 text-primary-foreground">
             <Clock className="h-5 w-5 shrink-0" />
-            <p className="text-sm font-semibold">¿Necesitas dinero urgente? Estamos abiertos Lun–Sáb 9:00–18:00. <span className="font-normal opacity-80">Ven hoy y sal con efectivo.</span></p>
+            <p className="text-sm font-semibold">¿Necesitas dinero urgente? Estamos abiertos Lun–Vie 9:00–18:00 | Sáb 9:00–15:00. <span className="font-normal opacity-80">Ven hoy y sal con efectivo.</span></p>
           </div>
-          <Button asChild size="sm" className="bg-white text-[hsl(214_80%_40%)] font-bold hover:bg-white/90">
+          <Button asChild size="sm" className="bg-white text-primary font-bold hover:bg-white/90">
             <Link to="/bazar/sucursales">Ver sucursal más cercana →</Link>
           </Button>
         </div>
@@ -126,32 +126,28 @@ const Bazar = () => {
                 icon: MapPin,
                 title: "Llega a la sucursal",
                 desc: "Trae tu artículo o metal precioso a cualquier sucursal. Solo necesitas una identificación oficial.",
-                color: "hsl(214 80% 40%)",
               },
               {
                 step: "2",
                 icon: CheckCircle2,
                 title: "Te valuamos gratis",
                 desc: "En minutos te decimos exactamente cuánto te damos. Sin costo, sin compromiso.",
-                color: "hsl(214 80% 40%)",
               },
               {
                 step: "3",
                 icon: Banknote,
                 title: "Sales con tu dinero",
                 desc: "Aceptas y recibes el efectivo al instante. Tu artículo queda seguro con nosotros.",
-                color: "hsl(142 55% 38%)",
               },
             ].map((s, i) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div className="relative rounded-xl border border-border bg-card p-6 shadow-sm">
                   <div
-                    className="mb-4 flex h-10 w-10 items-center justify-center rounded-full text-sm font-extrabold text-white"
-                    style={{ background: s.color }}
+                    className="mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-primary text-sm font-extrabold text-primary-foreground"
                   >
                     {s.step}
                   </div>
-                  <s.icon className="mb-3 h-6 w-6" style={{ color: s.color }} strokeWidth={1.5} />
+                  <s.icon className="mb-3 h-6 w-6 text-primary" strokeWidth={1.5} />
                   <h3 className="text-base font-bold">{s.title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{s.desc}</p>
                 </div>
@@ -162,16 +158,15 @@ const Bazar = () => {
       </section>
 
       {/* ═══ QUÉ ACEPTAMOS ═══ */}
-      <section className="bg-[hsl(214_15%_96%)] px-6 py-20 md:px-10">
+      <section className="bg-secondary px-6 py-20 md:px-10">
         <div className="mx-auto max-w-5xl">
           <Reveal className="mb-12 text-center">
             <h2 className="text-3xl font-extrabold md:text-4xl">¿Qué puedes empeñar?</h2>
             <p className="mt-3 text-muted-foreground">Aceptamos todo tipo de artículos de valor</p>
           </Reveal>
 
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-6">
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-5">
             {[
-              { icon: Smartphone, label: "Celulares" },
               { icon: Laptop, label: "Laptops" },
               { icon: Wrench, label: "Herramienta" },
               { icon: Tv, label: "Electrónicos" },
@@ -181,9 +176,9 @@ const Bazar = () => {
               <Reveal key={cat.label} delay={i * 0.06}>
                 <Link
                   to={cat.label === "Oro y plata" ? "/bazar/simuladores?tab=metales" : "/bazar/simuladores"}
-                  className="flex flex-col items-center gap-3 rounded-xl border border-border bg-card px-4 py-6 text-center transition-all hover:border-[hsl(214_80%_40%)] hover:shadow-md"
+                  className="flex flex-col items-center gap-3 rounded-xl border border-border bg-card px-4 py-6 text-center transition-all hover:border-primary hover:shadow-md"
                 >
-                  <cat.icon className="h-8 w-8 text-[hsl(214_80%_40%)]" strokeWidth={1.5} />
+                  <cat.icon className="h-8 w-8 text-primary" strokeWidth={1.5} />
                   <span className="text-xs font-semibold text-foreground">{cat.label}</span>
                 </Link>
               </Reveal>
@@ -191,7 +186,7 @@ const Bazar = () => {
           </div>
 
           <Reveal delay={0.3} className="mt-8 text-center">
-            <Button asChild size="lg" className="bg-[hsl(214_80%_40%)] px-10 font-bold text-white hover:bg-[hsl(214_80%_35%)]">
+            <Button asChild size="lg" className="bg-primary px-10 font-bold text-primary-foreground hover:bg-primary/90">
               <Link to="/bazar/simuladores">
                 Cotiza tu artículo ahora <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
@@ -206,10 +201,10 @@ const Bazar = () => {
           <div className="grid gap-12 md:grid-cols-2 md:items-center">
             <Reveal>
               <h2 className="text-3xl font-extrabold md:text-4xl">
-                Somos la casa de empeño de confianza en tu ciudad
+                Somos el bazar de confianza en tu ciudad.
               </h2>
               <p className="mt-4 text-muted-foreground leading-relaxed">
-                Llevamos más de 25 años ayudando a familias como la tuya. Tratamos a cada cliente con respeto, sin juzgar. Tu situación es privada y la valuación es completamente gratuita.
+                Llevamos 8 años ayudando a personas y familias a salir de emergencias económicas. En Bazar Centenario entendemos tu situación financiera, por eso no juzgamos y respetamos a cada cliente. Tu situación es privada y la valuación es completamente gratuita.
               </p>
               <ul className="mt-6 space-y-3">
                 {[
@@ -220,12 +215,12 @@ const Bazar = () => {
                   "Precios justos basados en el mercado actual",
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-3 text-sm">
-                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[hsl(142_55%_38%)]" strokeWidth={2} />
+                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-accent" strokeWidth={2} />
                     <span>{item}</span>
                   </li>
                 ))}
               </ul>
-              <Button asChild size="lg" className="mt-8 bg-[hsl(214_80%_40%)] px-8 font-bold text-white hover:bg-[hsl(214_80%_35%)]">
+              <Button asChild size="lg" className="mt-8 bg-primary px-8 font-bold text-primary-foreground hover:bg-primary/90">
                 <Link to="/bazar/sucursales">
                   <MapPin className="mr-2 h-4 w-4" /> Encuentra tu sucursal
                 </Link>
@@ -235,13 +230,13 @@ const Bazar = () => {
             <Reveal delay={0.15}>
               <div className="grid grid-cols-2 gap-4">
                 {[
-                  { val: "25+", label: "años de experiencia", sub: "Desde 1999" },
+                  { val: "8+", label: "años de experiencia", sub: "Desde 2017" },
                   { val: "50K+", label: "clientes atendidos", sub: "En toda la ciudad" },
                   { val: "30 min", label: "y sales con dinero", sub: "Proceso rápido" },
                   { val: "4.8★", label: "calificación promedio", sub: "Miles de reseñas" },
                 ].map((stat) => (
                   <div key={stat.val} className="rounded-xl border border-border bg-card p-5 text-center shadow-sm">
-                    <p className="text-2xl font-extrabold text-[hsl(214_80%_40%)]">{stat.val}</p>
+                    <p className="text-2xl font-extrabold text-primary">{stat.val}</p>
                     <p className="mt-1 text-xs font-semibold">{stat.label}</p>
                     <p className="mt-0.5 text-xs text-muted-foreground">{stat.sub}</p>
                   </div>
@@ -252,8 +247,54 @@ const Bazar = () => {
         </div>
       </section>
 
+      {/* ═══ PLAZOS E INTERESES ═══ */}
+      <section className="bg-secondary px-6 py-20 md:px-10">
+        <div className="mx-auto max-w-3xl">
+          <Reveal className="mb-12 text-center">
+            <h2 className="text-3xl font-extrabold md:text-4xl">Plazos e intereses</h2>
+            <p className="mt-3 text-muted-foreground">Información clara y sin letras chicas</p>
+          </Reveal>
+
+          <div className="grid gap-6 md:grid-cols-2">
+            <Reveal>
+              <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
+                <div className="mb-4 flex items-center gap-2">
+                  <Gem className="h-5 w-5 text-primary" strokeWidth={1.5} />
+                  <h3 className="text-base font-bold">Joyería</h3>
+                </div>
+                <p className="text-sm text-muted-foreground mb-3">Plazo de 2 meses</p>
+                <p className="text-xs font-semibold uppercase tracking-wider text-foreground mb-2">Primer mes (por semana):</p>
+                <ul className="space-y-1.5 text-sm text-muted-foreground">
+                  <li className="flex justify-between"><span>Semana 1</span><span className="font-semibold text-foreground">3%</span></li>
+                  <li className="flex justify-between"><span>Semana 2</span><span className="font-semibold text-foreground">6%</span></li>
+                  <li className="flex justify-between"><span>Semana 3</span><span className="font-semibold text-foreground">9%</span></li>
+                  <li className="flex justify-between"><span>Semana 4 (mes completo)</span><span className="font-semibold text-foreground">12% mensual</span></li>
+                </ul>
+                <div className="mt-4 border-t border-border pt-3">
+                  <p className="text-sm text-muted-foreground">Si se extiende al segundo mes: <span className="font-semibold text-foreground">24% acumulado</span></p>
+                </div>
+              </div>
+            </Reveal>
+
+            <Reveal delay={0.1}>
+              <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
+                <div className="mb-4 flex items-center gap-2">
+                  <Tv className="h-5 w-5 text-primary" strokeWidth={1.5} />
+                  <h3 className="text-base font-bold">Artículos</h3>
+                </div>
+                <p className="text-sm text-muted-foreground mb-3">Plazo de 1 mes</p>
+                <div className="py-6 text-center">
+                  <p className="text-3xl font-extrabold text-primary">12%</p>
+                  <p className="mt-1 text-xs text-muted-foreground">mensual</p>
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
       {/* ═══ TESTIMONIOS ═══ */}
-      <section className="bg-[hsl(214_15%_96%)] px-6 py-20 md:px-10">
+      <section className="bg-background px-6 py-20 md:px-10">
         <div className="mx-auto max-w-5xl">
           <Reveal className="mb-12 text-center">
             <h2 className="text-3xl font-extrabold md:text-4xl">Lo que dicen nuestros clientes</h2>
@@ -268,7 +309,7 @@ const Bazar = () => {
                 <div className="rounded-xl border border-border bg-card p-5 shadow-sm">
                   <div className="flex gap-0.5 mb-3">
                     {Array.from({ length: t.stars }).map((_, j) => (
-                      <Star key={j} className="h-4 w-4 fill-[hsl(214_80%_40%)] text-[hsl(214_80%_40%)]" />
+                      <Star key={j} className="h-4 w-4 fill-primary text-primary" />
                     ))}
                   </div>
                   <p className="text-sm leading-relaxed text-muted-foreground">"{t.text}"</p>
@@ -281,7 +322,7 @@ const Bazar = () => {
       </section>
 
       {/* ═══ FAQ ═══ */}
-      <section className="bg-background px-6 py-20 md:px-10">
+      <section className="bg-secondary px-6 py-20 md:px-10">
         <div className="mx-auto max-w-2xl">
           <Reveal className="mb-12 text-center">
             <h2 className="text-3xl font-extrabold md:text-4xl">Preguntas frecuentes</h2>
@@ -297,7 +338,7 @@ const Bazar = () => {
             <Reveal key={i} delay={i * 0.05}>
               <Accordion type="single" collapsible>
                 <AccordionItem value={`faq-${i}`} className="border-border">
-                  <AccordionTrigger className="text-sm font-semibold hover:text-[hsl(214_80%_40%)] text-left">
+                  <AccordionTrigger className="text-sm font-semibold hover:text-primary text-left">
                     {item.q}
                   </AccordionTrigger>
                   <AccordionContent className="text-sm leading-relaxed text-muted-foreground">
@@ -311,18 +352,18 @@ const Bazar = () => {
       </section>
 
       {/* ═══ CTA FINAL ═══ */}
-      <section className="bg-[hsl(214_80%_40%)] px-6 py-20 md:px-10">
+      <section className="bg-primary px-6 py-20 md:px-10">
         <Reveal className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-extrabold text-white md:text-4xl">
-            No esperes más. Empeña hoy.
+          <h2 className="text-3xl font-extrabold text-primary-foreground md:text-4xl">
+            ¿Qué esperas? Sal del apuro hoy.
           </h2>
-          <p className="mt-4 text-white/75 text-base">
-            Ven a cualquier sucursal o escríbenos por WhatsApp. En 30 minutos puedes tener tu dinero.
+          <p className="mt-4 text-primary-foreground/75 text-base">
+            Te esperamos en tu sucursal más cercana. En menos de 30 minutos tendrás la solución.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
-            <Button asChild size="lg" className="bg-white px-10 text-base font-bold text-[hsl(214_80%_40%)] hover:bg-white/90">
+            <Button asChild size="lg" className="bg-white px-10 text-base font-bold text-primary hover:bg-white/90">
               <Link to="/bazar/simuladores">
-                <Banknote className="mr-2 h-5 w-5" /> Cotizar mi artículo
+                <Banknote className="mr-2 h-5 w-5" /> Cotizar mi prenda
               </Link>
             </Button>
             <Button asChild size="lg" variant="outline" className="border-white/40 bg-white/10 px-10 text-base font-semibold text-white hover:bg-white/20">

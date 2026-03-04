@@ -46,21 +46,21 @@
     --card-foreground: 220 20% 12%;
     --popover: 0 0% 100%;
     --popover-foreground: 220 20% 12%;
-    --primary: 214 80% 40%;
+    --primary: 164 43% 21%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 214 20% 94%;
+    --secondary: 155 15% 94%;
     --secondary-foreground: 220 20% 20%;
-    --muted: 214 15% 93%;
+    --muted: 155 10% 93%;
     --muted-foreground: 220 10% 45%;
-    --accent: 214 80% 40%;
+    --accent: 155 44% 33%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 84% 55%;
     --destructive-foreground: 0 0% 100%;
-    --border: 214 15% 88%;
-    --input: 214 15% 88%;
-    --ring: 214 80% 40%;
+    --border: 155 10% 88%;
+    --input: 155 10% 88%;
+    --ring: 164 43% 21%;
     --radius: 0.5rem;
-    --bazar-trust: 142 55% 38%;
+    --bazar-trust: 155 44% 33%;
   }
 
   /* ── JOYERÍA EDITORIAL WARM THEME ── */

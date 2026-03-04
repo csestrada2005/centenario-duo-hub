@@ -15,6 +15,7 @@ import Joyeria from "./pages/Joyeria";
 import ProductDetail from "./pages/ProductDetail";
 import Carrito from "./pages/Carrito";
 import Checkout from "./pages/Checkout";
+import Relojes from "./pages/Relojes";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -54,6 +55,7 @@ const AnimatedRoutes = () => {
           <Route path="/joyeria/:id" element={<ProductDetail />} />
           <Route path="/joyeria/carrito" element={<Carrito />} />
           <Route path="/joyeria/checkout" element={<Checkout />} />
+          <Route path="/joyeria/relojes" element={<Relojes />} />
         </Route>
 
         <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />

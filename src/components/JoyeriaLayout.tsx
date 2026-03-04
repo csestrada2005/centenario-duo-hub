@@ -11,6 +11,7 @@ import CinematicIntro from "./CinematicIntro";
 const joyeriaNav = [
   { label: "Inicio", href: "/joyeria" },
   { label: "Catálogo", href: "/joyeria/catalogo" },
+  { label: "Relojes", href: "/joyeria/relojes" },
   { label: "Carrito", href: "/joyeria/carrito" },
 ];
 

@@ -133,7 +133,7 @@ const JoyeriaHome = () => {
                 className="text-5xl font-normal leading-[1.05] text-foreground md:text-7xl lg:text-[90px]"
               >
                 <span style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
-                  El Arte<br />del Oro
+                  Eterno, Especial,<br />Tuyo.
                 </span>
               </MagneticText>
             </motion.div>
@@ -143,7 +143,7 @@ const JoyeriaHome = () => {
               transition={{ duration: 0.8, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
               className="mt-6 max-w-sm text-sm font-light leading-relaxed text-muted-foreground"
             >
-              Piezas artesanales que capturan la esencia del lujo contemporáneo. Cada creación es única, cada detalle importa.
+              Piezas especiales que trascienden generaciones sin perder el brillo del ahora.
             </motion.p>
             <motion.div
               initial={{ opacity: 0, x: -20 }}
@@ -280,10 +280,7 @@ const JoyeriaHome = () => {
               <span style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>El Atelier Centenario</span>
             </MagneticText>
             <p className="mt-6 text-sm font-light leading-[1.8] text-muted-foreground">
-              Desde hace más de un siglo, cada pieza que sale de nuestro taller lleva consigo la dedicación de artesanos expertos. Trabajamos con los materiales más nobles — oro, plata, diamantes — para crear joyas que trascienden generaciones.
-            </p>
-            <p className="mt-4 text-sm font-light leading-[1.8] text-muted-foreground">
-              Nuestro compromiso es simple: calidad sin concesiones, diseño atemporal y un servicio que honra la confianza de cada cliente.
+              Somos un taller contemporáneo y artesano, en donde no solo encontrarás piezas de las marcas más sofisticadas del mercado, también trabajamos con los materiales más nobles: Oro, Plata, Diamantes, para crear una pieza a tu medida que trascienda generaciones. Nuestro compromiso, simple: calidad sin excepción, un diseño a tu medida, servicio de confianza.
             </p>
             <Button asChild variant="editorialOutline" className="group mt-8">
               <Link to="/joyeria/catalogo">

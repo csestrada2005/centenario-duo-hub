@@ -25,8 +25,9 @@ const mockProducts = Array.from({ length: 12 }, (_, i) => ({
   img: productImages[i],
 }));
 
-const categories = ["Todos", "Anillos", "Collares", "Pulseras", "Aretes"];
-const materials = ["Todos", "Oro 14k", "Oro 18k", "Plata 925"];
+const categories = ["Todos", "Anillos", "Collares", "Pulseras", "Aretes", "Dijes"];
+const marcas = ["Todos", "Tiffany & Co.", "Cartier", "Van Cleef & Arpels", "Messika", "Bulgari"];
+const relojesMarcas = ["Todos", "Rolex", "Audemars Piguet", "Patek Philippe", "Hublot", "Cartier", "Omega"];
 
 // ─────────────────────────────────────────────────────────────
 // ATOMS
@@ -244,9 +245,10 @@ const EditorialCard = ({
 // ─────────────────────────────────────────────────────────────
 // FILTER PANEL
 // ─────────────────────────────────────────────────────────────
-const FilterPanel = ({ category, setCategory, material, setMaterial }: {
+const FilterPanel = ({ category, setCategory, marca, setMarca, relojMarca, setRelojMarca }: {
   category: string; setCategory: (v: string) => void;
-  material: string; setMaterial: (v: string) => void;
+  marca: string; setMarca: (v: string) => void;
+  relojMarca: string; setRelojMarca: (v: string) => void;
 }) => (
   <div className="space-y-6">
     <div>
@@ -257,10 +259,17 @@ const FilterPanel = ({ category, setCategory, material, setMaterial }: {
       </Select>
     </div>
     <div>
-      <label className="mb-2 block text-xs font-medium uppercase tracking-[0.15em]">Material</label>
-      <Select value={material} onValueChange={setMaterial}>
+      <label className="mb-2 block text-xs font-medium uppercase tracking-[0.15em]">Marcas</label>
+      <Select value={marca} onValueChange={setMarca}>
         <SelectTrigger><SelectValue /></SelectTrigger>
-        <SelectContent>{materials.map((m) => <SelectItem key={m} value={m}>{m}</SelectItem>)}</SelectContent>
+        <SelectContent>{marcas.map((m) => <SelectItem key={m} value={m}>{m}</SelectItem>)}</SelectContent>
+      </Select>
+    </div>
+    <div>
+      <label className="mb-2 block text-xs font-medium uppercase tracking-[0.15em]">Relojes</label>
+      <Select value={relojMarca} onValueChange={setRelojMarca}>
+        <SelectTrigger><SelectValue /></SelectTrigger>
+        <SelectContent>{relojesMarcas.map((r) => <SelectItem key={r} value={r}>{r}</SelectItem>)}</SelectContent>
       </Select>
     </div>
   </div>
@@ -282,10 +291,11 @@ const SectionDivider = ({ label }: { label: string }) => (
 // ─────────────────────────────────────────────────────────────
 const Joyeria = () => {
   const [category, setCategory] = useState("Todos");
-  const [material, setMaterial] = useState("Todos");
+  const [marca, setMarca] = useState("Todos");
+  const [relojMarca, setRelojMarca] = useState("Todos");
 
   const filtered = mockProducts.filter(
-    (p) => (category === "Todos" || p.category === category) && (material === "Todos" || p.material === material)
+    (p) => (category === "Todos" || p.category === category)
   );
 
   // Segment products for editorial layout
@@ -333,7 +343,7 @@ const Joyeria = () => {
       {/* ══ FILTER BAR ══ */}
       <div className="flex items-center justify-between px-6 py-5 md:px-16">
         <div className="hidden gap-8 md:flex">
-          <FilterPanel category={category} setCategory={setCategory} material={material} setMaterial={setMaterial} />
+          <FilterPanel category={category} setCategory={setCategory} marca={marca} setMarca={setMarca} relojMarca={relojMarca} setRelojMarca={setRelojMarca} />
         </div>
         <div className="md:hidden">
           <Sheet>
@@ -344,7 +354,7 @@ const Joyeria = () => {
             </SheetTrigger>
             <SheetContent side="left" className="w-72 bg-background">
               <h3 className="mb-6 text-sm" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>Filtros</h3>
-              <FilterPanel category={category} setCategory={setCategory} material={material} setMaterial={setMaterial} />
+              <FilterPanel category={category} setCategory={setCategory} marca={marca} setMarca={setMarca} relojMarca={relojMarca} setRelojMarca={setRelojMarca} />
             </SheetContent>
           </Sheet>
         </div>

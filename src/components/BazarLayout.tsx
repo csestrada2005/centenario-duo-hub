@@ -40,12 +40,12 @@ const BazarLayout = () => {
             <span className="text-base font-extrabold tracking-tight text-foreground">
               Bazar Centenario
             </span>
-            <span className="text-[10px] font-medium uppercase tracking-[0.18em] text-[hsl(214_80%_40%)]">Casa de empeño</span>
+            <span className="text-[10px] font-medium uppercase tracking-[0.18em] text-primary">Casa de empeño</span>
           </Link>
 
           {/* CTA right */}
           <div className="flex items-center gap-3">
-            <Button asChild size="sm" className="hidden bg-[hsl(214_80%_40%)] text-xs font-bold text-white hover:bg-[hsl(214_80%_35%)] md:flex">
+            <Button asChild size="sm" className="hidden bg-primary text-xs font-bold text-primary-foreground hover:bg-primary/90 md:flex">
               <Link to="/bazar/simuladores">Cotizar ahora</Link>
             </Button>
           </div>
@@ -87,9 +87,9 @@ const BazarLayout = () => {
                     key={item.href}
                     to={item.href}
                     onClick={() => setMenuOpen(false)}
-                    className={`rounded-lg px-3 py-3 text-sm font-semibold transition-colors hover:bg-[hsl(214_80%_40%/0.08)] hover:text-[hsl(214_80%_40%)] ${
+                    className={`rounded-lg px-3 py-3 text-sm font-semibold transition-colors hover:bg-primary/8 hover:text-primary ${
                       location.pathname === item.href
-                        ? "bg-[hsl(214_80%_40%/0.1)] text-[hsl(214_80%_40%)]"
+                        ? "bg-primary/10 text-primary"
                         : "text-foreground/70"
                     }`}
                   >
@@ -131,29 +131,33 @@ const BazarLayout = () => {
             <div>
               <span className="text-sm font-extrabold">Bazar Centenario</span>
               <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
-                Casa de empeño y compra de metales preciosos con más de 25 años de experiencia. Confiable, rápido y seguro.
+                Casa de empeño y compra de metales preciosos con más de 8 años de experiencia en el mercado. Rápido, seguro, confiable.
               </p>
+            </div>
+            <div>
+              <h4 className="mb-3 text-xs font-bold uppercase tracking-wider">Sucursales</h4>
+              <ul className="space-y-2 text-xs text-muted-foreground">
+                <li className="flex items-start gap-1.5"><Phone className="h-3 w-3 mt-0.5 shrink-0" /><span><strong>Centro:</strong> Juan Antonio de la Fuente #139 Sur, Col. Centro, Torreón, Coah. — 871 688 4466</span></li>
+                <li className="flex items-start gap-1.5"><Phone className="h-3 w-3 mt-0.5 shrink-0" /><span><strong>Hotel Francia:</strong> Av. Pdte Carranza Pte #1626, Col. Centro, Torreón, Coah. — 871 724 4614</span></li>
+                <li className="flex items-start gap-1.5"><Phone className="h-3 w-3 mt-0.5 shrink-0" /><span><strong>Valladolid:</strong> Blvd. Libertad #740, Fracc. Valle de Nazas, Torreón, Coah. — 871 670 3634</span></li>
+                <li className="flex items-start gap-1.5"><Phone className="h-3 w-3 mt-0.5 shrink-0" /><span><strong>Monterreal:</strong> Blvd. Libertad #632, Col. Monterreal, Torreón, Coah. — 871 670 0394</span></li>
+                <li className="flex items-start gap-1.5"><Phone className="h-3 w-3 mt-0.5 shrink-0" /><span><strong>Centro Gómez:</strong> Calle Ocampo #178 Sur Local 3, Col. Centro, Gómez Palacio, Dgo. — 871 780 1206</span></li>
+              </ul>
             </div>
             <div>
               <h4 className="mb-3 text-xs font-bold uppercase tracking-wider">Servicios</h4>
               <ul className="space-y-2 text-xs text-muted-foreground">
-                <li><Link to="/bazar" className="transition-colors hover:text-[hsl(214_80%_40%)]">Empeño y compra</Link></li>
-                <li><Link to="/bazar/simuladores" className="transition-colors hover:text-[hsl(214_80%_40%)]">Simuladores</Link></li>
-                <li><Link to="/bazar/sucursales" className="transition-colors hover:text-[hsl(214_80%_40%)]">Sucursales</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="mb-3 text-xs font-bold uppercase tracking-wider">Contacto</h4>
-              <ul className="space-y-2 text-xs text-muted-foreground">
-                <li className="flex items-center gap-2"><Phone className="h-3 w-3" /> (555) 123-4567</li>
-                <li>bazar@centenario.mx</li>
+                <li><Link to="/bazar" className="transition-colors hover:text-primary">Empeño y compra</Link></li>
+                <li><Link to="/bazar/simuladores" className="transition-colors hover:text-primary">Simuladores</Link></li>
+                <li><Link to="/bazar/sucursales" className="transition-colors hover:text-primary">Sucursales</Link></li>
               </ul>
             </div>
             <div>
               <h4 className="mb-3 text-xs font-bold uppercase tracking-wider">Horarios</h4>
               <ul className="space-y-2 text-xs text-muted-foreground">
-                <li>Lun — Sáb: 9:00 — 18:00</li>
-                <li>Dom: Cerrado</li>
+                <li>Lunes – Viernes: 9:00 – 18:00</li>
+                <li>Sábados: 9:00 – 15:00</li>
+                <li>Domingo: Cerrado</li>
               </ul>
             </div>
           </div>
@@ -168,7 +172,7 @@ const BazarLayout = () => {
       {/* CTA sticky mobile */}
       <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-border bg-background/95 p-3 backdrop-blur md:hidden">
         <div className="flex gap-2">
-          <Button asChild className="flex-1 bg-[hsl(214_80%_40%)] font-bold text-white hover:bg-[hsl(214_80%_35%)]">
+          <Button asChild className="flex-1 bg-primary font-bold text-primary-foreground hover:bg-primary/90">
             <Link to="/bazar/simuladores">Cotizar ahora</Link>
           </Button>
           <Button variant="outline" asChild className="flex-1 border-border">

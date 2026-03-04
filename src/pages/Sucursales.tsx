@@ -9,11 +9,11 @@ const fadeUp = {
 };
 
 const branches = [
-  { name: "Sucursal Centro", address: "Av. Juárez #100, Col. Centro", phone: "(555) 100-0001", hours: "Lun-Sáb 9:00 - 18:00", maps: "https://maps.google.com" },
-  { name: "Sucursal Zona Norte", address: "Blvd. Norte #250, Col. Industrial", phone: "(555) 100-0002", hours: "Lun-Sáb 9:00 - 19:00", maps: "https://maps.google.com" },
-  { name: "Sucursal Plaza Sur", address: "Av. Sur #45, Plaza Centenario", phone: "(555) 100-0003", hours: "Lun-Dom 10:00 - 20:00", maps: "https://maps.google.com" },
-  { name: "Sucursal Poniente", address: "Calle Reforma #78, Col. Poniente", phone: "(555) 100-0004", hours: "Lun-Sáb 9:00 - 18:00", maps: "https://maps.google.com" },
-  { name: "Sucursal Oriente", address: "Av. Oriente #320, Col. Las Flores", phone: "(555) 100-0005", hours: "Lun-Sáb 9:00 - 18:00", maps: "https://maps.google.com" },
+  { name: "Centro", address: "Juan Antonio de la Fuente #139 Sur, Col. Centro, Torreón, Coah.", phone: "871 688 4466", hours: "Lun–Vie 9:00–18:00 | Sáb 9:00–15:00", maps: "https://maps.google.com" },
+  { name: "Hotel Francia", address: "Av. Pdte Carranza Pte #1626, Col. Centro, Torreón, Coah.", phone: "871 724 4614", hours: "Lun–Vie 9:00–18:00 | Sáb 9:00–15:00", maps: "https://maps.google.com" },
+  { name: "Valladolid", address: "Blvd. Libertad #740, Fracc. Valle de Nazas, Torreón, Coah.", phone: "871 670 3634", hours: "Lun–Vie 9:00–18:00 | Sáb 9:00–15:00", maps: "https://maps.google.com" },
+  { name: "Monterreal", address: "Blvd. Libertad #632, Col. Monterreal, Torreón, Coah.", phone: "871 670 0394", hours: "Lun–Vie 9:00–18:00 | Sáb 9:00–15:00", maps: "https://maps.google.com" },
+  { name: "Centro Gómez", address: "Calle Ocampo #178 Sur Local 3, Col. Centro, Gómez Palacio, Dgo.", phone: "871 780 1206", hours: "Lun–Vie 9:00–18:00 | Sáb 9:00–15:00", maps: "https://maps.google.com" },
 ];
 
 const Sucursales = () => {
@@ -35,7 +35,7 @@ const Sucursales = () => {
             <motion.p variants={fadeUp} className="mb-4 text-xs font-medium uppercase tracking-[0.35em] text-white/50">
               Estamos cerca de ti
             </motion.p>
-            <motion.h1 variants={fadeUp} className="text-gold-gradient text-4xl font-light md:text-6xl lg:text-7xl">
+            <motion.h1 variants={fadeUp} className="text-4xl font-bold text-white md:text-6xl lg:text-7xl">
               Nuestras sucursales
             </motion.h1>
             <motion.p variants={fadeUp} className="mt-4 text-sm font-light text-white/60">
@@ -52,19 +52,19 @@ const Sucursales = () => {
             {branches.map((b, i) => (
               <motion.div key={i} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
                 <div className="group py-6">
-                  <h3 className="text-lg font-light uppercase tracking-wide">{b.name}</h3>
+                  <h3 className="text-lg font-bold uppercase tracking-wide">{b.name}</h3>
                   <div className="mt-2 h-px w-8 bg-primary transition-all duration-500 group-hover:w-full" />
                   <div className="mt-4 space-y-2">
-                    <div className="flex items-start gap-2 text-sm font-light text-muted-foreground">
-                      <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" strokeWidth={1} />
+                    <div className="flex items-start gap-2 text-sm text-muted-foreground">
+                      <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" strokeWidth={1.5} />
                       <span>{b.address}</span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm font-light text-muted-foreground">
-                      <Clock className="h-4 w-4 text-primary" strokeWidth={1} />
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <Clock className="h-4 w-4 text-primary" strokeWidth={1.5} />
                       <span>{b.hours}</span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm font-light text-muted-foreground">
-                      <Phone className="h-4 w-4 text-primary" strokeWidth={1} />
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <Phone className="h-4 w-4 text-primary" strokeWidth={1.5} />
                       <span>{b.phone}</span>
                     </div>
                   </div>

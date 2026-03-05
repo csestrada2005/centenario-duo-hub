@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import WhatsAppButton from "./WhatsAppButton";
 import GoldSparkles from "./GoldSparkles";
 import CustomCursor from "./CustomCursor";
+import { useIsMobile } from "@/hooks/use-mobile";
 import CinematicIntro from "./CinematicIntro";
 
 const joyeriaNav = [
@@ -19,12 +20,13 @@ const JoyeriaLayout = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [introShown, setIntroShown] = useState(true);
   const location = useLocation();
+  const isMobile = useIsMobile();
 
   return (
     <div className="joyeria-theme flex min-h-screen flex-col bg-background text-foreground">
       {introShown && <CinematicIntro variant="joyeria" onComplete={() => setIntroShown(false)} />}
       <GoldSparkles maxSparkles={14} />
-      <CustomCursor />
+      {!isMobile && <CustomCursor />}
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-sm">
         <div className="flex h-14 items-center justify-between px-6 md:px-10">

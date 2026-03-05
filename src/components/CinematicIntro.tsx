@@ -22,7 +22,7 @@ const THEMES = {
     bg: "hsl(164 43% 8%)",
     title: "Bazar Centenario",
     subtitle: "Casa de empeño",
-    font: "'Inter', system-ui, sans-serif",
+    font: "'Montserrat', system-ui, sans-serif",
     accentMid: "hsl(155 44% 33%)",
     isLight: false,
     logo: logoBazar,

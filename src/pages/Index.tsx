@@ -88,7 +88,7 @@ const ScrollReveal = ({ children, className = "", delay = 0 }: { children: React
 };
 
 /* ── Logo Door with hover animation ── */
-const LogoDoor = ({ to, logo, title, subtitle, delay }: { to: string; logo: string; title: string; subtitle: string; delay: number }) => {
+const LogoDoor = ({ to, logo, delay }: { to: string; logo: string; delay: number }) => {
   const ref = useRef<HTMLDivElement>(null);
   const rotateX = useMotionValue(0);
   const rotateY = useMotionValue(0);
@@ -130,33 +130,14 @@ const LogoDoor = ({ to, logo, title, subtitle, delay }: { to: string; logo: stri
         style={{ rotateX: landed ? smoothX : undefined, rotateY: landed ? smoothY : undefined, transformStyle: "preserve-3d" }}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        className="relative flex h-44 w-44 cursor-pointer items-center justify-center md:h-60 md:w-60"
+        className="relative flex h-64 w-64 cursor-pointer items-center justify-center md:h-[360px] md:w-[360px]"
       >
         <img
           src={logo}
-          alt={title}
+          alt=""
           className="h-full w-full object-contain drop-shadow-[0_0_30px_rgba(212,175,55,0.3)] transition-transform duration-500 group-hover:scale-110"
           style={{ filter: "brightness(0) invert(1)" }}
         />
-      </motion.div>
-
-      {/* Title below logo */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: delay + 0.8, duration: 0.5 }}
-        className="mt-4 text-center"
-      >
-        <h2
-          className="text-xl font-light uppercase tracking-[0.2em] text-white md:text-2xl"
-          style={{
-            fontFamily: "'Playfair Display', Georgia, serif",
-            textShadow: "0 2px 8px rgba(120,95,20,0.6)",
-          }}
-        >
-          {title}
-        </h2>
-        <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/70">{subtitle}</p>
       </motion.div>
 
       {/* Landing shadow */}
@@ -231,8 +212,8 @@ const Index = () => {
             transition={{ delay: 0.6, duration: 0.6 }}
             className="mt-28 flex flex-col items-center gap-12 md:flex-row md:justify-center md:gap-20"
           >
-            <LogoDoor to="/bazar" logo={logoBazar} title="Bazar" subtitle="Casa de Empeño" delay={0.8} />
-            <LogoDoor to="/joyeria" logo={logoJoyeria} title="Joyería" subtitle="Centenario" delay={1.1} />
+            <LogoDoor to="/bazar" logo={logoBazar} delay={0.8} />
+            <LogoDoor to="/joyeria" logo={logoJoyeria} delay={1.1} />
           </motion.div>
         </motion.div>
 

@@ -60,7 +60,7 @@ const Bazar = () => {
               +8 años de confianza · 100% seguro · Valuación gratis
             </div>
 
-            <h1 className="text-4xl font-extrabold leading-tight text-white md:text-6xl lg:text-7xl">
+            <h1 className="text-3xl font-extrabold leading-tight text-white sm:text-4xl md:text-6xl lg:text-7xl">
               Bazar Centenario,<br />
               <span className="text-[hsl(155_44%_33%)]">Te saca del Apuro.</span>
             </h1>
@@ -82,15 +82,15 @@ const Bazar = () => {
             </div>
 
             {/* Quick stats */}
-            <div className="mt-10 flex flex-wrap gap-6">
+            <div className="mt-10 grid grid-cols-3 gap-4 pb-4">
               {[
                 { val: "30 min", label: "y sales con efectivo" },
                 { val: "Gratis", label: "valuación sin compromiso" },
                 { val: "100%", label: "confidencial y seguro" },
               ].map((s) => (
                 <div key={s.val}>
-                  <p className="text-2xl font-bold text-white">{s.val}</p>
-                  <p className="text-xs text-white/55">{s.label}</p>
+                  <p className="text-xl font-bold text-white sm:text-2xl">{s.val}</p>
+                  <p className="text-[10px] text-white/55 sm:text-xs">{s.label}</p>
                 </div>
               ))}
             </div>
@@ -100,12 +100,12 @@ const Bazar = () => {
 
       {/* ═══ URGENCIA banner ═══ */}
       <div className="bg-primary py-4">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-6 md:px-10">
-          <div className="flex items-center gap-3 text-primary-foreground">
-            <Clock className="h-5 w-5 shrink-0" />
-            <p className="text-sm font-semibold">¿Necesitas dinero urgente? Estamos abiertos Lun–Vie 9:00–18:00 | Sáb 9:00–15:00. <span className="font-normal opacity-80">Ven hoy y sal con efectivo.</span></p>
+        <div className="mx-auto flex max-w-6xl flex-col items-start gap-3 px-6 sm:flex-row sm:items-center sm:justify-between md:px-10">
+          <div className="flex items-start gap-3 text-primary-foreground">
+            <Clock className="mt-0.5 h-5 w-5 shrink-0" />
+            <p className="text-xs font-semibold leading-relaxed sm:text-sm">¿Necesitas dinero urgente? Estamos abiertos Lun–Vie 9:00–18:00 | Sáb 9:00–15:00. <span className="font-normal opacity-80">Ven hoy y sal con efectivo.</span></p>
           </div>
-          <Button asChild size="sm" className="bg-white text-primary font-bold hover:bg-white/90">
+          <Button asChild size="sm" className="w-full shrink-0 bg-white text-primary font-bold hover:bg-white/90 sm:w-auto">
             <Link to="/bazar/sucursales">Ver sucursal más cercana →</Link>
           </Button>
         </div>

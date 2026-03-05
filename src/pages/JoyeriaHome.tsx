@@ -130,7 +130,7 @@ const JoyeriaHome = () => {
               <MagneticText
                 as="h1"
                 intensity={0.12}
-                className="text-5xl font-normal leading-[1.05] text-foreground md:text-7xl lg:text-[90px]"
+                className="text-4xl font-normal leading-[1.05] text-foreground sm:text-5xl md:text-7xl lg:text-[90px]"
               >
                 <span style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
                   Eterno, Especial,<br />Tuyo.
@@ -309,7 +309,7 @@ const JoyeriaHome = () => {
           </p>
           <form
             onSubmit={(e) => e.preventDefault()}
-            className="mt-8 flex items-center gap-0"
+            className="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:gap-0"
           >
             <input
               type="email"

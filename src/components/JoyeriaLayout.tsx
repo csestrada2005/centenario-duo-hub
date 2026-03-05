@@ -151,7 +151,7 @@ const JoyeriaLayout = () => {
               </ul>
             </div>
           </div>
-          <div className="mt-12 border-t border-border pt-6 text-center text-xs text-muted-foreground">
+          <div className="mt-12 border-t border-border pb-16 pt-6 text-center text-xs text-muted-foreground md:pb-0">
             <p>© {new Date().getFullYear()} Joyería Centenario</p>
           </div>
         </div>

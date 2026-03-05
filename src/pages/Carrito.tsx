@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Minus, Plus, Trash2, ArrowRight } from "lucide-react";
+import { Minus, Plus, Trash2, ArrowRight, ShoppingCart } from "lucide-react";
 import { motion } from "framer-motion";
 
 const cartItems = [
@@ -39,6 +39,10 @@ const Carrito = () => {
             className="py-20 text-center"
           >
             <p className="text-sm text-muted-foreground">Tu carrito está vacío.</p>
+            <Button variant="editorial" className="mt-6" size="lg" disabled>
+              <ShoppingCart className="mr-2 h-4 w-4" />
+              Agrega productos para continuar
+            </Button>
             <Link to="/joyeria/catalogo" className="mt-4 inline-block text-xs font-medium uppercase tracking-[0.15em] text-foreground underline">
               Ver catálogo
             </Link>
@@ -96,11 +100,19 @@ const Carrito = () => {
                   <span>Total</span>
                   <span>${total.toLocaleString()} MXN</span>
                 </div>
-                <Button asChild variant="editorial" className="group mt-6 w-full" size="lg">
-                  <Link to="/joyeria/checkout">
-                    Proceder al pago
-                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                  </Link>
+                <Button
+                  variant="editorial"
+                  className="group mt-6 w-full"
+                  size="lg"
+                  onClick={() => {
+                    const msg = cartItems.length === 1
+                      ? `Hola, estoy interesado en comprar: ${cartItems[0].name}. ¿Me pueden dar más información?`
+                      : `Hola, estoy interesado en los siguientes productos:\n\n${cartItems.map(i => `• ${i.name}`).join("\n")}\n\n¿Me pueden dar más información?`;
+                    window.open(`https://wa.me/522213497090?text=${encodeURIComponent(msg)}`, "_blank");
+                  }}
+                >
+                  Comprar
+                  <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </div>
             </motion.div>

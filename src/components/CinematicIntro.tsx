@@ -61,7 +61,7 @@ const CinematicIntro = ({ onComplete, variant = "default" }: CinematicIntroProps
           transition={{ duration: 0.4, ease: "easeInOut" }}
         >
           {/* Logo */}
-          {theme.logo && (
+           {theme.logo && (
             <motion.img
               src={theme.logo}
               alt={theme.title}
@@ -69,6 +69,7 @@ const CinematicIntro = ({ onComplete, variant = "default" }: CinematicIntroProps
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
               className="mb-4 h-20 w-auto md:h-28"
+              style={{ filter: variant === "joyeria" ? "brightness(0) invert(1)" : undefined }}
             />
           )}
 

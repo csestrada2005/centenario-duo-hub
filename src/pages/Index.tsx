@@ -136,6 +136,7 @@ const LogoDoor = ({ to, logo, title, subtitle, delay }: { to: string; logo: stri
           src={logo}
           alt={title}
           className="h-full w-full object-contain drop-shadow-[0_0_30px_rgba(212,175,55,0.3)] transition-transform duration-500 group-hover:scale-110"
+          style={{ filter: "brightness(0) invert(1)" }}
         />
       </motion.div>
 

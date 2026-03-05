@@ -24,7 +24,7 @@ const BazarLayout = () => {
       {introShown && <CinematicIntro variant="bazar" onComplete={() => setIntroShown(false)} />}
 
       {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 border-b border-border bg-background/95 backdrop-blur-md shadow-sm">
+      <header className="fixed top-0 left-0 right-0 z-50 border-b border-border bg-background/95 backdrop-blur-md shadow-sm" style={{ fontFamily: "'Montserrat', system-ui, sans-serif" }}>
         <div className="flex h-16 items-center justify-between px-6 md:px-10">
           {/* Hamburger left */}
           <button

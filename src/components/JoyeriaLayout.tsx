@@ -42,7 +42,7 @@ const JoyeriaLayout = () => {
 
           {/* Logo center */}
           <Link to="/joyeria" className="absolute left-1/2 -translate-x-1/2">
-            <img src={logoJoyeria} alt="Joyería Centenario" className="h-10 w-auto" />
+            <img src={logoJoyeria} alt="Joyería Centenario" className="h-10 w-auto" style={{ filter: "brightness(0) invert(1)" }} />
           </Link>
 
           {/* Cart right */}

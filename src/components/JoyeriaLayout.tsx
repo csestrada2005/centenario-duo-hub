@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import WhatsAppButton from "./WhatsAppButton";
 import GoldSparkles from "./GoldSparkles";
 import CustomCursor from "./CustomCursor";
+import { useIsMobile } from "@/hooks/use-mobile";
 import CinematicIntro from "./CinematicIntro";
 
 const joyeriaNav = [

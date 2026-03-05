@@ -4,14 +4,20 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, ShoppingCart, Check, Gem } from "lucide-react";
 import { motion, useInView } from "framer-motion";
 import { useState } from "react";
+import { useCart } from "@/contexts/CartContext";
 
 const ProductDetail = () => {
   const { id } = useParams();
   const [added, setAdded] = useState(false);
   const relatedRef = useRef<HTMLDivElement>(null);
   const relatedInView = useInView(relatedRef, { once: true, margin: "-60px" });
+  const { addItem } = useCart();
+
+  const productName = "Pieza Premium";
+  const productPrice = 4900;
 
   const handleAdd = () => {
+    addItem({ id: id || "unknown", name: productName, price: productPrice });
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
   };
@@ -62,7 +68,7 @@ const ProductDetail = () => {
               className="mt-2 text-3xl md:text-4xl"
               style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
             >
-              Pieza Premium
+              {productName}
             </motion.h1>
             <motion.p
               initial={{ opacity: 0 }}
@@ -70,7 +76,7 @@ const ProductDetail = () => {
               transition={{ delay: 0.5 }}
               className="mt-4 text-xl"
             >
-              $4,900 MXN
+              ${productPrice.toLocaleString()} MXN
             </motion.p>
             <motion.p
               initial={{ opacity: 0, y: 10 }}

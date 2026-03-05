@@ -1,37 +1,13 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Minus, Plus, Trash2, ArrowRight, ShoppingCart } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-
-interface CartItem {
-  id: string;
-  name: string;
-  price: number;
-  qty: number;
-}
-
-const initialItems: CartItem[] = [
-  { id: "prod-1", name: "Pieza Premium 1", price: 3700, qty: 1 },
-  { id: "prod-3", name: "Pieza Premium 3", price: 6100, qty: 2 },
-];
+import { useCart } from "@/contexts/CartContext";
 
 const WA_NUMBER = "5212213497090";
 
 const Carrito = () => {
-  const [items, setItems] = useState<CartItem[]>(initialItems);
-
-  const updateQty = (id: string, delta: number) => {
-    setItems((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, qty: Math.max(1, item.qty + delta) } : item
-      )
-    );
-  };
-
-  const removeItem = (id: string) => {
-    setItems((prev) => prev.filter((item) => item.id !== id));
-  };
+  const { items, removeItem, updateQty } = useCart();
 
   const subtotal = items.reduce((s, i) => s + i.price * i.qty, 0);
   const shipping = items.length > 0 ? 199 : 0;

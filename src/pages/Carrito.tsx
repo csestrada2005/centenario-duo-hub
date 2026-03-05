@@ -1,17 +1,55 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Minus, Plus, Trash2, ArrowRight, ShoppingCart } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
-const cartItems = [
+interface CartItem {
+  id: string;
+  name: string;
+  price: number;
+  qty: number;
+}
+
+const initialItems: CartItem[] = [
   { id: "prod-1", name: "Pieza Premium 1", price: 3700, qty: 1 },
   { id: "prod-3", name: "Pieza Premium 3", price: 6100, qty: 2 },
 ];
 
+const WA_NUMBER = "5212213497090";
+
 const Carrito = () => {
-  const subtotal = cartItems.reduce((s, i) => s + i.price * i.qty, 0);
-  const shipping = 199;
+  const [items, setItems] = useState<CartItem[]>(initialItems);
+
+  const updateQty = (id: string, delta: number) => {
+    setItems((prev) =>
+      prev.map((item) =>
+        item.id === id ? { ...item, qty: Math.max(1, item.qty + delta) } : item
+      )
+    );
+  };
+
+  const removeItem = (id: string) => {
+    setItems((prev) => prev.filter((item) => item.id !== id));
+  };
+
+  const subtotal = items.reduce((s, i) => s + i.price * i.qty, 0);
+  const shipping = items.length > 0 ? 199 : 0;
   const total = subtotal + shipping;
+
+  const handleComprar = () => {
+    if (items.length === 0) return;
+    const msg =
+      items.length === 1
+        ? `Hola, estoy interesado en comprar: ${items[0].name} (x${items[0].qty}). ¿Me pueden dar más información?`
+        : `Hola, estoy interesado en los siguientes productos:\n\n${items
+            .map((i) => `• ${i.name} (x${i.qty})`)
+            .join("\n")}\n\n¿Me pueden dar más información?`;
+    window.open(
+      `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`,
+      "_blank"
+    );
+  };
 
   return (
     <motion.div
@@ -31,7 +69,7 @@ const Carrito = () => {
           Carrito
         </motion.h1>
 
-        {cartItems.length === 0 ? (
+        {items.length === 0 ? (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -43,42 +81,66 @@ const Carrito = () => {
               <ShoppingCart className="mr-2 h-4 w-4" />
               Agrega productos para continuar
             </Button>
-            <Link to="/joyeria/catalogo" className="mt-4 inline-block text-xs font-medium uppercase tracking-[0.15em] text-foreground underline">
+            <br />
+            <Link
+              to="/joyeria/catalogo"
+              className="mt-4 inline-block text-xs font-medium uppercase tracking-[0.15em] text-foreground underline"
+            >
               Ver catálogo
             </Link>
           </motion.div>
         ) : (
           <div className="grid gap-12 lg:grid-cols-3">
             <div className="space-y-0 lg:col-span-2">
-              {cartItems.map((item, index) => (
-                <motion.div
-                  key={item.id}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: 0.15 + index * 0.1 }}
-                  className={`flex items-center gap-6 py-6 ${index > 0 ? "border-t border-border" : ""}`}
-                >
-                  <div className="h-24 w-20 shrink-0 overflow-hidden bg-muted">
-                    <div className="h-full w-full bg-muted transition-transform duration-500 hover:scale-105" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-sm" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>{item.name}</h3>
-                    <p className="mt-1 text-xs text-muted-foreground">${item.price.toLocaleString()} MXN</p>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <button className="flex h-8 w-8 items-center justify-center text-muted-foreground hover:text-foreground hover:scale-110 active:scale-95">
-                      <Minus className="h-3 w-3" />
+              <AnimatePresence mode="popLayout">
+                {items.map((item, index) => (
+                  <motion.div
+                    key={item.id}
+                    layout
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: 20, transition: { duration: 0.25 } }}
+                    transition={{ duration: 0.5, delay: 0.15 + index * 0.1 }}
+                    className={`flex items-center gap-4 py-6 sm:gap-6 ${index > 0 ? "border-t border-border" : ""}`}
+                  >
+                    <div className="h-24 w-20 shrink-0 overflow-hidden bg-muted">
+                      <div className="h-full w-full bg-muted transition-transform duration-500 hover:scale-105" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-sm" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
+                        {item.name}
+                      </h3>
+                      <p className="mt-1 text-xs text-muted-foreground">
+                        ${item.price.toLocaleString()} MXN
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-1 sm:gap-2">
+                      <button
+                        onClick={() => updateQty(item.id, -1)}
+                        className="flex h-8 w-8 items-center justify-center rounded-md border border-border text-muted-foreground transition-colors hover:text-foreground hover:border-foreground/40 active:scale-95"
+                        aria-label="Reducir cantidad"
+                      >
+                        <Minus className="h-3 w-3" />
+                      </button>
+                      <span className="w-6 text-center text-sm tabular-nums">{item.qty}</span>
+                      <button
+                        onClick={() => updateQty(item.id, 1)}
+                        className="flex h-8 w-8 items-center justify-center rounded-md border border-border text-muted-foreground transition-colors hover:text-foreground hover:border-foreground/40 active:scale-95"
+                        aria-label="Aumentar cantidad"
+                      >
+                        <Plus className="h-3 w-3" />
+                      </button>
+                    </div>
+                    <button
+                      onClick={() => removeItem(item.id)}
+                      className="flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:text-destructive active:scale-95"
+                      aria-label="Eliminar producto"
+                    >
+                      <Trash2 className="h-4 w-4" />
                     </button>
-                    <span className="w-6 text-center text-sm tabular-nums">{item.qty}</span>
-                    <button className="flex h-8 w-8 items-center justify-center text-muted-foreground hover:text-foreground hover:scale-110 active:scale-95">
-                      <Plus className="h-3 w-3" />
-                    </button>
-                  </div>
-                  <button className="text-muted-foreground hover:text-destructive hover:scale-110 active:scale-95">
-                    <Trash2 className="h-4 w-4" />
-                  </button>
-                </motion.div>
-              ))}
+                  </motion.div>
+                ))}
+              </AnimatePresence>
             </div>
 
             <motion.div
@@ -104,12 +166,7 @@ const Carrito = () => {
                   variant="editorial"
                   className="group mt-6 w-full"
                   size="lg"
-                  onClick={() => {
-                    const msg = cartItems.length === 1
-                      ? `Hola, estoy interesado en comprar: ${cartItems[0].name}. ¿Me pueden dar más información?`
-                      : `Hola, estoy interesado en los siguientes productos:\n\n${cartItems.map(i => `• ${i.name}`).join("\n")}\n\n¿Me pueden dar más información?`;
-                    window.open(`https://wa.me/522213497090?text=${encodeURIComponent(msg)}`, "_blank");
-                  }}
+                  onClick={handleComprar}
                 >
                   Comprar
                   <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />

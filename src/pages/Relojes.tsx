@@ -150,7 +150,7 @@ const FilterPanel = ({
 // ─────────────────────────────────────────────────────────────
 const WatchCard = ({ reloj }: { reloj: typeof mockRelojes[0] }) => {
   const [expanded, setExpanded] = useState(false);
-  const whatsappMsg = encodeURIComponent(`Hola, me interesa el reloj ${reloj.nombre}`);
+  const whatsappMsg = encodeURIComponent(`Hola, me interesa el reloj ${reloj.nombre} (Ref. ${reloj.referencia}). ¿Me pueden dar más información?`);
 
   return (
     <motion.div
@@ -189,7 +189,7 @@ const WatchCard = ({ reloj }: { reloj: typeof mockRelojes[0] }) => {
       <div className="mt-4 flex flex-col gap-2">
         <Button asChild variant="editorial" size="sm" className="w-full">
           <a
-            href={`https://wa.me/5215551234567?text=${whatsappMsg}`}
+            href={`https://wa.me/5212213497090?text=${whatsappMsg}`}
             target="_blank"
             rel="noopener noreferrer"
           >

@@ -1,63 +1,158 @@
 
 
-# Audit Report: Joyeria Centenario & Bazar Centenario
+# Bazar Centenario + Joyería Centenario — Plan de Implementación
 
-## JOYERIA CENTENARIO PAGE
+## Sitemap Final
 
-| # | Item | Status | Details |
-|---|------|--------|---------|
-| 1 | **Font: Playfair Display on all headings** | ✅ Done | Applied via CSS in `.joyeria-theme h1, h2, h3` and inline `style` on individual headings in JoyeriaHome.tsx and Joyeria.tsx catalog. |
-| 2 | **Color scheme: black bg, white text, gold accents** | ✅ Done | `--background: 0 0% 4%` (near-black), `--foreground: 0 0% 100%` (white), `--primary/--accent: 46 56% 54%` (gold ~#C9A84C). Headings colored gold via CSS. |
-| 3 | **Logo in header and footer** | ⚠️ Partial | Header: ✅ logo present with `brightness(0) invert(1)` filter. Footer: ❌ No logo image in footer — only text links. The logo should be displayed in the Joyeria footer as well. |
-| 4 | **Hero text: "Eterno, Especial, Tuyo."** | ✅ Done | Exactly as specified in JoyeriaHome.tsx line 136. |
-| 5 | **Hero subtitle** | ✅ Done | "Piezas especiales que trascienden generaciones sin perder el brillo del ahora." — line 146. |
-| 6 | **About section text** | ✅ Done | "taller contemporáneo y artesano" text present with "calidad sin excepción, un diseño a tu medida, servicio de confianza" — line 283. |
-| 7 | **Categories filter: Anillos, Collares, Pulseras, Aretes, Dijes** | ✅ Done | In Joyeria.tsx catalog: `categories = ["Todos", "Anillos", "Collares", "Pulseras", "Aretes", "Dijes"]` — line 28. |
-| 8 | **Brands filter: Tiffany&Co., Cartier, Van Cleef & Arpels, Messika, Bulgari** | ✅ Done | `marcas = ["Todos", "Tiffany & Co.", "Cartier", "Van Cleef & Arpels", "Messika", "Bulgari"]` — line 29. |
-| 9 | **Watches filter: Rolex, AP, Patek, Hublot, Cartier, Omega** | ✅ Done | In Joyeria.tsx catalog: `relojesMarcas` array — line 30. Also in Relojes.tsx dedicated page — line 13. |
-| 10 | **Each watch has a description table** | ✅ Done | Relojes.tsx has expandable specs table per watch with 9 fields (marca, modelo, referencia, material caja/correa, diametro, movimiento, resistencia agua, garantia). |
+```
+/                        → Home (selector de rutas)
+/bazar                   → Ruta Bazar (servicios, confianza, FAQ)
+/simuladores             → Simuladores (Empeño + Oro/Plata/Diamantes)
+/sucursales              → Sucursales (listado, mapa, horarios)
+/joyeria                 → Tienda Joyería (catálogo con filtros)
+/joyeria/:id             → Ficha de producto
+/joyeria/carrito         → Carrito de compras
+/joyeria/checkout        → Checkout
+```
 
 ---
 
-## BAZAR CENTENARIO PAGE
+## Componentes Globales
 
-| # | Item | Status | Details |
-|---|------|--------|---------|
-| 1 | **Font: Montserrat Bold/SemiBold on headings and navbar** | ✅ Done | CSS `.bazar-theme h1, h2, h3 { font-family: "Montserrat"; font-weight: 700 }`. BazarLayout header uses Montserrat inline style. |
-| 2 | **Colors: dark green #1F4E45 and light green #2F7A63** | ⚠️ Close but not exact | `--primary: 164 43% 21%` converts to approximately `#1F4E45` ✅. `--accent: 155 44% 33%` converts to approximately `#2F7A63` ✅. Correct. |
-| 3 | **Logo in header and footer** | ✅ Done | Both header and footer display `logo-bazar.png`. |
-| 4 | **Hero headline: "Bazar Centenario, Te saca del Apuro."** | ✅ Done | Bazar.tsx line 63-65: exact text present. |
-| 5 | **Hero subtitle: soluciones financieras rápidas, dinero en menos de 30 minutos** | ✅ Done | Line 68: "Te ofrecemos soluciones financieras rápidas y efectivas. Al empeñar o vender tu artículo o pieza de joyería, tendrás tu dinero en efectivo en menos de 30 minutos." |
-| 6 | **CTA button: "Cotizar mi prenda"** | ✅ Done | Line 74: "Cotizar mi prenda" button present. |
-| 7 | **Celulares REMOVED from accepted items** | ❌ Missing | Bazar.tsx line 168-185 still lists 5 items: Laptops, Herramienta, Electrónicos, Autos, Oro y plata. "Celulares" is not listed — but the PDF says the original had Celulares and it should be removed. **Actually ✅ Done** — Celulares is already absent from the current list. |
-| 8 | **About: "8 años ayudando a personas y familias"** | ✅ Done | Line 207: "Llevamos 8 años ayudando a personas y familias a salir de emergencias económicas..." with valuación gratuita and no-juzgamos text. |
-| 9 | **Interest rates: Joyería 2 meses/semanas (3%, 6%, 9%, 12%, 24%). Artículos 1 mes 12%** | ✅ Done | Lines 258-293: Joyería section shows weekly breakdown (3%, 6%, 9%, 12%) and 24% for second month. Artículos shows 1 month at 12%. |
-| 10 | **Footer: "¿Qué esperas? Sal del apuro hoy."** | ✅ Done | Lines 357-358: CTA final section with exact text. |
-| 11 | **Footer horarios: Lun-Vie 9-18, Sab 9-15** | ✅ Done | BazarLayout footer lists hours. Also urgency banner in Bazar.tsx line 106. |
-| 12 | **5 sucursales with correct addresses and phones** | ✅ Done | Sucursales.tsx lines 12-17 and BazarLayout footer both list all 5 branches (Centro, Hotel Francia, Valladolid, Monterreal, Centro Gómez) with correct addresses and phone numbers. |
+- **Header**: Logo "Centenario" a la izquierda. Navegación principal: Bazar | Simuladores | Sucursales | Joyería. Botón "Cotizar" destacado. Icono carrito (solo visible en ruta Joyería). Menú hamburguesa en mobile.
+- **Footer**: Columnas: Bazar (enlaces), Joyería (enlaces), Contacto (teléfono, email, redes). Aviso legal, política de privacidad. Texto: "Bazar Centenario y Joyería Centenario son parte de la misma empresa."
+- **Botón flotante WhatsApp**: Esquina inferior derecha, siempre visible.
+- **CTA sticky mobile**: Barra inferior fija en páginas Bazar/Simuladores con "Cotizar" + "WhatsApp".
 
 ---
 
-## GLOBAL (BOTH PAGES)
+## 1. Home — Estructura por secciones
 
-| # | Item | Status | Details |
-|---|------|--------|---------|
-| 1 | **Entry animation: logos replacing coins** | ✅ Done | Index.tsx `LogoDoor` component uses logo images with 3D drop/spin animation instead of coins. CinematicIntro shows logos for both bazar and joyeria variants. |
-| 2 | **Logos placed strategically throughout both pages** | ⚠️ Partial | **Bazar**: ✅ Logo in header, footer, and CinematicIntro. **Joyeria**: Header ✅, CinematicIntro ✅, but Footer ❌ — no logo in Joyeria footer. **Index**: ✅ Both logos in hero. |
+1. **Hero principal**: Frase: "Casa de empeño y compra de oro, plata y diamantes" + "Tienda premium de joyería". Dos botones grandes: "Entrar a Bazar" / "Entrar a Joyería". CTA destacado: "Cotizar ahora". Chips de acceso rápido: Sucursales · WhatsApp · Catálogo.
+
+2. **Dos mundos, una marca**: Dos cards lado a lado. Card Bazar: icono, texto breve "Empeña o vende tus artículos y metales preciosos", botón "Conocer Bazar". Card Joyería: icono, texto breve "Encuentra piezas únicas con garantía", botón "Ver catálogo".
+
+3. **Simulador destacado**: Banner con texto "Obtén una estimación en menos de 2 minutos" + botón "Simular ahora".
+
+4. **Confianza / Cifras**: Tres indicadores: años de experiencia, sucursales, clientes atendidos.
+
+5. **Sucursales preview**: Mapa simplificado o listado de 3 sucursales principales con botón "Ver todas".
 
 ---
 
-## Summary
+## 2. Página Bazar — Estructura
 
-**Items fully done**: 19 of 21
-**Items partially done**: 2
-**Items missing**: 0
+1. **Hero Bazar**: Título "Bazar Centenario". Subtítulo: "Empeña tus artículos o vende tu oro, plata y diamantes. Sin complicaciones." CTA: "Cotizar ahora" + "Ver sucursales".
 
-### What needs fixing:
+2. **Cómo funciona**: 3 pasos visuales (iconos + texto corto): Trae tu artículo → Valuación gratuita → Recibe tu dinero.
 
-1. **Joyeria footer missing logo** — The `JoyeriaLayout.tsx` footer does not display the `logo-joyeria.png`. The Bazar footer has its logo, but the Joyeria footer only has text links. The logo should be added with the same invert filter used in the header.
+3. **Servicios en cards**:
+   - Card "Empeño de artículos": electrónicos, herramienta, autos, electrodomésticos, oro/plata. CTA: "Simular empeño".
+   - Card "Compra de oro, plata y diamantes": descripción breve. CTA: "Simular cotización".
 
-2. **Joyeria footer content is generic** — The footer uses placeholder contact info ("(555) 123-4567", "joyeria@centenario.mx", "Av. Principal #100, Col. Centro, Ciudad") instead of real branch information matching the Bazar's real addresses/phones. This may or may not be intentional depending on whether Joyeria shares the same physical locations.
+4. **Sección Simula fácil**: Iconos de categorías (celular, laptop, auto, anillo, etc.) que llevan directo al simulador correspondiente.
 
-Everything else matches the PDF specifications accurately.
+5. **Nosotros / Confianza**: Texto breve sobre profesionalismo, seguridad, sin juicios. "Tu tranquilidad es nuestra prioridad."
+
+6. **Preguntas rápidas (FAQ)**: Acordeón con 6-8 preguntas típicas (requisitos, plazos, tasas, qué artículos aceptan).
+
+7. **CTA final**: "Visítanos en sucursal" + "Escríbenos por WhatsApp".
+
+---
+
+## 3. Simuladores — Estructura
+
+Página con tabs: **Empeño** | **Oro / Plata / Diamantes**
+
+### Simulador de Empeño (4 steps)
+
+- **Step 1 — Tipo de artículo**: Grid de cards con iconos: Celular, Laptop, Herramienta, Electrodoméstico, Auto, Otro.
+- **Step 2 — Datos básicos**: Formulario: marca (select), modelo (input opcional), estado (excelente/bueno/regular), valor aproximado de compra (input numérico).
+- **Step 3 — Resultado estimado**: Card con rango estimado ("$X,XXX — $X,XXX"). Disclaimer: "Esta cifra es solo una estimación. La valuación final se realiza en sucursal."
+- **Step 4 — Siguiente paso**: CTA: "Visita tu sucursal más cercana" + botón WhatsApp + botón Sucursales.
+
+### Simulador de Metales Preciosos (4 steps)
+
+- **Step 1 — Tipo de metal**: Cards: Oro / Plata / Diamantes.
+- **Step 2 — Detalles**: Peso en gramos (input + guía visual con ejemplos), quilataje (select con opciones comunes: 10k, 14k, 18k, 24k para oro; 925 para plata).
+- **Step 3 — Resultado estimado**: Card con rango. Disclaimer igual.
+- **Step 4 — Siguiente paso**: CTA WhatsApp + Sucursal.
+
+Barra de progreso visible en ambos simuladores. Botón "Atrás" en cada step.
+
+---
+
+## 4. Sucursales — Estructura
+
+1. **Título**: "Nuestras sucursales"
+2. **Listado de sucursales**: Cards con: nombre, dirección, horarios, teléfono, botón "Cómo llegar" (abre Google Maps), botón "WhatsApp".
+3. **Mapa embebido**: Google Maps con pins de todas las sucursales.
+4. **Filtro por ciudad/zona** (si aplica).
+
+---
+
+## 5. Ruta Joyería — Estructura
+
+### Catálogo (`/joyeria`)
+- Header de sección con texto: "Joyería Centenario — Piezas con garantía y diseño premium."
+- **Filtros**: Desktop: sidebar izquierdo (categoría, material, precio, disponibilidad). Mobile: botón "Filtrar" que abre drawer.
+- **Grid de productos**: Cards con imagen, nombre, precio, botón "Ver detalle".
+- Paginación o scroll infinito.
+
+### Ficha de producto (`/joyeria/:id`)
+- Galería de fotos (carousel).
+- Nombre, precio, descripción, medidas, material, garantía.
+- Selector de variantes si aplica (talla, color).
+- Botón "Agregar al carrito".
+- Sección "También te puede interesar".
+
+### Carrito (`/joyeria/carrito`)
+- Lista de productos con cantidad, precio unitario, subtotal.
+- Botón eliminar / actualizar cantidad.
+- Resumen: subtotal, envío, total.
+- Botón "Proceder al pago".
+
+### Checkout (`/joyeria/checkout`)
+- Formulario: datos de envío, método de pago (integrado con Shopify Checkout).
+- Resumen del pedido.
+- Botón "Confirmar pedido".
+
+**Integración Shopify**: Se habilitará Shopify como backend para gestionar productos, inventario, pedidos y pagos. La web se construye en Lovable y se conecta a Shopify vía API. Esto requiere activar la integración de Shopify en el proyecto.
+
+---
+
+## Diseño y UI
+
+- **Paleta**: Fondo blanco (#FFFFFF), gris claro (#F5F5F5) para secciones alternas, negro (#1A1A1A) para texto, acento metálico/azul tenue (#6B7B8D) para botones y detalles.
+- **Tipografía**: Sans-serif moderna (Inter o similar). Headings en bold/semibold.
+- **Espaciado**: Generoso, secciones bien separadas, cards con padding amplio.
+- **Animaciones**: Fade-in al hacer scroll, hover suave en cards y botones. Sin exceso.
+- **Mobile-first**: Todo responsive. Navegación hamburguesa. Filtros en drawer. CTAs sticky en la parte inferior.
+
+---
+
+## Copys Placeholder (títulos y CTAs)
+
+| Ubicación | Copy |
+|---|---|
+| Hero Home título | "Casa de empeño y compra de oro, plata y diamantes" |
+| Hero Home subtítulo | "Tienda premium de joyería" |
+| Botón Bazar | "Entrar a Bazar" |
+| Botón Joyería | "Entrar a Joyería" |
+| CTA principal | "Cotizar ahora" |
+| Chip sucursales | "Sucursales" |
+| Chip WhatsApp | "WhatsApp" |
+| Chip catálogo | "Catálogo" |
+| Card Bazar | "Empeña o vende tus artículos y metales preciosos" |
+| Card Joyería | "Encuentra piezas únicas con garantía" |
+| Simulador banner | "Obtén una estimación en menos de 2 minutos" |
+| Bazar hero | "Empeña tus artículos o vende tu oro, plata y diamantes. Sin complicaciones." |
+| Paso 1 Bazar | "Trae tu artículo" |
+| Paso 2 Bazar | "Valuación gratuita" |
+| Paso 3 Bazar | "Recibe tu dinero" |
+| Confianza | "Tu tranquilidad es nuestra prioridad" |
+| Disclaimer simulador | "Esta cifra es solo una estimación. La valuación final se realiza en sucursal." |
+| Joyería header | "Piezas con garantía y diseño premium" |
+| CTA sucursal | "Visita tu sucursal más cercana" |
+| CTA WhatsApp | "Escríbenos por WhatsApp" |
 

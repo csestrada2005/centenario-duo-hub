@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import AnimatedOutlet from "./AnimatedOutlet";
 import { Menu, X, Gem } from "lucide-react";
@@ -8,6 +8,7 @@ import GoldSparkles from "./GoldSparkles";
 import CustomCursor from "./CustomCursor";
 import { useIsMobile } from "@/hooks/use-mobile";
 import CinematicIntro from "./CinematicIntro";
+import { useCart } from "@/contexts/CartContext";
 import logoJoyeria from "@/assets/logo-joyeria.png";
 
 const joyeriaNav = [
@@ -17,11 +18,53 @@ const joyeriaNav = [
   { label: "Carrito", href: "/joyeria/carrito" },
 ];
 
+/* ── Gold sparkle burst around cart icon ── */
+const CartSparkle = ({ active }: { active: boolean }) => {
+  if (!active) return null;
+  const particles = Array.from({ length: 8 });
+  return (
+    <div className="pointer-events-none absolute inset-0">
+      {particles.map((_, i) => {
+        const angle = (i / particles.length) * 360;
+        const rad = (angle * Math.PI) / 180;
+        const tx = Math.cos(rad) * 22;
+        const ty = Math.sin(rad) * 22;
+        return (
+          <motion.span
+            key={i}
+            initial={{ opacity: 1, scale: 0, x: 0, y: 0 }}
+            animate={{ opacity: 0, scale: 1, x: tx, y: ty }}
+            transition={{ duration: 0.6, delay: i * 0.03, ease: "easeOut" }}
+            className="absolute left-1/2 top-1/2 h-1 w-1 -translate-x-1/2 -translate-y-1/2 rounded-full"
+            style={{ background: "hsl(var(--gold))", boxShadow: "0 0 4px hsl(var(--gold))" }}
+          />
+        );
+      })}
+    </div>
+  );
+};
+
 const JoyeriaLayout = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [introShown, setIntroShown] = useState(true);
+  const [sparkleKey, setSparkleKey] = useState(0);
   const location = useLocation();
   const isMobile = useIsMobile();
+  const { items, addPulse } = useCart();
+  const isFirstRender = useRef(true);
+
+  const totalItems = items.reduce((s, i) => s + i.qty, 0);
+
+  // Trigger sparkle animation when addPulse changes (skip initial render)
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    if (addPulse > 0) {
+      setSparkleKey((k) => k + 1);
+    }
+  }, [addPulse]);
 
   return (
     <div className="joyeria-theme flex min-h-screen flex-col bg-background text-foreground">
@@ -45,9 +88,27 @@ const JoyeriaLayout = () => {
             <img src={logoJoyeria} alt="Joyería Centenario" className="h-10 w-auto" style={{ filter: "brightness(0) invert(1)" }} />
           </Link>
 
-          {/* Cart right */}
-          <Link to="/joyeria/carrito" className="text-foreground/60 transition-colors hover:text-foreground">
-            <Gem className="h-5 w-5" strokeWidth={1.5} />
+          {/* Cart right — with sparkle animation */}
+          <Link to="/joyeria/carrito" className="relative text-foreground/60 transition-colors hover:text-foreground">
+            <motion.div
+              key={sparkleKey}
+              animate={sparkleKey > 0 ? { scale: [1, 1.35, 1], rotate: [0, -15, 15, 0] } : {}}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+            >
+              <Gem className="h-5 w-5" strokeWidth={1.5} />
+            </motion.div>
+            {totalItems > 0 && (
+              <motion.span
+                key={totalItems}
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                className="absolute -right-2 -top-1.5 flex h-4 w-4 items-center justify-center rounded-full text-[9px] font-bold"
+                style={{ background: "hsl(var(--gold))", color: "hsl(var(--gold-foreground))" }}
+              >
+                {totalItems}
+              </motion.span>
+            )}
+            <CartSparkle active={sparkleKey > 0} key={`sparkle-${sparkleKey}`} />
           </Link>
         </div>
         <div className="mx-6 h-px bg-border md:mx-10" />

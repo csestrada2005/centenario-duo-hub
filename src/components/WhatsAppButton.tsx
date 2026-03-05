@@ -1,5 +1,4 @@
 import { MessageCircle } from "lucide-react";
-import { motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
 
 const WhatsAppButton = () => {
@@ -13,17 +12,12 @@ const WhatsAppButton = () => {
     : "1px solid hsl(214 80% 60% / 0.25)";
 
   return (
-    <motion.a
+    <a
       href="https://wa.me/5551234567"
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Contactar por WhatsApp"
-      initial={{ scale: 0, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      transition={{ delay: 1.5, type: "spring", stiffness: 300, damping: 20 }}
-      whileHover={{ scale: 1.06, y: -2 }}
-      whileTap={{ scale: 0.95 }}
-      className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 rounded-full px-4 py-2.5 shadow-lg"
+      className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 rounded-full px-4 py-2.5 shadow-lg transition-transform duration-200 hover:scale-105 active:scale-95"
       style={{ background: bg, border, color: "white" }}
     >
       <span
@@ -38,7 +32,7 @@ const WhatsAppButton = () => {
       >
         WhatsApp
       </span>
-    </motion.a>
+    </a>
   );
 };
 

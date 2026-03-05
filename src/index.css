@@ -63,27 +63,27 @@
     --bazar-trust: 155 44% 33%;
   }
 
-  /* ── JOYERÍA EDITORIAL WARM THEME ── */
+  /* ── JOYERÍA BLACK & GOLD THEME ── */
   .joyeria-theme {
-    --background: 40 33% 97%;
-    --foreground: 20 5% 16%;
-    --card: 40 25% 95%;
-    --card-foreground: 20 5% 16%;
-    --popover: 40 25% 95%;
-    --popover-foreground: 20 5% 16%;
-    --primary: 20 12% 30%;
-    --primary-foreground: 40 33% 97%;
-    --secondary: 35 20% 92%;
-    --secondary-foreground: 20 5% 20%;
-    --muted: 35 15% 90%;
-    --muted-foreground: 20 5% 45%;
-    --accent: 20 12% 30%;
-    --accent-foreground: 40 33% 97%;
+    --background: 0 0% 4%;
+    --foreground: 0 0% 100%;
+    --card: 0 0% 8%;
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 8%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 46 56% 54%;
+    --primary-foreground: 0 0% 4%;
+    --secondary: 0 0% 12%;
+    --secondary-foreground: 0 0% 90%;
+    --muted: 0 0% 14%;
+    --muted-foreground: 0 0% 60%;
+    --accent: 46 56% 54%;
+    --accent-foreground: 0 0% 4%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-    --border: 35 15% 86%;
-    --input: 35 15% 86%;
-    --ring: 20 12% 30%;
+    --border: 46 30% 20%;
+    --input: 0 0% 15%;
+    --ring: 46 56% 54%;
     --radius: 0rem;
   }
 }
@@ -140,6 +140,7 @@
     font-family: "Playfair Display", Georgia, serif;
     font-weight: 400;
     letter-spacing: -0.01em;
+    color: hsl(46 56% 54%);
   }
 }
 

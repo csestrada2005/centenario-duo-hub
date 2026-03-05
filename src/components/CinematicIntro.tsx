@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import logoBazar from "@/assets/logo-bazar.png";
+import logoJoyeria from "@/assets/logo-joyeria.png";
 
 interface CinematicIntroProps {
   onComplete: () => void;
@@ -14,22 +16,25 @@ const THEMES = {
     font: "'Playfair Display', Georgia, serif",
     accentMid: "hsl(46 56% 51%)",
     isLight: false,
+    logo: null as string | null,
   },
   bazar: {
-    bg: "hsl(220 25% 10%)",
+    bg: "hsl(164 43% 8%)",
     title: "Bazar Centenario",
     subtitle: "Casa de empeño",
     font: "'Inter', system-ui, sans-serif",
-    accentMid: "hsl(214 80% 60%)",
+    accentMid: "hsl(155 44% 33%)",
     isLight: false,
+    logo: logoBazar,
   },
   joyeria: {
-    bg: "hsl(40 33% 97%)",
+    bg: "hsl(0 0% 4%)",
     title: "Joyería",
     subtitle: "Centenario",
     font: "'Playfair Display', Georgia, serif",
-    accentMid: "hsl(20 12% 30%)",
-    isLight: true,
+    accentMid: "hsl(46 56% 54%)",
+    isLight: false,
+    logo: logoJoyeria,
   },
 };
 
@@ -55,6 +60,18 @@ const CinematicIntro = ({ onComplete, variant = "default" }: CinematicIntroProps
           exit={{ opacity: 0 }}
           transition={{ duration: 0.4, ease: "easeInOut" }}
         >
+          {/* Logo */}
+          {theme.logo && (
+            <motion.img
+              src={theme.logo}
+              alt={theme.title}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+              className="mb-4 h-20 w-auto md:h-28"
+            />
+          )}
+
           {/* Title */}
           <motion.h1
             initial={{ opacity: 0, y: 12 }}
@@ -65,8 +82,8 @@ const CinematicIntro = ({ onComplete, variant = "default" }: CinematicIntroProps
               fontFamily: theme.font,
               letterSpacing: variant === "bazar" ? "-0.01em" : "0.15em",
               fontWeight: variant === "bazar" ? 800 : 300,
-              color: theme.isLight ? theme.accentMid : "white",
-              filter: variant === "joyeria" ? undefined : variant === "bazar" ? undefined : "drop-shadow(0 0 20px rgba(212,175,55,0.3))",
+              color: "white",
+              filter: variant === "default" ? "drop-shadow(0 0 20px rgba(212,175,55,0.3))" : undefined,
             }}
           >
             {theme.title}

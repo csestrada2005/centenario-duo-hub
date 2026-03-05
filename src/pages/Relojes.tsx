@@ -268,7 +268,7 @@ const Relojes = () => {
               Colección exclusiva
             </span>
             <h1
-              className="mt-3 text-5xl font-normal leading-[1.05] md:text-7xl lg:text-8xl"
+              className="mt-3 text-4xl font-normal leading-[1.05] sm:text-5xl md:text-7xl lg:text-8xl"
               style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
             >
               Relojes de Lujo

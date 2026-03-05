@@ -126,22 +126,23 @@ const JoyeriaLayout = () => {
         <div className="mx-auto max-w-6xl px-6 py-16 md:px-10">
           <div className="grid gap-10 text-sm md:grid-cols-4">
             <div>
-              <h4 className="mb-3 text-xs font-medium uppercase tracking-[0.15em] text-foreground">Información</h4>
+              <img src={logoJoyeria} alt="Joyería Centenario" className="mb-4 h-12 w-auto" style={{ filter: "brightness(0) invert(1)" }} />
               <ul className="space-y-2 text-muted-foreground">
                 <li><Link to="/joyeria/catalogo" className="transition-colors hover:text-foreground">Catálogo</Link></li>
+                <li><Link to="/joyeria/relojes" className="transition-colors hover:text-foreground">Relojes</Link></li>
                 <li><Link to="/joyeria/carrito" className="transition-colors hover:text-foreground">Carrito</Link></li>
               </ul>
             </div>
             <div>
               <h4 className="mb-3 text-xs font-medium uppercase tracking-[0.15em] text-foreground">Contacto</h4>
               <ul className="space-y-2 text-muted-foreground">
-                <li>(555) 123-4567</li>
+                <li>871 688 4466</li>
                 <li>joyeria@centenario.mx</li>
               </ul>
             </div>
             <div>
               <h4 className="mb-3 text-xs font-medium uppercase tracking-[0.15em] text-foreground">Dirección</h4>
-              <p className="text-muted-foreground">Av. Principal #100<br />Col. Centro, Ciudad</p>
+              <p className="text-muted-foreground">Juan Antonio de la Fuente #139 Sur<br />Col. Centro, Torreón, Coah.</p>
             </div>
             <div>
               <h4 className="mb-3 text-xs font-medium uppercase tracking-[0.15em] text-foreground">Explorar</h4>

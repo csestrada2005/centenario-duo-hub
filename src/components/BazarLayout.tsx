@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import WhatsAppButton from "./WhatsAppButton";
 import CinematicIntro from "./CinematicIntro";
+import logoBazar from "@/assets/logo-bazar.png";
 
 const bazarNav = [
   { label: "Inicio", href: "/bazar" },
@@ -36,11 +37,8 @@ const BazarLayout = () => {
           </button>
 
           {/* Logo center */}
-          <Link to="/bazar" className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center leading-none">
-            <span className="text-base font-extrabold tracking-tight text-foreground">
-              Bazar Centenario
-            </span>
-            <span className="text-[10px] font-medium uppercase tracking-[0.18em] text-primary">Casa de empeño</span>
+          <Link to="/bazar" className="absolute left-1/2 -translate-x-1/2">
+            <img src={logoBazar} alt="Bazar Centenario" className="h-10 w-auto" />
           </Link>
 
           {/* CTA right */}
@@ -72,7 +70,7 @@ const BazarLayout = () => {
               className="fixed left-0 top-0 z-[70] flex h-full w-72 flex-col bg-card p-8 shadow-xl md:w-80"
             >
               <div className="mb-8 flex items-center justify-between">
-                <span className="text-sm font-extrabold">Bazar Centenario</span>
+                <img src={logoBazar} alt="Bazar Centenario" className="h-8 w-auto" />
                 <button
                   onClick={() => setMenuOpen(false)}
                   className="text-muted-foreground transition-colors hover:text-foreground"
@@ -129,7 +127,7 @@ const BazarLayout = () => {
         <div className="mx-auto max-w-6xl px-6 py-14 md:px-10">
           <div className="grid gap-10 md:grid-cols-4">
             <div>
-              <span className="text-sm font-extrabold">Bazar Centenario</span>
+              <img src={logoBazar} alt="Bazar Centenario" className="h-12 w-auto mb-2" />
               <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
                 Casa de empeño y compra de metales preciosos con más de 8 años de experiencia en el mercado. Rápido, seguro, confiable.
               </p>

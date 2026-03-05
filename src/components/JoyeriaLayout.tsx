@@ -8,6 +8,7 @@ import GoldSparkles from "./GoldSparkles";
 import CustomCursor from "./CustomCursor";
 import { useIsMobile } from "@/hooks/use-mobile";
 import CinematicIntro from "./CinematicIntro";
+import logoJoyeria from "@/assets/logo-joyeria.png";
 
 const joyeriaNav = [
   { label: "Inicio", href: "/joyeria" },
@@ -40,8 +41,8 @@ const JoyeriaLayout = () => {
           </button>
 
           {/* Logo center */}
-          <Link to="/joyeria" className="absolute left-1/2 -translate-x-1/2" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
-            <span className="text-lg tracking-[0.1em] text-foreground">Centenario</span>
+          <Link to="/joyeria" className="absolute left-1/2 -translate-x-1/2">
+            <img src={logoJoyeria} alt="Joyería Centenario" className="h-10 w-auto" />
           </Link>
 
           {/* Cart right */}

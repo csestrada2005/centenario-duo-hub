@@ -8,6 +8,8 @@ import galleryJewelry from "@/assets/gallery-jewelry-1.jpg";
 import galleryMetals from "@/assets/gallery-metals.jpg";
 import galleryHands from "@/assets/gallery-hands.jpg";
 import galleryStore from "@/assets/gallery-store.jpg";
+import logoBazar from "@/assets/logo-bazar.png";
+import logoJoyeria from "@/assets/logo-joyeria.png";
 
 /* ── Animated Counter ── */
 const AnimatedCounter = ({ target, suffix = "", duration = 2500 }: { target: number; suffix?: string; duration?: number }) => {
@@ -85,8 +87,8 @@ const ScrollReveal = ({ children, className = "", delay = 0 }: { children: React
   );
 };
 
-/* ── 3D Coin with mouse tracking + coin-toss animation ── */
-const Coin3D = ({ to, title, subtitle, delay }: { to: string; title: string; subtitle: string; delay: number }) => {
+/* ── Logo Door with hover animation ── */
+const LogoDoor = ({ to, logo, title, subtitle, delay }: { to: string; logo: string; title: string; subtitle: string; delay: number }) => {
   const ref = useRef<HTMLDivElement>(null);
   const rotateX = useMotionValue(0);
   const rotateY = useMotionValue(0);
@@ -103,8 +105,8 @@ const Coin3D = ({ to, title, subtitle, delay }: { to: string; title: string; sub
     const cy = rect.top + rect.height / 2;
     const px = (e.clientX - cx) / (rect.width / 2);
     const py = (e.clientY - cy) / (rect.height / 2);
-    rotateY.set(px * 25);
-    rotateX.set(-py * 25);
+    rotateY.set(px * 15);
+    rotateX.set(-py * 15);
   }, [rotateX, rotateY, landed]);
 
   const handleMouseLeave = useCallback(() => {
@@ -113,101 +115,55 @@ const Coin3D = ({ to, title, subtitle, delay }: { to: string; title: string; sub
   }, [rotateX, rotateY]);
 
   return (
-    <Link to={to} className="group relative" style={{ perspective: "600px" }}>
+    <Link to={to} className="group relative flex flex-col items-center" style={{ perspective: "600px" }}>
       <motion.div
         ref={ref}
-        initial={{ y: -600, opacity: 0, rotateX: 720, scale: 0.6 }}
-        animate={{ y: 0, opacity: 1, rotateX: 0, scale: 1 }}
+        initial={{ y: -400, opacity: 0, rotateY: 360, scale: 0.6 }}
+        animate={{ y: 0, opacity: 1, rotateY: 0, scale: 1 }}
         transition={{
           y: { delay, duration: 1.2, ease: [0.22, 1, 0.36, 1] },
           opacity: { delay, duration: 0.3 },
-          rotateX: { delay, duration: 1.2, ease: [0.22, 1, 0.36, 1] },
+          rotateY: { delay, duration: 1.2, ease: [0.22, 1, 0.36, 1] },
           scale: { delay: delay + 0.8, duration: 0.4, type: "spring", stiffness: 400, damping: 12 },
         }}
         onAnimationComplete={() => setLanded(true)}
         style={{ rotateX: landed ? smoothX : undefined, rotateY: landed ? smoothY : undefined, transformStyle: "preserve-3d" }}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        className="relative flex h-52 w-52 cursor-pointer items-center justify-center rounded-full md:h-72 md:w-72"
+        className="relative flex h-44 w-44 cursor-pointer items-center justify-center md:h-60 md:w-60"
       >
-        {/* Edge / thickness layers */}
-        {[20, 16, 12, 8, 4].map((z, i) => (
-          <div
-            key={z}
-            className="absolute inset-0 rounded-full"
-            style={{
-              transform: `translateZ(-${z}px)`,
-              background: i === 0
-                ? "linear-gradient(180deg, rgba(180,145,30,0.9) 0%, rgba(120,95,20,0.95) 100%)"
-                : `linear-gradient(${170 + i * 10}deg, rgba(212,175,55,${0.25 + i * 0.1}) 0%, rgba(160,130,35,${0.35 + i * 0.08}) 100%)`,
-              boxShadow: i === 0 ? "0 20px 50px rgba(0,0,0,0.7), 0 8px 20px rgba(212,175,55,0.15)" : "none",
-            }}
-          />
-        ))}
+        <img
+          src={logo}
+          alt={title}
+          className="h-full w-full object-contain drop-shadow-[0_0_30px_rgba(212,175,55,0.3)] transition-transform duration-500 group-hover:scale-110"
+        />
+      </motion.div>
 
-        {/* Outer glow */}
-        <div className="absolute inset-0 rounded-full shadow-[0_0_60px_16px_rgba(212,175,55,0.2),inset_0_0_40px_rgba(212,175,55,0.08)] transition-shadow duration-700 group-hover:shadow-[0_0_80px_24px_rgba(212,175,55,0.35),inset_0_0_50px_rgba(212,175,55,0.15)]" />
-
-        {/* Raised rim */}
-        <div className="absolute inset-0 rounded-full border-[3px] border-[hsl(46,56%,51%)]/60 transition-all duration-500 group-hover:border-[hsl(46,56%,51%)]/90" />
-        <div className="absolute inset-[4px] rounded-full border-[2px] border-[hsl(46,56%,51%)]/25" />
-
-        {/* Main coin face — gold gradient */}
-        <div
-          className="absolute inset-[6px] rounded-full"
+      {/* Title below logo */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: delay + 0.8, duration: 0.5 }}
+        className="mt-4 text-center"
+      >
+        <h2
+          className="text-xl font-light uppercase tracking-[0.2em] text-white md:text-2xl"
           style={{
-            background: "radial-gradient(ellipse at 35% 30%, hsl(48,75%,65%) 0%, hsl(46,65%,55%) 25%, hsl(44,55%,48%) 50%, hsl(42,50%,42%) 75%, hsl(40,45%,35%) 100%)",
+            fontFamily: "'Playfair Display', Georgia, serif",
+            textShadow: "0 2px 8px rgba(120,95,20,0.6)",
           }}
-        />
-
-        {/* Specular highlight */}
-        <div
-          className="absolute inset-[6px] rounded-full opacity-80 transition-opacity duration-500 group-hover:opacity-100"
-          style={{ background: "radial-gradient(ellipse at 30% 22%, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.15) 25%, transparent 50%)" }}
-        />
-
-        {/* Bottom shadow for depth */}
-        <div
-          className="absolute inset-[6px] rounded-full"
-          style={{ background: "radial-gradient(ellipse at 70% 80%, rgba(0,0,0,0.25) 0%, transparent 45%)" }}
-        />
-
-        {/* Inner ring details */}
-        <div className="absolute inset-[16px] rounded-full border-[2px] border-[hsl(46,56%,51%)]/20 md:inset-[22px]" />
-        <div className="absolute inset-[20px] rounded-full border-[1px] border-[hsl(46,56%,51%)]/10 md:inset-[26px]" />
-
-        {/* Engraved inner area */}
-        <div
-          className="absolute inset-[24px] rounded-full md:inset-[30px]"
-          style={{ boxShadow: "inset 0 2px 6px rgba(255,255,255,0.12), inset 0 -3px 6px rgba(0,0,0,0.25)" }}
-        />
-
-        {/* Text */}
-        <div className="relative z-10 flex flex-col items-center justify-center gap-2 text-center" style={{ transform: "translateZ(8px)" }}>
-          <h2
-            className="text-2xl font-light uppercase tracking-[0.2em] text-white md:text-4xl"
-            style={{
-              fontFamily: "'Playfair Display', Georgia, serif",
-              textShadow: "0 2px 8px rgba(120,95,20,0.6), 0 1px 2px rgba(0,0,0,0.4)",
-            }}
-          >
-            {title}
-          </h2>
-          <p
-            className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/90 md:text-xs"
-            style={{ textShadow: "0 1px 4px rgba(0,0,0,0.6)" }}
-          >
-            {subtitle}
-          </p>
-        </div>
+        >
+          {title}
+        </h2>
+        <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/70">{subtitle}</p>
       </motion.div>
 
       {/* Landing shadow */}
       <motion.div
         initial={{ opacity: 0, scaleX: 0.3 }}
-        animate={{ opacity: 0.4, scaleX: 1 }}
+        animate={{ opacity: 0.3, scaleX: 1 }}
         transition={{ delay: delay + 0.6, duration: 0.5, ease: "easeOut" }}
-        className="mx-auto -mt-2 h-4 w-40 rounded-full md:w-56"
+        className="mx-auto mt-2 h-4 w-32 rounded-full md:w-48"
         style={{ background: "radial-gradient(ellipse, rgba(0,0,0,0.5) 0%, transparent 70%)" }}
       />
     </Link>
@@ -274,8 +230,8 @@ const Index = () => {
             transition={{ delay: 0.6, duration: 0.6 }}
             className="mt-28 flex flex-col items-center gap-12 md:flex-row md:justify-center md:gap-20"
           >
-            <Coin3D to="/bazar" title="Bazar" subtitle="Casa de Empeño" delay={0.8} />
-            <Coin3D to="/joyeria" title="Joyería" subtitle="Centenario" delay={1.1} />
+            <LogoDoor to="/bazar" logo={logoBazar} title="Bazar" subtitle="Casa de Empeño" delay={0.8} />
+            <LogoDoor to="/joyeria" logo={logoJoyeria} title="Joyería" subtitle="Centenario" delay={1.1} />
           </motion.div>
         </motion.div>
 

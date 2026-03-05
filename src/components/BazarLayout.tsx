@@ -167,19 +167,6 @@ const BazarLayout = () => {
 
       <WhatsAppButton />
 
-      {/* CTA sticky mobile */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-border bg-background/95 p-3 backdrop-blur md:hidden">
-        <div className="flex gap-2">
-          <Button asChild className="flex-1 bg-primary font-bold text-primary-foreground hover:bg-primary/90">
-            <Link to="/bazar/simuladores">Cotizar ahora</Link>
-          </Button>
-          <Button variant="outline" asChild className="flex-1 border-border">
-            <a href="https://wa.me/5551234567" target="_blank" rel="noopener noreferrer">
-              <MessageCircle className="mr-2 h-4 w-4" /> WhatsApp
-            </a>
-          </Button>
-        </div>
-      </div>
     </div>
   );
 };

@@ -13,7 +13,7 @@ const WhatsAppButton = () => {
 
   return (
     <a
-      href="https://wa.me/5551234567"
+      href="https://wa.me/522213497090"
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Contactar por WhatsApp"

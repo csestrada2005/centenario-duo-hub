@@ -159,7 +159,7 @@ const BazarLayout = () => {
               </ul>
             </div>
           </div>
-          <div className="mt-10 border-t border-border pt-6 text-center text-xs text-muted-foreground">
+          <div className="mt-10 border-t border-border pb-16 pt-6 text-center text-xs text-muted-foreground md:pb-0">
             <p>© {new Date().getFullYear()} Bazar Centenario. Todos los derechos reservados.</p>
           </div>
         </div>

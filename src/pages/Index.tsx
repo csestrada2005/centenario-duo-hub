@@ -302,7 +302,7 @@ const Index = () => {
 
       {/* ═══════════ STATS — Animated Counters ═══════════ */}
       <section id="stats-section" className="px-6 py-16 md:py-32">
-        <div className="mx-auto grid max-w-4xl gap-16 md:grid-cols-3">
+        <div className="mx-auto grid max-w-4xl gap-10 md:gap-16 md:grid-cols-3">
           {[
             { value: 100, suffix: "+", label: "Años de trayectoria" },
             { value: 5000, suffix: "+", label: "Piezas en catálogo" },

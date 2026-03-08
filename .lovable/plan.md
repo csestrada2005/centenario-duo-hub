@@ -1,158 +1,90 @@
 
 
-# Bazar Centenario + Joyería Centenario — Plan de Implementación
+## Objetivo
 
-## Sitemap Final
+Reemplazar los precios hardcodeados en ambos simuladores con datos en tiempo real:
+- **Metales (Oro/Plata/Diamantes)**: Obtener precio spot actual
+- **Empeño**: Buscar precio de venta online del artículo y calcular el 70% como valor de compra
 
+## Enfoque recomendado: Perplexity AI (búsqueda con IA)
+
+Perplexity es la mejor opción porque resuelve ambos casos con una sola integración:
+- Busca precios actuales de metales preciosos en MXN
+- Busca el precio de venta de cualquier artículo (celular, laptop, etc.) en tiendas mexicanas
+- Devuelve respuestas estructuradas con fuentes
+
+Alternativa para metales: una API dedicada como GoldAPI o Metals.dev (más precisa para spot prices, pero no resuelve el caso de empeño).
+
+**Perplexity cubre ambos simuladores** con una sola conexión y edge function.
+
+## Requisitos previos
+
+1. **Habilitar Lovable Cloud** (necesario para edge functions)
+2. **Conectar Perplexity** como conector (proporciona `PERPLEXITY_API_KEY` automáticamente)
+
+## Arquitectura
+
+```text
+[Usuario llena formulario] 
+       ↓
+[Frontend envía datos del artículo/metal]
+       ↓
+[Edge Function "estimate-price"]
+       ↓
+[Perplexity API - búsqueda inteligente]
+       ↓
+[Respuesta estructurada con precio estimado]
+       ↓
+[Frontend muestra rango al usuario]
 ```
-/                        → Home (selector de rutas)
-/bazar                   → Ruta Bazar (servicios, confianza, FAQ)
-/simuladores             → Simuladores (Empeño + Oro/Plata/Diamantes)
-/sucursales              → Sucursales (listado, mapa, horarios)
-/joyeria                 → Tienda Joyería (catálogo con filtros)
-/joyeria/:id             → Ficha de producto
-/joyeria/carrito         → Carrito de compras
-/joyeria/checkout        → Checkout
+
+## Cambios a implementar
+
+### 1. Edge Function: `supabase/functions/estimate-price/index.ts`
+
+Recibe dos tipos de peticiones:
+
+**Tipo "metal"**: Envía a Perplexity un prompt como:
+> "Precio spot actual del oro {quilataje} por gramo en pesos mexicanos MXN. Solo responde con el número."
+
+Calcula rango: `precio × gramos × 0.78` a `precio × gramos × 0.88`
+
+**Tipo "empeño"**: Envía a Perplexity:
+> "Precio de venta nuevo en México de {tipo} {marca} {modelo} en pesos mexicanos. Solo responde con el precio promedio."
+
+Calcula: `precio × 0.70` como valor de compra (con rango ±10%)
+
+Usa structured output (JSON schema) de Perplexity para obtener el número limpiamente.
+
+### 2. Frontend: `src/pages/Simuladores.tsx`
+
+- **EmpenyoSim**: En el paso 3, en vez de calcular localmente con `estimateRange()`, llama a la edge function con los datos del artículo. Muestra un skeleton/spinner mientras carga.
+- **MetalesSim**: En el paso 3, llama a la edge function para obtener el precio spot actual. Muestra la fecha real de consulta.
+- Ambos mantienen los precios hardcodeados como **fallback** si la API falla.
+- Eliminar el campo "Valor aproximado de compra" del empeño (ya no es necesario, la IA lo busca).
+
+### 3. API helper: `src/lib/api/estimates.ts`
+
+Función utilitaria para llamar a la edge function desde el frontend:
+```
+estimateMetalPrice(metal, karat, weightGrams) → { low, high, spotPrice, source }
+estimatePawnValue(type, brand, model, condition) → { low, high, retailPrice, source }
 ```
 
----
+### 4. Supabase client: `src/integrations/supabase/client.ts`
 
-## Componentes Globales
+Configurar el cliente de Supabase para poder usar `supabase.functions.invoke()`.
 
-- **Header**: Logo "Centenario" a la izquierda. Navegación principal: Bazar | Simuladores | Sucursales | Joyería. Botón "Cotizar" destacado. Icono carrito (solo visible en ruta Joyería). Menú hamburguesa en mobile.
-- **Footer**: Columnas: Bazar (enlaces), Joyería (enlaces), Contacto (teléfono, email, redes). Aviso legal, política de privacidad. Texto: "Bazar Centenario y Joyería Centenario son parte de la misma empresa."
-- **Botón flotante WhatsApp**: Esquina inferior derecha, siempre visible.
-- **CTA sticky mobile**: Barra inferior fija en páginas Bazar/Simuladores con "Cotizar" + "WhatsApp".
+## Experiencia del usuario
 
----
+- El usuario llena el formulario igual que antes
+- Al dar "Continuar" en el paso 2, ve un loading de 2-3 segundos
+- Recibe un estimado basado en datos reales con la fuente citada
+- Si la API falla, ve el estimado con datos de respaldo (los precios actuales hardcodeados)
 
-## 1. Home — Estructura por secciones
+## Consideraciones
 
-1. **Hero principal**: Frase: "Casa de empeño y compra de oro, plata y diamantes" + "Tienda premium de joyería". Dos botones grandes: "Entrar a Bazar" / "Entrar a Joyería". CTA destacado: "Cotizar ahora". Chips de acceso rápido: Sucursales · WhatsApp · Catálogo.
-
-2. **Dos mundos, una marca**: Dos cards lado a lado. Card Bazar: icono, texto breve "Empeña o vende tus artículos y metales preciosos", botón "Conocer Bazar". Card Joyería: icono, texto breve "Encuentra piezas únicas con garantía", botón "Ver catálogo".
-
-3. **Simulador destacado**: Banner con texto "Obtén una estimación en menos de 2 minutos" + botón "Simular ahora".
-
-4. **Confianza / Cifras**: Tres indicadores: años de experiencia, sucursales, clientes atendidos.
-
-5. **Sucursales preview**: Mapa simplificado o listado de 3 sucursales principales con botón "Ver todas".
-
----
-
-## 2. Página Bazar — Estructura
-
-1. **Hero Bazar**: Título "Bazar Centenario". Subtítulo: "Empeña tus artículos o vende tu oro, plata y diamantes. Sin complicaciones." CTA: "Cotizar ahora" + "Ver sucursales".
-
-2. **Cómo funciona**: 3 pasos visuales (iconos + texto corto): Trae tu artículo → Valuación gratuita → Recibe tu dinero.
-
-3. **Servicios en cards**:
-   - Card "Empeño de artículos": electrónicos, herramienta, autos, electrodomésticos, oro/plata. CTA: "Simular empeño".
-   - Card "Compra de oro, plata y diamantes": descripción breve. CTA: "Simular cotización".
-
-4. **Sección Simula fácil**: Iconos de categorías (celular, laptop, auto, anillo, etc.) que llevan directo al simulador correspondiente.
-
-5. **Nosotros / Confianza**: Texto breve sobre profesionalismo, seguridad, sin juicios. "Tu tranquilidad es nuestra prioridad."
-
-6. **Preguntas rápidas (FAQ)**: Acordeón con 6-8 preguntas típicas (requisitos, plazos, tasas, qué artículos aceptan).
-
-7. **CTA final**: "Visítanos en sucursal" + "Escríbenos por WhatsApp".
-
----
-
-## 3. Simuladores — Estructura
-
-Página con tabs: **Empeño** | **Oro / Plata / Diamantes**
-
-### Simulador de Empeño (4 steps)
-
-- **Step 1 — Tipo de artículo**: Grid de cards con iconos: Celular, Laptop, Herramienta, Electrodoméstico, Auto, Otro.
-- **Step 2 — Datos básicos**: Formulario: marca (select), modelo (input opcional), estado (excelente/bueno/regular), valor aproximado de compra (input numérico).
-- **Step 3 — Resultado estimado**: Card con rango estimado ("$X,XXX — $X,XXX"). Disclaimer: "Esta cifra es solo una estimación. La valuación final se realiza en sucursal."
-- **Step 4 — Siguiente paso**: CTA: "Visita tu sucursal más cercana" + botón WhatsApp + botón Sucursales.
-
-### Simulador de Metales Preciosos (4 steps)
-
-- **Step 1 — Tipo de metal**: Cards: Oro / Plata / Diamantes.
-- **Step 2 — Detalles**: Peso en gramos (input + guía visual con ejemplos), quilataje (select con opciones comunes: 10k, 14k, 18k, 24k para oro; 925 para plata).
-- **Step 3 — Resultado estimado**: Card con rango. Disclaimer igual.
-- **Step 4 — Siguiente paso**: CTA WhatsApp + Sucursal.
-
-Barra de progreso visible en ambos simuladores. Botón "Atrás" en cada step.
-
----
-
-## 4. Sucursales — Estructura
-
-1. **Título**: "Nuestras sucursales"
-2. **Listado de sucursales**: Cards con: nombre, dirección, horarios, teléfono, botón "Cómo llegar" (abre Google Maps), botón "WhatsApp".
-3. **Mapa embebido**: Google Maps con pins de todas las sucursales.
-4. **Filtro por ciudad/zona** (si aplica).
-
----
-
-## 5. Ruta Joyería — Estructura
-
-### Catálogo (`/joyeria`)
-- Header de sección con texto: "Joyería Centenario — Piezas con garantía y diseño premium."
-- **Filtros**: Desktop: sidebar izquierdo (categoría, material, precio, disponibilidad). Mobile: botón "Filtrar" que abre drawer.
-- **Grid de productos**: Cards con imagen, nombre, precio, botón "Ver detalle".
-- Paginación o scroll infinito.
-
-### Ficha de producto (`/joyeria/:id`)
-- Galería de fotos (carousel).
-- Nombre, precio, descripción, medidas, material, garantía.
-- Selector de variantes si aplica (talla, color).
-- Botón "Agregar al carrito".
-- Sección "También te puede interesar".
-
-### Carrito (`/joyeria/carrito`)
-- Lista de productos con cantidad, precio unitario, subtotal.
-- Botón eliminar / actualizar cantidad.
-- Resumen: subtotal, envío, total.
-- Botón "Proceder al pago".
-
-### Checkout (`/joyeria/checkout`)
-- Formulario: datos de envío, método de pago (integrado con Shopify Checkout).
-- Resumen del pedido.
-- Botón "Confirmar pedido".
-
-**Integración Shopify**: Se habilitará Shopify como backend para gestionar productos, inventario, pedidos y pagos. La web se construye en Lovable y se conecta a Shopify vía API. Esto requiere activar la integración de Shopify en el proyecto.
-
----
-
-## Diseño y UI
-
-- **Paleta**: Fondo blanco (#FFFFFF), gris claro (#F5F5F5) para secciones alternas, negro (#1A1A1A) para texto, acento metálico/azul tenue (#6B7B8D) para botones y detalles.
-- **Tipografía**: Sans-serif moderna (Inter o similar). Headings en bold/semibold.
-- **Espaciado**: Generoso, secciones bien separadas, cards con padding amplio.
-- **Animaciones**: Fade-in al hacer scroll, hover suave en cards y botones. Sin exceso.
-- **Mobile-first**: Todo responsive. Navegación hamburguesa. Filtros en drawer. CTAs sticky en la parte inferior.
-
----
-
-## Copys Placeholder (títulos y CTAs)
-
-| Ubicación | Copy |
-|---|---|
-| Hero Home título | "Casa de empeño y compra de oro, plata y diamantes" |
-| Hero Home subtítulo | "Tienda premium de joyería" |
-| Botón Bazar | "Entrar a Bazar" |
-| Botón Joyería | "Entrar a Joyería" |
-| CTA principal | "Cotizar ahora" |
-| Chip sucursales | "Sucursales" |
-| Chip WhatsApp | "WhatsApp" |
-| Chip catálogo | "Catálogo" |
-| Card Bazar | "Empeña o vende tus artículos y metales preciosos" |
-| Card Joyería | "Encuentra piezas únicas con garantía" |
-| Simulador banner | "Obtén una estimación en menos de 2 minutos" |
-| Bazar hero | "Empeña tus artículos o vende tu oro, plata y diamantes. Sin complicaciones." |
-| Paso 1 Bazar | "Trae tu artículo" |
-| Paso 2 Bazar | "Valuación gratuita" |
-| Paso 3 Bazar | "Recibe tu dinero" |
-| Confianza | "Tu tranquilidad es nuestra prioridad" |
-| Disclaimer simulador | "Esta cifra es solo una estimación. La valuación final se realiza en sucursal." |
-| Joyería header | "Piezas con garantía y diseño premium" |
-| CTA sucursal | "Visita tu sucursal más cercana" |
-| CTA WhatsApp | "Escríbenos por WhatsApp" |
+- **Rate limits**: Perplexity tiene límites por minuto. El uso esperado (simulaciones esporádicas) no debería ser problema.
+- **Costo**: Cada consulta usa créditos de Perplexity. El modelo `sonar` es el más económico y suficiente para esto.
+- **Latencia**: ~2-4 segundos por consulta. Aceptable con un buen loading state.
 

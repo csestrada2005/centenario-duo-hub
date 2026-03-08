@@ -275,7 +275,7 @@ const Index = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.6 }}
-            className="mt-28"
+            className="mt-12 md:mt-28"
           >
             {/* Desktop: side by side */}
             <div className="hidden md:flex md:items-center md:justify-center md:gap-20">
@@ -301,8 +301,8 @@ const Index = () => {
       </section>
 
       {/* ═══════════ STATS — Animated Counters ═══════════ */}
-      <section id="stats-section" className="px-6 py-32">
-        <div className="mx-auto grid max-w-4xl gap-16 md:grid-cols-3">
+      <section id="stats-section" className="px-6 py-16 md:py-32">
+        <div className="mx-auto grid max-w-4xl gap-10 md:gap-16 md:grid-cols-3">
           {[
             { value: 100, suffix: "+", label: "Años de trayectoria" },
             { value: 5000, suffix: "+", label: "Piezas en catálogo" },
@@ -327,8 +327,8 @@ const Index = () => {
       </section>
 
       {/* ═══════════ GALLERY — M.Fisher Parallax Grid ═══════════ */}
-      <section className="px-6 py-32">
-        <ScrollReveal className="mb-20 text-center">
+      <section className="px-6 py-16 md:py-32">
+        <ScrollReveal className="mb-10 md:mb-20 text-center">
           <p className="text-[10px] font-medium uppercase tracking-[0.5em] text-white/30">Nuestra esencia</p>
           <h2
             className="text-gold-gradient mt-4 text-4xl font-light md:text-5xl"
@@ -347,7 +347,7 @@ const Index = () => {
       </section>
 
       {/* ═══════════ FOOTER — Multi-column Premium ═══════════ */}
-      <footer className="px-6 pb-12 pt-32">
+      <footer className="px-6 pb-12 pt-16 md:pt-32">
         <div className="mx-auto max-w-5xl">
           {/* Divider */}
           <div className="mb-16 h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />

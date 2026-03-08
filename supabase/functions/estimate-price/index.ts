@@ -128,8 +128,8 @@ serve(async (req) => {
       const raw = await queryPerplexity(prompt);
       const parsed = JSON.parse(raw);
       const retailPrice = parsed.price;
-      // Pawn value: ~70% of retail, with ±10% range
-      const base = retailPrice * 0.7;
+      // Pawn value: ~30% of retail, with ±10% range
+      const base = retailPrice * 0.3;
       result = {
         low: Math.round(base * 0.9),
         high: Math.round(base * 1.1),

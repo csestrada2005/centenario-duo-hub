@@ -110,9 +110,9 @@ const JoyeriaHome = () => {
   return (
     <div>
       {/* ═══════ HERO — Split editorial with parallax ═══════ */}
-      <section ref={heroRef} className="relative min-h-screen">
+      <section ref={heroRef} className="relative min-h-screen overflow-hidden">
         {/* Background image — full on mobile, right half on desktop */}
-        <div className="absolute inset-0 md:left-1/2">
+        <div className="absolute inset-0 md:left-1/2 overflow-hidden">
           <motion.div style={{ y: imgY, scale: imgScale }} className="absolute inset-0 will-change-transform">
             <img
               src={heroImg}

@@ -194,7 +194,7 @@ const Index = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 1 }}
-            className="text-gold-gradient mx-auto text-7xl font-light md:text-[120px] lg:text-[150px]"
+            className="text-gold-gradient mx-auto text-5xl font-light md:text-[120px] lg:text-[150px]"
             style={{
               fontFamily: "'Playfair Display', Georgia, serif",
               letterSpacing: "0.08em",

@@ -275,7 +275,7 @@ const Index = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.6 }}
-            className="mt-28"
+            className="mt-12 md:mt-28"
           >
             {/* Desktop: side by side */}
             <div className="hidden md:flex md:items-center md:justify-center md:gap-20">

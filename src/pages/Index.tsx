@@ -182,7 +182,13 @@ const MobileLogoCarousel = () => {
             exit={{ opacity: 0, x: -40 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
           >
-            <LogoDoor to={door.to} logo={door.logo} delay={0} />
+            <Link to={door.to} className="group flex flex-col items-center gap-3">
+              <img
+                src={door.logo}
+                alt={door.label}
+                className="h-28 w-auto drop-shadow-[0_0_25px_rgba(255,255,255,0.3)] brightness-0 invert transition-transform duration-300 group-hover:scale-105"
+              />
+            </Link>
           </motion.div>
         </AnimatePresence>
 

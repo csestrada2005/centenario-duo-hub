@@ -130,7 +130,7 @@ const JoyeriaHome = () => {
 
         {/* Text */}
         <div className="relative z-10 grid min-h-screen md:grid-cols-2">
-          <div className="flex flex-col justify-end px-8 pb-20 pt-32 md:justify-center md:px-16 md:pb-0 md:pt-0">
+          <div className="flex flex-col items-center justify-center text-center px-8 pt-28 pb-20 md:items-start md:text-left md:justify-center md:px-16 md:pb-0 md:pt-0">
             <motion.div style={{ opacity: heroTextOpacity, y: heroTextY }}>
               <motion.p
                 initial={{ opacity: 0, x: -30 }}

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import { motion, useScroll, useTransform, useInView, useMotionValue, useSpring } from "framer-motion";
+import { motion, useScroll, useTransform, useInView, useMotionValue, useSpring, AnimatePresence } from "framer-motion";
 import { useRef, useEffect, useState, useCallback } from "react";
-import { ChevronDown, Instagram, Facebook, MapPin, Phone, Mail, Clock } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight, Instagram, Facebook, MapPin, Phone, Mail, Clock } from "lucide-react";
 import CinematicIntro from "@/components/CinematicIntro";
 import heroImage from "@/assets/hero-home.jpg";
 import galleryJewelry from "@/assets/gallery-jewelry-1.jpg";
@@ -151,6 +151,66 @@ const LogoDoor = ({ to, logo, delay }: { to: string; logo: string; delay: number
     </Link>
   );
 };
+/* ── Mobile Logo Carousel ── */
+const doors = [
+  { to: "/bazar", logo: logoBazar, label: "Bazar Centenario" },
+  { to: "/joyeria", logo: logoJoyeria, label: "Joyería Centenario" },
+];
+
+const MobileLogoCarousel = () => {
+  const [current, setCurrent] = useState(0);
+  const next = () => setCurrent((p) => (p + 1) % doors.length);
+  const prev = () => setCurrent((p) => (p - 1 + doors.length) % doors.length);
+  const door = doors[current];
+
+  return (
+    <div className="flex flex-col items-center md:hidden">
+      <div className="flex w-full items-center justify-center gap-4">
+        <button
+          onClick={prev}
+          className="rounded-full border border-white/15 p-2 text-white/50 transition-colors hover:border-[hsl(46,56%,51%)]/40 hover:text-[hsl(46,56%,51%)]"
+          aria-label="Anterior"
+        >
+          <ChevronLeft className="h-5 w-5" />
+        </button>
+
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={door.to}
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -40 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+          >
+            <LogoDoor to={door.to} logo={door.logo} delay={0} />
+          </motion.div>
+        </AnimatePresence>
+
+        <button
+          onClick={next}
+          className="rounded-full border border-white/15 p-2 text-white/50 transition-colors hover:border-[hsl(46,56%,51%)]/40 hover:text-[hsl(46,56%,51%)]"
+          aria-label="Siguiente"
+        >
+          <ChevronRight className="h-5 w-5" />
+        </button>
+      </div>
+
+      {/* Dots */}
+      <div className="mt-4 flex gap-2">
+        {doors.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setCurrent(i)}
+            className={`h-1.5 rounded-full transition-all duration-300 ${
+              i === current ? "w-6 bg-[hsl(46,56%,51%)]" : "w-1.5 bg-white/20"
+            }`}
+            aria-label={`Ir a ${doors[i].label}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
 
 
 const Index = () => {
@@ -194,7 +254,7 @@ const Index = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 1 }}
-            className="text-gold-gradient mx-auto text-7xl font-light md:text-[120px] lg:text-[150px]"
+            className="text-gold-gradient mx-auto text-5xl font-light md:text-[120px] lg:text-[150px]"
             style={{
               fontFamily: "'Playfair Display', Georgia, serif",
               letterSpacing: "0.08em",
@@ -205,15 +265,21 @@ const Index = () => {
             Centenario
           </motion.h1>
 
-          {/* Two doors */}
+          {/* Logo Carousel (mobile) / Two doors (desktop) */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.6 }}
-            className="mt-28 flex flex-col items-center gap-12 md:flex-row md:justify-center md:gap-20"
+            className="mt-28"
           >
-            <LogoDoor to="/bazar" logo={logoBazar} delay={0.8} />
-            <LogoDoor to="/joyeria" logo={logoJoyeria} delay={1.1} />
+            {/* Desktop: side by side */}
+            <div className="hidden md:flex md:items-center md:justify-center md:gap-20">
+              <LogoDoor to="/bazar" logo={logoBazar} delay={0.8} />
+              <LogoDoor to="/joyeria" logo={logoJoyeria} delay={1.1} />
+            </div>
+
+            {/* Mobile: single-slot carousel with arrows */}
+            <MobileLogoCarousel />
           </motion.div>
         </motion.div>
 

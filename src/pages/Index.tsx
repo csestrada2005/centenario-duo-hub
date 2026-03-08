@@ -347,7 +347,7 @@ const Index = () => {
       </section>
 
       {/* ═══════════ FOOTER — Multi-column Premium ═══════════ */}
-      <footer className="px-6 pb-12 pt-32">
+      <footer className="px-6 pb-12 pt-16 md:pt-32">
         <div className="mx-auto max-w-5xl">
           {/* Divider */}
           <div className="mb-16 h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />

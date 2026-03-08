@@ -186,7 +186,7 @@ const MobileLogoCarousel = () => {
               <img
                 src={door.logo}
                 alt={door.label}
-                className="h-28 w-auto drop-shadow-[0_0_25px_rgba(255,255,255,0.3)] brightness-0 invert transition-transform duration-300 group-hover:scale-105"
+                className="h-64 w-64 object-contain drop-shadow-[0_0_30px_rgba(212,175,55,0.3)] brightness-0 invert"
               />
             </Link>
           </motion.div>

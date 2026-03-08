@@ -288,7 +288,7 @@ const Index = () => {
           onClick={scrollToContent}
           animate={{ y: [0, 12, 0] }}
           transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-          className="absolute bottom-12 left-1/2 z-10 -translate-x-1/2 cursor-pointer border-none bg-transparent"
+          className="absolute bottom-12 left-1/2 z-10 -translate-x-1/2 cursor-pointer border-none bg-transparent hidden md:block"
           aria-label="Scroll hacia abajo"
         >
           <ChevronDown className="h-6 w-6 text-[hsl(46,56%,51%)]" style={{ opacity: 0.6 }} />

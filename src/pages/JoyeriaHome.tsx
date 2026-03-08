@@ -110,59 +110,9 @@ const JoyeriaHome = () => {
   return (
     <div>
       {/* ═══════ HERO — Split editorial with parallax ═══════ */}
-      <section ref={heroRef} className="relative grid min-h-screen md:grid-cols-2">
-        {/* Left — Typography with fade-out on scroll */}
-        <div className="flex flex-col justify-end px-8 pb-20 pt-32 md:justify-center md:px-16 md:pb-0 md:pt-0">
-          <motion.div style={{ opacity: heroTextOpacity, y: heroTextY }}>
-            <motion.p
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-              className="mb-4 text-[10px] font-medium uppercase tracking-[0.4em] text-muted-foreground"
-            >
-              Colección 2026
-            </motion.p>
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <MagneticText
-                as="h1"
-                intensity={0.12}
-                className="text-4xl font-normal leading-[1.05] text-foreground sm:text-5xl md:text-7xl lg:text-[90px]"
-              >
-                <span style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
-                  Eterno, Especial,<br />Tuyo.
-                </span>
-              </MagneticText>
-            </motion.div>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className="mt-6 max-w-sm text-sm font-light leading-relaxed text-muted-foreground"
-            >
-              Piezas especiales que trascienden generaciones sin perder el brillo del ahora.
-            </motion.p>
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.9, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <Button asChild variant="editorial" size="lg" className="group mt-10">
-                <Link to="/joyeria/catalogo">
-                  <Gem className="mr-2 h-4 w-4 group-hover:rotate-12 transition-transform" />
-                  Ver Colección
-                  <ArrowRight className="ml-2 h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
-                </Link>
-              </Button>
-            </motion.div>
-          </motion.div>
-        </div>
-
-        {/* Right — Image with parallax */}
-        <div className="relative overflow-hidden">
+      <section ref={heroRef} className="relative min-h-screen">
+        {/* Background image — full on mobile, right half on desktop */}
+        <div className="absolute inset-0 md:left-1/2">
           <motion.div style={{ y: imgY, scale: imgScale }} className="absolute inset-0 will-change-transform">
             <img
               src={heroImg}
@@ -171,7 +121,63 @@ const JoyeriaHome = () => {
               loading="eager"
             />
           </motion.div>
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-background to-transparent md:hidden" />
+          {/* Dark overlay for text readability on mobile */}
+          <div className="absolute inset-0 bg-black/50 md:bg-transparent" />
+        </div>
+
+        {/* Desktop: left half solid bg */}
+        <div className="pointer-events-none absolute inset-y-0 left-0 hidden w-1/2 bg-background md:block" />
+
+        {/* Text */}
+        <div className="relative z-10 grid min-h-screen md:grid-cols-2">
+          <div className="flex flex-col justify-end px-8 pb-20 pt-32 md:justify-center md:px-16 md:pb-0 md:pt-0">
+            <motion.div style={{ opacity: heroTextOpacity, y: heroTextY }}>
+              <motion.p
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                className="mb-4 text-[10px] font-medium uppercase tracking-[0.4em] text-white/70 md:text-muted-foreground"
+              >
+                Colección 2026
+              </motion.p>
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <MagneticText
+                  as="h1"
+                  intensity={0.12}
+                  className="text-4xl font-normal leading-[1.05] text-white md:text-foreground sm:text-5xl md:text-7xl lg:text-[90px]"
+                >
+                  <span style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
+                    Eterno, Especial,<br />Tuyo.
+                  </span>
+                </MagneticText>
+              </motion.div>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                className="mt-6 max-w-sm text-sm font-light leading-relaxed text-white/70 md:text-muted-foreground"
+              >
+                Piezas especiales que trascienden generaciones sin perder el brillo del ahora.
+              </motion.p>
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.9, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <Button asChild variant="editorial" size="lg" className="group mt-10">
+                  <Link to="/joyeria/catalogo">
+                    <Gem className="mr-2 h-4 w-4 group-hover:rotate-12 transition-transform" />
+                    Ver Colección
+                    <ArrowRight className="ml-2 h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+                  </Link>
+                </Button>
+              </motion.div>
+            </motion.div>
+          </div>
         </div>
       </section>
 

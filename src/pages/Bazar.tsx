@@ -65,7 +65,7 @@ const Bazar = () => {
               <span className="text-[hsl(155_44%_33%)]">Te saca del Apuro.</span>
             </h1>
             <p className="mt-5 max-w-xl text-lg font-normal leading-relaxed text-white/70">
-              Te ofrecemos soluciones financieras rápidas y efectivas. Al empeñar o vender tu artículo o pieza de joyería, tendrás tu dinero en efectivo en menos de 30 minutos.
+              Empeña tu artículo y obtén dinero en efectivo en menos de 30 minutos.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">

@@ -151,6 +151,66 @@ const LogoDoor = ({ to, logo, delay }: { to: string; logo: string; delay: number
     </Link>
   );
 };
+/* ── Mobile Logo Carousel ── */
+const doors = [
+  { to: "/bazar", logo: logoBazar, label: "Bazar Centenario" },
+  { to: "/joyeria", logo: logoJoyeria, label: "Joyería Centenario" },
+];
+
+const MobileLogoCarousel = () => {
+  const [current, setCurrent] = useState(0);
+  const next = () => setCurrent((p) => (p + 1) % doors.length);
+  const prev = () => setCurrent((p) => (p - 1 + doors.length) % doors.length);
+  const door = doors[current];
+
+  return (
+    <div className="flex flex-col items-center md:hidden">
+      <div className="flex w-full items-center justify-center gap-4">
+        <button
+          onClick={prev}
+          className="rounded-full border border-white/15 p-2 text-white/50 transition-colors hover:border-[hsl(46,56%,51%)]/40 hover:text-[hsl(46,56%,51%)]"
+          aria-label="Anterior"
+        >
+          <ChevronLeft className="h-5 w-5" />
+        </button>
+
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={door.to}
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -40 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+          >
+            <LogoDoor to={door.to} logo={door.logo} delay={0} />
+          </motion.div>
+        </AnimatePresence>
+
+        <button
+          onClick={next}
+          className="rounded-full border border-white/15 p-2 text-white/50 transition-colors hover:border-[hsl(46,56%,51%)]/40 hover:text-[hsl(46,56%,51%)]"
+          aria-label="Siguiente"
+        >
+          <ChevronRight className="h-5 w-5" />
+        </button>
+      </div>
+
+      {/* Dots */}
+      <div className="mt-4 flex gap-2">
+        {doors.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setCurrent(i)}
+            className={`h-1.5 rounded-full transition-all duration-300 ${
+              i === current ? "w-6 bg-[hsl(46,56%,51%)]" : "w-1.5 bg-white/20"
+            }`}
+            aria-label={`Ir a ${doors[i].label}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
 
 
 const Index = () => {

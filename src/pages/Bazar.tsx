@@ -65,13 +65,13 @@ const Bazar = () => {
               <span className="text-[hsl(155_44%_33%)]">Te saca del Apuro.</span>
             </h1>
             <p className="mt-5 max-w-xl text-lg font-normal leading-relaxed text-white/70">
-              Te ofrecemos soluciones financieras rápidas y efectivas. Al empeñar o vender tu artículo o pieza de joyería, tendrás tu dinero en efectivo en menos de 30 minutos.
+              Empeña tu artículo y obtén dinero en efectivo en menos de 30 minutos.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Button asChild size="lg" className="bg-primary px-8 text-base font-bold text-primary-foreground hover:bg-primary/90">
                 <Link to="/bazar/simuladores">
-                  <Banknote className="mr-2 h-5 w-5" /> Cotizar mi prenda
+                  <Banknote className="mr-2 h-5 w-5" /> Cotizar mi artículo
                 </Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="border-white/30 bg-white/10 px-8 text-base font-medium text-white backdrop-blur-sm hover:bg-white/20">
@@ -363,7 +363,7 @@ const Bazar = () => {
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
             <Button asChild size="lg" className="bg-white px-10 text-base font-bold text-primary hover:bg-white/90">
               <Link to="/bazar/simuladores">
-                <Banknote className="mr-2 h-5 w-5" /> Cotizar mi prenda
+                <Banknote className="mr-2 h-5 w-5" /> Cotizar mi artículo
               </Link>
             </Button>
             <Button asChild size="lg" variant="outline" className="border-white/40 bg-white/10 px-10 text-base font-semibold text-white hover:bg-white/20">

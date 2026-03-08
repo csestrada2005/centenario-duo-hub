@@ -71,7 +71,7 @@ const Bazar = () => {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Button asChild size="lg" className="bg-primary px-8 text-base font-bold text-primary-foreground hover:bg-primary/90">
                 <Link to="/bazar/simuladores">
-                  <Banknote className="mr-2 h-5 w-5" /> Cotizar mi prenda
+                  <Banknote className="mr-2 h-5 w-5" /> Cotizar mi artículo
                 </Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="border-white/30 bg-white/10 px-8 text-base font-medium text-white backdrop-blur-sm hover:bg-white/20">

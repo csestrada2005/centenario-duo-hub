@@ -161,7 +161,6 @@ const MobileLogoCarousel = () => {
   const [current, setCurrent] = useState(0);
   const next = () => setCurrent((p) => (p + 1) % doors.length);
   const prev = () => setCurrent((p) => (p - 1 + doors.length) % doors.length);
-  const door = doors[current];
 
   return (
     <div className="flex flex-col items-center md:hidden">
@@ -174,23 +173,23 @@ const MobileLogoCarousel = () => {
           <ChevronLeft className="h-5 w-5" />
         </button>
 
-        <AnimatePresence mode="wait">
+        <div className="w-64 overflow-hidden">
           <motion.div
-            key={door.to}
-            initial={{ opacity: 0, x: 40 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -40 }}
+            className="flex"
+            animate={{ x: -current * 256 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
           >
-            <Link to={door.to} className="group flex flex-col items-center gap-3">
-              <img
-                src={door.logo}
-                alt={door.label}
-                className="h-64 w-64 object-contain drop-shadow-[0_0_30px_rgba(212,175,55,0.3)] brightness-0 invert"
-              />
-            </Link>
+            {doors.map((door) => (
+              <Link key={door.to} to={door.to} className="flex h-64 w-64 shrink-0 items-center justify-center">
+                <img
+                  src={door.logo}
+                  alt={door.label}
+                  className="h-64 w-64 object-contain drop-shadow-[0_0_30px_rgba(212,175,55,0.3)] brightness-0 invert"
+                />
+              </Link>
+            ))}
           </motion.div>
-        </AnimatePresence>
+        </div>
 
         <button
           onClick={next}

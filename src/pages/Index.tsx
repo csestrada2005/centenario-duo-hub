@@ -327,8 +327,8 @@ const Index = () => {
       </section>
 
       {/* ═══════════ GALLERY — M.Fisher Parallax Grid ═══════════ */}
-      <section className="px-6 py-32">
-        <ScrollReveal className="mb-20 text-center">
+      <section className="px-6 py-16 md:py-32">
+        <ScrollReveal className="mb-10 md:mb-20 text-center">
           <p className="text-[10px] font-medium uppercase tracking-[0.5em] text-white/30">Nuestra esencia</p>
           <h2
             className="text-gold-gradient mt-4 text-4xl font-light md:text-5xl"

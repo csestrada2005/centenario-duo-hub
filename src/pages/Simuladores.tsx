@@ -6,10 +6,12 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Smartphone, Laptop, Wrench, Car, Tv, HelpCircle,
-  ArrowLeft, ArrowRight, MapPin, MessageCircle, Gem, CircleDot,
+  ArrowLeft, ArrowRight, MapPin, MessageCircle, Gem, CircleDot, Loader2,
 } from "lucide-react";
+import { estimateMetalPrice, estimatePawnValue, type MetalEstimate, type PawnEstimate } from "@/lib/api/estimates";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
@@ -35,7 +37,8 @@ const brands: Record<string, string[]> = {
   Otro: ["Otro"],
 };
 
-function estimateRange(value: number) {
+// Fallback estimates when API fails
+function fallbackPawnEstimate(value: number) {
   const low = Math.round(value * 0.3);
   const high = Math.round(value * 0.6);
   return { low, high };
@@ -45,10 +48,28 @@ const EmpenyoSim = () => {
   const [step, setStep] = useState(1);
   const [articleType, setArticleType] = useState("");
   const [brand, setBrand] = useState("");
+  const [model, setModel] = useState("");
   const [condition, setCondition] = useState("");
-  const [approxValue, setApproxValue] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [estimate, setEstimate] = useState<PawnEstimate | null>(null);
+  const [usedFallback, setUsedFallback] = useState(false);
 
-  const { low, high } = estimateRange(Number(approxValue) || 0);
+  const handleEstimate = async () => {
+    setLoading(true);
+    setStep(3);
+    setUsedFallback(false);
+    try {
+      const result = await estimatePawnValue(articleType, brand, model, condition);
+      setEstimate(result);
+    } catch (err) {
+      console.error("Pawn estimate failed, using fallback:", err);
+      setUsedFallback(true);
+      // No fallback without user value — show error state
+      setEstimate(null);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div>
@@ -83,7 +104,7 @@ const EmpenyoSim = () => {
               ))}
             </SelectContent>
           </Select>
-          <Input placeholder="Modelo (opcional)" />
+          <Input placeholder="Modelo (opcional)" value={model} onChange={(e) => setModel(e.target.value)} />
           <Select onValueChange={setCondition}>
             <SelectTrigger><SelectValue placeholder="Estado" /></SelectTrigger>
             <SelectContent>
@@ -92,18 +113,12 @@ const EmpenyoSim = () => {
               <SelectItem value="regular">Regular</SelectItem>
             </SelectContent>
           </Select>
-          <Input
-            type="number"
-            placeholder="Valor aproximado de compra ($)"
-            value={approxValue}
-            onChange={(e) => setApproxValue(e.target.value)}
-          />
           <div className="flex gap-3 pt-4">
             <Button variant="goldOutline" onClick={() => setStep(1)} className="group">
               <ArrowLeft className="mr-1 h-4 w-4 group-hover:-translate-x-1" /> Atrás
             </Button>
-            <Button variant="gold" className="group flex-1" disabled={!brand || !condition || !approxValue} onClick={() => setStep(3)}>
-              Continuar <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1" />
+            <Button variant="gold" className="group flex-1" disabled={!brand || !condition} onClick={handleEstimate}>
+              Cotizar con IA <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1" />
             </Button>
           </div>
         </motion.div>
@@ -112,18 +127,47 @@ const EmpenyoSim = () => {
       {step === 3 && (
         <motion.div initial="hidden" animate="visible" variants={fadeUp} className="mx-auto max-w-md text-center">
           <h3 className="mb-8 text-lg font-light uppercase tracking-[0.1em]">Estimación de empeño</h3>
-          <div className="py-10">
-            <p className="text-gold-gradient text-4xl font-light md:text-5xl">${low.toLocaleString()} — ${high.toLocaleString()}</p>
-            <p className="mt-2 text-xs uppercase tracking-[0.2em] text-muted-foreground">MXN</p>
-          </div>
-          <p className="text-xs font-light text-muted-foreground">
-            Esta cifra es solo una estimación. La valuación final se realiza en sucursal.
-          </p>
+
+          {loading ? (
+            <div className="py-10 space-y-4">
+              <Loader2 className="mx-auto h-8 w-8 animate-spin text-primary" />
+              <p className="text-sm text-muted-foreground">Buscando precio de mercado…</p>
+              <div className="mx-auto max-w-xs space-y-2">
+                <Skeleton className="h-10 w-full" />
+                <Skeleton className="h-4 w-3/4 mx-auto" />
+              </div>
+            </div>
+          ) : estimate ? (
+            <>
+              <div className="py-10">
+                <p className="text-gold-gradient text-4xl font-light md:text-5xl">
+                  ${estimate.low.toLocaleString()} — ${estimate.high.toLocaleString()}
+                </p>
+                <p className="mt-2 text-xs uppercase tracking-[0.2em] text-muted-foreground">MXN</p>
+                <p className="mt-3 text-xs text-muted-foreground">
+                  Precio de referencia: ${estimate.retailPrice.toLocaleString()} MXN (nuevo)
+                </p>
+                {estimate.source && (
+                  <p className="mt-1 text-[10px] text-muted-foreground/60">Fuente: {estimate.source}</p>
+                )}
+              </div>
+              <p className="text-xs font-light text-muted-foreground">
+                Esta cifra es solo una estimación basada en IA. La valuación final se realiza en sucursal.
+              </p>
+            </>
+          ) : (
+            <div className="py-10">
+              <p className="text-sm text-muted-foreground">
+                No pudimos obtener una estimación en este momento. Visita tu sucursal para una valuación presencial.
+              </p>
+            </div>
+          )}
+
           <div className="mt-8 flex gap-3">
             <Button variant="goldOutline" onClick={() => setStep(2)} className="group">
               <ArrowLeft className="mr-1 h-4 w-4 group-hover:-translate-x-1" /> Atrás
             </Button>
-            <Button variant="gold" className="group flex-1" onClick={() => setStep(4)}>
+            <Button variant="gold" className="group flex-1" disabled={loading || !estimate} onClick={() => setStep(4)}>
               Siguiente <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1" />
             </Button>
           </div>
@@ -146,7 +190,7 @@ const EmpenyoSim = () => {
           </div>
           <button
             className="mt-6 text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground transition-colors hover:text-primary"
-            onClick={() => { setStep(1); setArticleType(""); setBrand(""); setCondition(""); setApproxValue(""); }}
+            onClick={() => { setStep(1); setArticleType(""); setBrand(""); setModel(""); setCondition(""); setEstimate(null); }}
           >
             Simular otro artículo
           </button>
@@ -163,34 +207,23 @@ const metalTypes = [
   { icon: Gem, label: "Diamantes", color: "text-foreground" },
 ];
 
-// Precios actualizados: 19/Feb/2026 — Fuente: precio spot MXN/gramo
-// El bazar paga aprox 80–90% del spot (rango bajo–alto)
-const GOLD_UPDATED = "19/Feb/2026";
-
 const karatOptions: Record<string, string[]> = {
   Oro: ["8k (33%)", "9k (38%)", "10k (42%)", "12k (50%)", "14k (58%)", "18k (75%)", "21.6k (90%)", "22k (92%)", "24k (99.9%)"],
   Plata: ["925", "950", "999"],
   Diamantes: ["0.25ct", "0.5ct", "1ct", "2ct+"],
 };
 
-// Precio spot MXN/gramo según quilataje real (datos 19/Feb/2026)
-const spotPricePerGram: Record<string, Record<string, number>> = {
+// Fallback spot prices (Feb 2026) used when API fails
+const fallbackSpotPricePerGram: Record<string, Record<string, number>> = {
   Oro: {
-    "8k (33%)":    912.98,
-    "9k (38%)":   1051.31,
-    "10k (42%)":  1161.97,
-    "12k (50%)":  1383.30,
-    "14k (58%)":  1604.63,
-    "18k (75%)":  2074.95,
-    "21.6k (90%)": 2489.95,
-    "22k (92%)":  2545.28,
-    "24k (99.9%)": 2766.61,
+    "8k (33%)": 912.98, "9k (38%)": 1051.31, "10k (42%)": 1161.97,
+    "12k (50%)": 1383.30, "14k (58%)": 1604.63, "18k (75%)": 2074.95,
+    "21.6k (90%)": 2489.95, "22k (92%)": 2545.28, "24k (99.9%)": 2766.61,
   },
   Plata: { "925": 12.5, "950": 13.2, "999": 14.0 },
   Diamantes: { "0.25ct": 4500, "0.5ct": 10000, "1ct": 25000, "2ct+": 60000 },
 };
 
-// El bazar paga entre 78% y 88% del spot (margen de compra real)
 const BUY_RATIO_LOW = 0.78;
 const BUY_RATIO_HIGH = 0.88;
 
@@ -199,12 +232,38 @@ const MetalesSim = () => {
   const [metalType, setMetalType] = useState("");
   const [weight, setWeight] = useState("");
   const [karat, setKarat] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [estimate, setEstimate] = useState<MetalEstimate | null>(null);
+  const [usedFallback, setUsedFallback] = useState(false);
 
-  const spotBase = spotPricePerGram[metalType]?.[karat] || 0;
-  const w = Number(weight) || 0;
   const isDiamond = metalType === "Diamantes";
-  const low = isDiamond ? Math.round(spotBase * BUY_RATIO_LOW) : Math.round(spotBase * w * BUY_RATIO_LOW);
-  const high = isDiamond ? Math.round(spotBase * BUY_RATIO_HIGH) : Math.round(spotBase * w * BUY_RATIO_HIGH);
+
+  const handleEstimate = async () => {
+    setLoading(true);
+    setStep(3);
+    setUsedFallback(false);
+    try {
+      const result = await estimateMetalPrice(metalType, karat, isDiamond ? undefined : Number(weight));
+      setEstimate(result);
+    } catch (err) {
+      console.error("Metal estimate failed, using fallback:", err);
+      setUsedFallback(true);
+      // Use fallback data
+      const spotBase = fallbackSpotPricePerGram[metalType]?.[karat] || 0;
+      const w = Number(weight) || 1;
+      const low = isDiamond ? Math.round(spotBase * BUY_RATIO_LOW) : Math.round(spotBase * w * BUY_RATIO_LOW);
+      const high = isDiamond ? Math.round(spotBase * BUY_RATIO_HIGH) : Math.round(spotBase * w * BUY_RATIO_HIGH);
+      setEstimate({
+        low,
+        high,
+        spotPrice: spotBase,
+        source: "Datos de referencia (Feb 2026)",
+        date: "Feb 2026",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div>
@@ -253,8 +312,8 @@ const MetalesSim = () => {
             <Button variant="goldOutline" onClick={() => setStep(1)} className="group">
               <ArrowLeft className="mr-1 h-4 w-4 group-hover:-translate-x-1" /> Atrás
             </Button>
-            <Button variant="gold" className="group flex-1" disabled={!karat || (!isDiamond && !weight)} onClick={() => setStep(3)}>
-              Continuar <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1" />
+            <Button variant="gold" className="group flex-1" disabled={!karat || (!isDiamond && !weight)} onClick={handleEstimate}>
+              Cotizar con IA <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1" />
             </Button>
           </div>
         </motion.div>
@@ -263,28 +322,50 @@ const MetalesSim = () => {
       {step === 3 && (
         <motion.div initial="hidden" animate="visible" variants={fadeUp} className="mx-auto max-w-md text-center">
           <h3 className="mb-8 text-lg font-light uppercase tracking-[0.1em]">Estimación de cotización</h3>
-          {/* Precio spot badge */}
-          {metalType === "Oro" && karat && (
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs text-muted-foreground">
-              <span className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse inline-block" />
-              Spot {karat}: ${spotPricePerGram.Oro[karat]?.toLocaleString("es-MX", { maximumFractionDigits: 2 })} MXN/g — {GOLD_UPDATED}
+
+          {loading ? (
+            <div className="py-10 space-y-4">
+              <Loader2 className="mx-auto h-8 w-8 animate-spin text-primary" />
+              <p className="text-sm text-muted-foreground">Consultando precio de mercado…</p>
+              <div className="mx-auto max-w-xs space-y-2">
+                <Skeleton className="h-10 w-full" />
+                <Skeleton className="h-4 w-3/4 mx-auto" />
+              </div>
             </div>
-          )}
-          <div className="py-8">
-            <p className="text-gold-gradient text-4xl font-light md:text-5xl">${low.toLocaleString()} — ${high.toLocaleString()}</p>
-            <p className="mt-2 text-xs uppercase tracking-[0.2em] text-muted-foreground">MXN</p>
-            {!isDiamond && w > 0 && (
-              <p className="mt-3 text-xs text-muted-foreground">Basado en {w}g × {karat} al {Math.round(BUY_RATIO_LOW * 100)}–{Math.round(BUY_RATIO_HIGH * 100)}% del precio spot</p>
-            )}
-          </div>
-          <p className="text-xs font-light text-muted-foreground">
-            Esta cifra es solo una estimación. La valuación final se realiza en sucursal.
-          </p>
+          ) : estimate ? (
+            <>
+              {/* Spot price badge */}
+              {metalType === "Oro" && karat && (
+                <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs text-muted-foreground">
+                  <span className={`h-1.5 w-1.5 rounded-full inline-block ${usedFallback ? "bg-yellow-500" : "bg-green-500 animate-pulse"}`} />
+                  {usedFallback ? "Precio referencia" : "Precio en vivo"}: {karat} ${estimate.spotPrice?.toLocaleString("es-MX", { maximumFractionDigits: 2 })} MXN/g — {estimate.date}
+                </div>
+              )}
+              <div className="py-8">
+                <p className="text-gold-gradient text-4xl font-light md:text-5xl">
+                  ${estimate.low.toLocaleString()} — ${estimate.high.toLocaleString()}
+                </p>
+                <p className="mt-2 text-xs uppercase tracking-[0.2em] text-muted-foreground">MXN</p>
+                {!isDiamond && Number(weight) > 0 && (
+                  <p className="mt-3 text-xs text-muted-foreground">
+                    Basado en {weight}g × {karat} al {Math.round(BUY_RATIO_LOW * 100)}–{Math.round(BUY_RATIO_HIGH * 100)}% del precio spot
+                  </p>
+                )}
+                {estimate.source && (
+                  <p className="mt-1 text-[10px] text-muted-foreground/60">Fuente: {estimate.source}</p>
+                )}
+              </div>
+              <p className="text-xs font-light text-muted-foreground">
+                Esta cifra es solo una estimación{!usedFallback ? " basada en IA" : ""}. La valuación final se realiza en sucursal.
+              </p>
+            </>
+          ) : null}
+
           <div className="mt-8 flex gap-3">
             <Button variant="goldOutline" onClick={() => setStep(2)} className="group">
               <ArrowLeft className="mr-1 h-4 w-4 group-hover:-translate-x-1" /> Atrás
             </Button>
-            <Button variant="gold" className="group flex-1" onClick={() => setStep(4)}>
+            <Button variant="gold" className="group flex-1" disabled={loading} onClick={() => setStep(4)}>
               Siguiente <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1" />
             </Button>
           </div>
@@ -307,7 +388,7 @@ const MetalesSim = () => {
           </div>
           <button
             className="mt-6 text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground transition-colors hover:text-primary"
-            onClick={() => { setStep(1); setMetalType(""); setWeight(""); setKarat(""); }}
+            onClick={() => { setStep(1); setMetalType(""); setWeight(""); setKarat(""); setEstimate(null); }}
           >
             Simular otra cotización
           </button>

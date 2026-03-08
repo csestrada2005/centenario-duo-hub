@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import { motion, useScroll, useTransform, useInView, useMotionValue, useSpring } from "framer-motion";
+import { motion, useScroll, useTransform, useInView, useMotionValue, useSpring, AnimatePresence } from "framer-motion";
 import { useRef, useEffect, useState, useCallback } from "react";
-import { ChevronDown, Instagram, Facebook, MapPin, Phone, Mail, Clock } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight, Instagram, Facebook, MapPin, Phone, Mail, Clock } from "lucide-react";
 import CinematicIntro from "@/components/CinematicIntro";
 import heroImage from "@/assets/hero-home.jpg";
 import galleryJewelry from "@/assets/gallery-jewelry-1.jpg";

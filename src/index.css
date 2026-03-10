@@ -46,21 +46,21 @@
     --card-foreground: 220 20% 12%;
     --popover: 0 0% 100%;
     --popover-foreground: 220 20% 12%;
-    --primary: 164 43% 21%;
+    --primary: 169 43% 21%;
     --primary-foreground: 0 0% 100%;
     --secondary: 155 15% 94%;
     --secondary-foreground: 220 20% 20%;
     --muted: 155 10% 93%;
     --muted-foreground: 220 10% 45%;
-    --accent: 155 44% 33%;
+    --accent: 162 44% 33%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 84% 55%;
     --destructive-foreground: 0 0% 100%;
     --border: 155 10% 88%;
     --input: 155 10% 88%;
-    --ring: 164 43% 21%;
+    --ring: 169 43% 21%;
     --radius: 0.5rem;
-    --bazar-trust: 155 44% 33%;
+    --bazar-trust: 162 44% 33%;
   }
 
   /* ── JOYERÍA BLACK & GOLD THEME ── */
@@ -137,9 +137,9 @@
   .joyeria-theme h1,
   .joyeria-theme h2,
   .joyeria-theme h3 {
-    font-family: "Playfair Display", Georgia, serif;
+    font-family: "Cormorant Garamond", "Playfair Display", Georgia, serif;
     font-weight: 400;
-    letter-spacing: -0.01em;
+    letter-spacing: 0.02em;
     color: hsl(46 56% 54%);
   }
 }

@@ -20,7 +20,6 @@ const fadeUp = {
 
 /* ---------- Empeño Simulator ---------- */
 const articleTypes = [
-  { icon: Smartphone, label: "Celular" },
   { icon: Laptop, label: "Laptop" },
   { icon: Wrench, label: "Herramienta" },
   { icon: Tv, label: "Electrodoméstico" },

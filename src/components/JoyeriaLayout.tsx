@@ -190,7 +190,7 @@ const JoyeriaLayout = () => {
               <img src={logoJoyeria} alt="Joyería Centenario" className="mb-4 h-12 w-auto" style={{ filter: "brightness(0) invert(1)" }} />
               <ul className="space-y-2 text-muted-foreground">
                 <li><Link to="/joyeria/catalogo" className="transition-colors hover:text-foreground">Catálogo</Link></li>
-                <li><Link to="/joyeria/relojes" className="transition-colors hover:text-foreground">Relojes</Link></li>
+                <li><Link to="/joyeria/catalogo?tipo=relojes" className="transition-colors hover:text-foreground">Relojes</Link></li>
                 <li><Link to="/joyeria/carrito" className="transition-colors hover:text-foreground">Carrito</Link></li>
               </ul>
             </div>

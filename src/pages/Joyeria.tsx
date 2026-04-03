@@ -115,18 +115,18 @@ const FilterPanel = ({ category, setCategory, marca, setMarca, showRelojes, relo
   showRelojes: boolean;
   relojMarca: string; setRelojMarca: (v: string) => void;
 }) => (
-  <div className="space-y-6">
+  <div className="flex flex-col gap-4 md:flex-row md:items-end">
     {!showRelojes && (
       <>
-        <div>
-          <label className="mb-2 block text-xs font-medium uppercase tracking-[0.15em]">Categoría</label>
+        <div className="min-w-[160px]">
+          <label className="mb-1 block text-xs font-medium uppercase tracking-[0.15em]">Categoría</label>
           <Select value={category} onValueChange={setCategory}>
             <SelectTrigger><SelectValue /></SelectTrigger>
             <SelectContent>{allCategories.map((c) => <SelectItem key={c} value={c}>{c}</SelectItem>)}</SelectContent>
           </Select>
         </div>
-        <div>
-          <label className="mb-2 block text-xs font-medium uppercase tracking-[0.15em]">Marca</label>
+        <div className="min-w-[160px]">
+          <label className="mb-1 block text-xs font-medium uppercase tracking-[0.15em]">Marca</label>
           <Select value={marca} onValueChange={setMarca}>
             <SelectTrigger><SelectValue /></SelectTrigger>
             <SelectContent>{allBrands.map((m) => <SelectItem key={m} value={m}>{m}</SelectItem>)}</SelectContent>
@@ -135,8 +135,8 @@ const FilterPanel = ({ category, setCategory, marca, setMarca, showRelojes, relo
       </>
     )}
     {showRelojes && (
-      <div>
-        <label className="mb-2 block text-xs font-medium uppercase tracking-[0.15em]">Marca de Reloj</label>
+      <div className="min-w-[160px]">
+        <label className="mb-1 block text-xs font-medium uppercase tracking-[0.15em]">Marca de Reloj</label>
         <Select value={relojMarca} onValueChange={setRelojMarca}>
           <SelectTrigger><SelectValue /></SelectTrigger>
           <SelectContent>{watchBrands.map((r) => <SelectItem key={r} value={r}>{r}</SelectItem>)}</SelectContent>

@@ -1,158 +1,130 @@
 
 
-# Bazar Centenario + Joyería Centenario — Plan de Implementación
+## Objetivo
 
-## Sitemap Final
+Reemplazar el catálogo de joyería (datos mock) con los productos reales del Excel, incluyendo imágenes de los lotes, filtros actualizados, un botón especial para relojes, y páginas de detalle por producto.
 
+## Análisis del Excel
+
+**284 productos con foto** distribuidos en:
+
+| Categoría | Cantidad con foto | Lote | Marca |
+|---|---|---|---|
+| Cadenas Oro | 38 | Lote1 | Centenario (genérico) |
+| Pulsos Oro | 3 | Lote6 | Centenario |
+| Esclavas Oro | 8 | Lote6 | Centenario |
+| Anillos Oro | 50 | Lote2 | Centenario |
+| Dijes Oro | 49 | Lote3 | Centenario |
+| Arracadas Oro | 15 | Lote4 | Centenario |
+| Van Cleef & Arpels | 20 | Lote5 | Van Cleef & Arpels |
+| Cartier (joyería) | 24 | Lote5 | Cartier |
+| Tiffany & Co. | 23 (algunos sin precio) | Lote7 | Tiffany & Co. |
+| Bulgari | 20 (algunos sin precio) | Lote6 | Bulgari |
+| Chrome Hearts | 3 (sin precio) | Lote6 | Chrome Hearts |
+| Relojes | 31 | Lote8 | Rolex, Hublot, AP, Cartier, Patek Philippe, Jacob & Co |
+
+**Reglas de exclusión:**
+- Productos marcados `[SIN FOTO]` se excluyen
+- Productos sin precio visible (columna vacía o `#NUM!`) se incluyen sin precio mostrado (mostrar "Consultar precio")
+
+## Categorías derivadas del Excel
+
+- **Cadenas** (38 productos)
+- **Anillos** (50 productos)  
+- **Dijes** (49 productos)
+- **Arracadas/Aretes** (15 genéricos + aretes de marcas)
+- **Pulseras/Esclavas** (3 pulsos + 8 esclavas + pulseras de marcas)
+- **Collares** (collares de marcas)
+
+## Marcas derivadas del Excel
+
+- Centenario (oro genérico: cadenas, anillos, dijes, arracadas, pulsos, esclavas)
+- Van Cleef & Arpels
+- Cartier
+- Tiffany & Co.
+- Bulgari
+- Chrome Hearts
+
+## Cambios a implementar
+
+### 1. Archivo de datos: `src/data/products.ts` (nuevo)
+
+Un archivo central con todos los ~284 productos con foto, cada uno con:
+- `id` (basado en clave/referencia)
+- `name` (descripción limpia)
+- `details` (detalles adicionales)
+- `category` ("Cadenas", "Anillos", "Dijes", "Arracadas", "Pulseras", "Collares")
+- `brand` ("Centenario", "Van Cleef & Arpels", "Cartier", etc.)
+- `karat` (quilataje cuando aplique)
+- `size` (talla/largo/tamaño)
+- `price` (número o null si no hay precio)
+- `priceTotal` (precio con IVA cuando exista)
+- `image` (ruta: `/lote_X/IMG_XXXX.jpg`)
+- `type` ("joyeria" | "reloj")
+- Para relojes: `modelo`, `correa`, `dial`, `material`
+
+### 2. Archivo de datos relojes: incluido en el mismo `products.ts`
+
+Los 31 relojes del Lote8 con sus campos específicos (marca, modelo, correa, dial, material).
+
+### 3. Refactorizar `src/pages/Joyeria.tsx`
+
+- Importar productos de `src/data/products.ts`
+- **Filtros de categoría**: derivados de los datos reales ("Todos", "Cadenas", "Anillos", "Dijes", "Arracadas", "Pulseras", "Collares")
+- **Filtros de marca**: derivados de datos reales ("Todos", "Centenario", "Van Cleef & Arpels", "Cartier", "Tiffany & Co.", "Bulgari", "Chrome Hearts")
+- **Remover el filtro de "Relojes"** del panel de filtros
+- **Agregar botón "Relojes"** visible en el filter bar. Al hacer click, filtra solo productos de tipo "reloj"
+- Mantener el diseño editorial existente (GoldLine, CornerFrame, ParallaxImg, etc.)
+- Las imágenes ahora apuntan a `/lote_X/IMG_XXXX.jpg`
+- Productos sin precio muestran "Consultar precio"
+- Paginación o "cargar más" dado que hay ~250+ productos de joyería
+
+### 4. Refactorizar `src/pages/ProductDetail.tsx`
+
+- Buscar el producto por `id` en los datos importados
+- Mostrar imagen real del producto
+- Mostrar todos los detalles disponibles (quilataje, talla, largo, etc.)
+- Para relojes: mostrar specs específicos (modelo, correa, dial, material)
+- Los "productos relacionados" se sacan de la misma categoría/marca
+- Si no se encuentra el producto, mostrar 404
+
+### 5. Actualizar rutas en `src/App.tsx`
+
+- Mantener `/joyeria/relojes` como ruta que renderiza el catálogo filtrado por relojes (o redirigir a `/joyeria/catalogo` con filtro de relojes activo)
+- Asegurar que `/joyeria/:id` funcione con los nuevos IDs de producto
+
+### 6. Actualizar `src/components/JoyeriaLayout.tsx`
+
+- Nav item "Relojes" puede apuntar a `/joyeria/catalogo?tipo=relojes` o mantener la ruta actual
+
+## Estructura de datos (ejemplo)
+
+```typescript
+export interface Product {
+  id: string;
+  name: string;
+  details?: string;
+  category: string;
+  brand: string;
+  karat?: string;
+  size?: string;
+  price: number | null;
+  priceTotal?: number | null;
+  image: string;
+  type: "joyeria" | "reloj";
+  // Reloj-specific
+  modelo?: string;
+  correa?: string;
+  dial?: string;
+  material?: string;
+}
 ```
-/                        → Home (selector de rutas)
-/bazar                   → Ruta Bazar (servicios, confianza, FAQ)
-/simuladores             → Simuladores (Empeño + Oro/Plata/Diamantes)
-/sucursales              → Sucursales (listado, mapa, horarios)
-/joyeria                 → Tienda Joyería (catálogo con filtros)
-/joyeria/:id             → Ficha de producto
-/joyeria/carrito         → Carrito de compras
-/joyeria/checkout        → Checkout
-```
 
----
+## Notas importantes
 
-## Componentes Globales
-
-- **Header**: Logo "Centenario" a la izquierda. Navegación principal: Bazar | Simuladores | Sucursales | Joyería. Botón "Cotizar" destacado. Icono carrito (solo visible en ruta Joyería). Menú hamburguesa en mobile.
-- **Footer**: Columnas: Bazar (enlaces), Joyería (enlaces), Contacto (teléfono, email, redes). Aviso legal, política de privacidad. Texto: "Bazar Centenario y Joyería Centenario son parte de la misma empresa."
-- **Botón flotante WhatsApp**: Esquina inferior derecha, siempre visible.
-- **CTA sticky mobile**: Barra inferior fija en páginas Bazar/Simuladores con "Cotizar" + "WhatsApp".
-
----
-
-## 1. Home — Estructura por secciones
-
-1. **Hero principal**: Frase: "Casa de empeño y compra de oro, plata y diamantes" + "Tienda premium de joyería". Dos botones grandes: "Entrar a Bazar" / "Entrar a Joyería". CTA destacado: "Cotizar ahora". Chips de acceso rápido: Sucursales · WhatsApp · Catálogo.
-
-2. **Dos mundos, una marca**: Dos cards lado a lado. Card Bazar: icono, texto breve "Empeña o vende tus artículos y metales preciosos", botón "Conocer Bazar". Card Joyería: icono, texto breve "Encuentra piezas únicas con garantía", botón "Ver catálogo".
-
-3. **Simulador destacado**: Banner con texto "Obtén una estimación en menos de 2 minutos" + botón "Simular ahora".
-
-4. **Confianza / Cifras**: Tres indicadores: años de experiencia, sucursales, clientes atendidos.
-
-5. **Sucursales preview**: Mapa simplificado o listado de 3 sucursales principales con botón "Ver todas".
-
----
-
-## 2. Página Bazar — Estructura
-
-1. **Hero Bazar**: Título "Bazar Centenario". Subtítulo: "Empeña tus artículos o vende tu oro, plata y diamantes. Sin complicaciones." CTA: "Cotizar ahora" + "Ver sucursales".
-
-2. **Cómo funciona**: 3 pasos visuales (iconos + texto corto): Trae tu artículo → Valuación gratuita → Recibe tu dinero.
-
-3. **Servicios en cards**:
-   - Card "Empeño de artículos": electrónicos, herramienta, autos, electrodomésticos, oro/plata. CTA: "Simular empeño".
-   - Card "Compra de oro, plata y diamantes": descripción breve. CTA: "Simular cotización".
-
-4. **Sección Simula fácil**: Iconos de categorías (celular, laptop, auto, anillo, etc.) que llevan directo al simulador correspondiente.
-
-5. **Nosotros / Confianza**: Texto breve sobre profesionalismo, seguridad, sin juicios. "Tu tranquilidad es nuestra prioridad."
-
-6. **Preguntas rápidas (FAQ)**: Acordeón con 6-8 preguntas típicas (requisitos, plazos, tasas, qué artículos aceptan).
-
-7. **CTA final**: "Visítanos en sucursal" + "Escríbenos por WhatsApp".
-
----
-
-## 3. Simuladores — Estructura
-
-Página con tabs: **Empeño** | **Oro / Plata / Diamantes**
-
-### Simulador de Empeño (4 steps)
-
-- **Step 1 — Tipo de artículo**: Grid de cards con iconos: Celular, Laptop, Herramienta, Electrodoméstico, Auto, Otro.
-- **Step 2 — Datos básicos**: Formulario: marca (select), modelo (input opcional), estado (excelente/bueno/regular), valor aproximado de compra (input numérico).
-- **Step 3 — Resultado estimado**: Card con rango estimado ("$X,XXX — $X,XXX"). Disclaimer: "Esta cifra es solo una estimación. La valuación final se realiza en sucursal."
-- **Step 4 — Siguiente paso**: CTA: "Visita tu sucursal más cercana" + botón WhatsApp + botón Sucursales.
-
-### Simulador de Metales Preciosos (4 steps)
-
-- **Step 1 — Tipo de metal**: Cards: Oro / Plata / Diamantes.
-- **Step 2 — Detalles**: Peso en gramos (input + guía visual con ejemplos), quilataje (select con opciones comunes: 10k, 14k, 18k, 24k para oro; 925 para plata).
-- **Step 3 — Resultado estimado**: Card con rango. Disclaimer igual.
-- **Step 4 — Siguiente paso**: CTA WhatsApp + Sucursal.
-
-Barra de progreso visible en ambos simuladores. Botón "Atrás" en cada step.
-
----
-
-## 4. Sucursales — Estructura
-
-1. **Título**: "Nuestras sucursales"
-2. **Listado de sucursales**: Cards con: nombre, dirección, horarios, teléfono, botón "Cómo llegar" (abre Google Maps), botón "WhatsApp".
-3. **Mapa embebido**: Google Maps con pins de todas las sucursales.
-4. **Filtro por ciudad/zona** (si aplica).
-
----
-
-## 5. Ruta Joyería — Estructura
-
-### Catálogo (`/joyeria`)
-- Header de sección con texto: "Joyería Centenario — Piezas con garantía y diseño premium."
-- **Filtros**: Desktop: sidebar izquierdo (categoría, material, precio, disponibilidad). Mobile: botón "Filtrar" que abre drawer.
-- **Grid de productos**: Cards con imagen, nombre, precio, botón "Ver detalle".
-- Paginación o scroll infinito.
-
-### Ficha de producto (`/joyeria/:id`)
-- Galería de fotos (carousel).
-- Nombre, precio, descripción, medidas, material, garantía.
-- Selector de variantes si aplica (talla, color).
-- Botón "Agregar al carrito".
-- Sección "También te puede interesar".
-
-### Carrito (`/joyeria/carrito`)
-- Lista de productos con cantidad, precio unitario, subtotal.
-- Botón eliminar / actualizar cantidad.
-- Resumen: subtotal, envío, total.
-- Botón "Proceder al pago".
-
-### Checkout (`/joyeria/checkout`)
-- Formulario: datos de envío, método de pago (integrado con Shopify Checkout).
-- Resumen del pedido.
-- Botón "Confirmar pedido".
-
-**Integración Shopify**: Se habilitará Shopify como backend para gestionar productos, inventario, pedidos y pagos. La web se construye en Lovable y se conecta a Shopify vía API. Esto requiere activar la integración de Shopify en el proyecto.
-
----
-
-## Diseño y UI
-
-- **Paleta**: Fondo blanco (#FFFFFF), gris claro (#F5F5F5) para secciones alternas, negro (#1A1A1A) para texto, acento metálico/azul tenue (#6B7B8D) para botones y detalles.
-- **Tipografía**: Sans-serif moderna (Inter o similar). Headings en bold/semibold.
-- **Espaciado**: Generoso, secciones bien separadas, cards con padding amplio.
-- **Animaciones**: Fade-in al hacer scroll, hover suave en cards y botones. Sin exceso.
-- **Mobile-first**: Todo responsive. Navegación hamburguesa. Filtros en drawer. CTAs sticky en la parte inferior.
-
----
-
-## Copys Placeholder (títulos y CTAs)
-
-| Ubicación | Copy |
-|---|---|
-| Hero Home título | "Casa de empeño y compra de oro, plata y diamantes" |
-| Hero Home subtítulo | "Tienda premium de joyería" |
-| Botón Bazar | "Entrar a Bazar" |
-| Botón Joyería | "Entrar a Joyería" |
-| CTA principal | "Cotizar ahora" |
-| Chip sucursales | "Sucursales" |
-| Chip WhatsApp | "WhatsApp" |
-| Chip catálogo | "Catálogo" |
-| Card Bazar | "Empeña o vende tus artículos y metales preciosos" |
-| Card Joyería | "Encuentra piezas únicas con garantía" |
-| Simulador banner | "Obtén una estimación en menos de 2 minutos" |
-| Bazar hero | "Empeña tus artículos o vende tu oro, plata y diamantes. Sin complicaciones." |
-| Paso 1 Bazar | "Trae tu artículo" |
-| Paso 2 Bazar | "Valuación gratuita" |
-| Paso 3 Bazar | "Recibe tu dinero" |
-| Confianza | "Tu tranquilidad es nuestra prioridad" |
-| Disclaimer simulador | "Esta cifra es solo una estimación. La valuación final se realiza en sucursal." |
-| Joyería header | "Piezas con garantía y diseño premium" |
-| CTA sucursal | "Visita tu sucursal más cercana" |
-| CTA WhatsApp | "Escríbenos por WhatsApp" |
+- Los ~97 productos sin foto se excluyen completamente
+- Algunos productos Bulgari/Tiffany tienen `#NUM!` como precio -- se muestran como "Consultar precio"
+- Chrome Hearts no tiene precios -- "Consultar precio" para los 3
+- La ruta de imágenes es relativa a `/public/` (ej: `/lote_1/IMG_2667.jpg`)
+- Se mantiene todo el diseño editorial existente (parallax, gold lines, corner frames)
 

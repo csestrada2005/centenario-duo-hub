@@ -147,7 +147,7 @@ const JoyeriaLayout = () => {
                     to={item.href}
                     onClick={() => setMenuOpen(false)}
                     className={`py-3 text-xl transition-colors hover:text-foreground ${
-                      location.pathname === item.href ? "text-foreground" : "text-muted-foreground"
+                      (item.href.includes("?") ? location.pathname + location.search === item.href : location.pathname === item.href) ? "text-foreground" : "text-muted-foreground"
                     }`}
                     style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
                   >

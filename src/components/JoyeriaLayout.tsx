@@ -14,7 +14,7 @@ import logoJoyeria from "@/assets/logo-joyeria.png";
 const joyeriaNav = [
   { label: "Inicio", href: "/joyeria" },
   { label: "Catálogo", href: "/joyeria/catalogo" },
-  { label: "Relojes", href: "/joyeria/relojes" },
+  { label: "Relojes", href: "/joyeria/catalogo?tipo=relojes" },
   { label: "Carrito", href: "/joyeria/carrito" },
 ];
 
@@ -147,7 +147,7 @@ const JoyeriaLayout = () => {
                     to={item.href}
                     onClick={() => setMenuOpen(false)}
                     className={`py-3 text-xl transition-colors hover:text-foreground ${
-                      location.pathname === item.href ? "text-foreground" : "text-muted-foreground"
+                      (item.href.includes("?") ? location.pathname + location.search === item.href : location.pathname === item.href) ? "text-foreground" : "text-muted-foreground"
                     }`}
                     style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
                   >
@@ -190,7 +190,7 @@ const JoyeriaLayout = () => {
               <img src={logoJoyeria} alt="Joyería Centenario" className="mb-4 h-12 w-auto" style={{ filter: "brightness(0) invert(1)" }} />
               <ul className="space-y-2 text-muted-foreground">
                 <li><Link to="/joyeria/catalogo" className="transition-colors hover:text-foreground">Catálogo</Link></li>
-                <li><Link to="/joyeria/relojes" className="transition-colors hover:text-foreground">Relojes</Link></li>
+                <li><Link to="/joyeria/catalogo?tipo=relojes" className="transition-colors hover:text-foreground">Relojes</Link></li>
                 <li><Link to="/joyeria/carrito" className="transition-colors hover:text-foreground">Carrito</Link></li>
               </ul>
             </div>

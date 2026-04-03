@@ -56,7 +56,7 @@ const AnimatedRoutes = () => {
           <Route path="/joyeria/:id" element={<ProductDetail />} />
           <Route path="/joyeria/carrito" element={<Carrito />} />
           <Route path="/joyeria/checkout" element={<Checkout />} />
-          <Route path="/joyeria/relojes" element={<Relojes />} />
+          <Route path="/joyeria/relojes" element={<Joyeria />} />
         </Route>
 
         <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />

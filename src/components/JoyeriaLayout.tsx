@@ -14,7 +14,7 @@ import logoJoyeria from "@/assets/logo-joyeria.png";
 const joyeriaNav = [
   { label: "Inicio", href: "/joyeria" },
   { label: "Catálogo", href: "/joyeria/catalogo" },
-  { label: "Relojes", href: "/joyeria/relojes" },
+  { label: "Relojes", href: "/joyeria/catalogo?tipo=relojes" },
   { label: "Carrito", href: "/joyeria/carrito" },
 ];
 

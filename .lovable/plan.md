@@ -2,129 +2,69 @@
 
 ## Objetivo
 
-Reemplazar el catálogo de joyería (datos mock) con los productos reales del Excel, incluyendo imágenes de los lotes, filtros actualizados, un botón especial para relojes, y páginas de detalle por producto.
+Refactorizar completamente `src/data/products.ts`, `/joyeria/catalogo` y las páginas de producto usando las nuevas imágenes renombradas por referencia (CAD 1.jpg, AN 1.jpg, RE 1.jpg, etc.) y filtrando solo los productos con celdas grises del Excel (más todos los Relojes).
 
-## Análisis del Excel
+## Análisis de cambios clave
 
-**284 productos con foto** distribuidos en:
+**Imágenes renombradas**: Ya no usan IMG_XXXX.jpg, ahora usan el nombre de referencia del Excel:
+- lote1: `CAD 1.jpg` ... `CAD 36.jpg` + `ES 1.jpg` ... `ES 8.jpg` + `PUL 1.jpg` ... `PUL 31.jpg`
+- lote2: `AN 1.jpg` ... `AN 50.jpg` (algunos con sufijo .2)
+- lote3: `DIJE 1.jpg` ... `DIJE 76.jpg`
+- lote4: `ARR 1.jpg` ... `ARR 15.jpg` + `VC&A 1.jpg` ... `VC&A 20.jpg`
+- lote5: `CAR 1.jpg` ... `CAR 24.jpg`
+- lote6: `TIF 1.jpg` ... `TIF 16.jpg` + `IMG_3078.jpg`, `IMG_3081.jpg`, `IMG_3083.jpg`
+- lote7: `BUL 1.jpg` ... `BUL 20.jpg` + `CH H 1.jpg` ... `CH H 3.jpg` + `TIF 17.jpg` ... `TIF 23.jpg`
+- lote8: `RE 1.jpg` ... `RE 35.jpg`
 
-| Categoría | Cantidad con foto | Lote | Marca |
-|---|---|---|---|
-| Cadenas Oro | 38 | Lote1 | Centenario (genérico) |
-| Pulsos Oro | 3 | Lote6 | Centenario |
-| Esclavas Oro | 8 | Lote6 | Centenario |
-| Anillos Oro | 50 | Lote2 | Centenario |
-| Dijes Oro | 49 | Lote3 | Centenario |
-| Arracadas Oro | 15 | Lote4 | Centenario |
-| Van Cleef & Arpels | 20 | Lote5 | Van Cleef & Arpels |
-| Cartier (joyería) | 24 | Lote5 | Cartier |
-| Tiffany & Co. | 23 (algunos sin precio) | Lote7 | Tiffany & Co. |
-| Bulgari | 20 (algunos sin precio) | Lote6 | Bulgari |
-| Chrome Hearts | 3 (sin precio) | Lote6 | Chrome Hearts |
-| Relojes | 31 | Lote8 | Rolex, Hublot, AP, Cartier, Patek Philippe, Jacob & Co |
+**Reorganización de lotes** (diferente al Excel original):
+- Esclavas y Pulsos ahora en lote1 (no lote6)
+- Van Cleef ahora en lote4 (no lote5)
+- Tiffany dividido: lote6 (T&CO 1-16) y lote7 (T&CO 17-21+)
+- Bulgari y Chrome Hearts en lote7 (no lote6)
 
-**Reglas de exclusión:**
-- Productos marcados `[SIN FOTO]` se excluyen
-- Productos sin precio visible (columna vacía o `#NUM!`) se incluyen sin precio mostrado (mostrar "Consultar precio")
+**Filtro de celdas grises**: Solo incluir productos cuyas celdas estén coloreadas en gris en el Excel. Durante implementación se parseará el Excel con openpyxl para detectar el fill color de cada fila y determinar cuáles incluir.
 
-## Categorías derivadas del Excel
+## Plan de implementación
 
-- **Cadenas** (38 productos)
-- **Anillos** (50 productos)  
-- **Dijes** (49 productos)
-- **Arracadas/Aretes** (15 genéricos + aretes de marcas)
-- **Pulseras/Esclavas** (3 pulsos + 8 esclavas + pulseras de marcas)
-- **Collares** (collares de marcas)
+### 1. Parsear Excel con openpyxl (script temporal)
 
-## Marcas derivadas del Excel
+Ejecutar un script Python que:
+- Abra el Excel y recorra cada hoja de productos
+- Detecte filas con celdas de fondo gris
+- Genere la lista de productos a incluir con sus datos
+- Mapee cada referencia a su archivo de imagen real en el lote correcto
+- Excluya productos sin celda gris (excepto Relojes, que se incluyen todos)
+- Genere el código TypeScript del array de productos
 
-- Centenario (oro genérico: cadenas, anillos, dijes, arracadas, pulsos, esclavas)
-- Van Cleef & Arpels
-- Cartier
-- Tiffany & Co.
-- Bulgari
-- Chrome Hearts
+### 2. Reescribir `src/data/products.ts`
 
-## Cambios a implementar
+- Misma interfaz `Product` existente
+- Actualizar todas las rutas de imagen: `/lote_1/IMG_2667.jpg` a `/lote1/CAD 1.jpg` (con espacio URL-encoded si necesario)
+- Solo incluir productos con celdas grises + todos los relojes
+- Mapear las referencias del Excel a los archivos reales en cada lote
+- Exportar listas dinámicas de categorías y marcas
 
-### 1. Archivo de datos: `src/data/products.ts` (nuevo)
+### 3. Actualizar `src/pages/Joyeria.tsx`
 
-Un archivo central con todos los ~284 productos con foto, cada uno con:
-- `id` (basado en clave/referencia)
-- `name` (descripción limpia)
-- `details` (detalles adicionales)
-- `category` ("Cadenas", "Anillos", "Dijes", "Arracadas", "Pulseras", "Collares")
-- `brand` ("Centenario", "Van Cleef & Arpels", "Cartier", etc.)
-- `karat` (quilataje cuando aplique)
-- `size` (talla/largo/tamaño)
-- `price` (número o null si no hay precio)
-- `priceTotal` (precio con IVA cuando exista)
-- `image` (ruta: `/lote_X/IMG_XXXX.jpg`)
-- `type` ("joyeria" | "reloj")
-- Para relojes: `modelo`, `correa`, `dial`, `material`
+- Importar productos actualizados
+- Filtros de categoría y marca se derivan automáticamente de los datos
+- Mantener botón "Relojes" y diseño editorial existente
+- Las rutas de imagen ahora usan los nuevos paths
 
-### 2. Archivo de datos relojes: incluido en el mismo `products.ts`
+### 4. Actualizar `src/pages/ProductDetail.tsx`
 
-Los 31 relojes del Lote8 con sus campos específicos (marca, modelo, correa, dial, material).
+- Los IDs de producto se mantienen consistentes con el nuevo dataset
+- Mostrar imágenes adicionales (.2, .3 variants) si existen
+- Mostrar todos los campos disponibles por tipo de producto
 
-### 3. Refactorizar `src/pages/Joyeria.tsx`
+### 5. Sin cambios en rutas ni layouts
 
-- Importar productos de `src/data/products.ts`
-- **Filtros de categoría**: derivados de los datos reales ("Todos", "Cadenas", "Anillos", "Dijes", "Arracadas", "Pulseras", "Collares")
-- **Filtros de marca**: derivados de datos reales ("Todos", "Centenario", "Van Cleef & Arpels", "Cartier", "Tiffany & Co.", "Bulgari", "Chrome Hearts")
-- **Remover el filtro de "Relojes"** del panel de filtros
-- **Agregar botón "Relojes"** visible en el filter bar. Al hacer click, filtra solo productos de tipo "reloj"
-- Mantener el diseño editorial existente (GoldLine, CornerFrame, ParallaxImg, etc.)
-- Las imágenes ahora apuntan a `/lote_X/IMG_XXXX.jpg`
-- Productos sin precio muestran "Consultar precio"
-- Paginación o "cargar más" dado que hay ~250+ productos de joyería
+Las rutas en `App.tsx` y `JoyeriaLayout.tsx` permanecen igual.
 
-### 4. Refactorizar `src/pages/ProductDetail.tsx`
+## Notas técnicas
 
-- Buscar el producto por `id` en los datos importados
-- Mostrar imagen real del producto
-- Mostrar todos los detalles disponibles (quilataje, talla, largo, etc.)
-- Para relojes: mostrar specs específicos (modelo, correa, dial, material)
-- Los "productos relacionados" se sacan de la misma categoría/marca
-- Si no se encuentra el producto, mostrar 404
-
-### 5. Actualizar rutas en `src/App.tsx`
-
-- Mantener `/joyeria/relojes` como ruta que renderiza el catálogo filtrado por relojes (o redirigir a `/joyeria/catalogo` con filtro de relojes activo)
-- Asegurar que `/joyeria/:id` funcione con los nuevos IDs de producto
-
-### 6. Actualizar `src/components/JoyeriaLayout.tsx`
-
-- Nav item "Relojes" puede apuntar a `/joyeria/catalogo?tipo=relojes` o mantener la ruta actual
-
-## Estructura de datos (ejemplo)
-
-```typescript
-export interface Product {
-  id: string;
-  name: string;
-  details?: string;
-  category: string;
-  brand: string;
-  karat?: string;
-  size?: string;
-  price: number | null;
-  priceTotal?: number | null;
-  image: string;
-  type: "joyeria" | "reloj";
-  // Reloj-specific
-  modelo?: string;
-  correa?: string;
-  dial?: string;
-  material?: string;
-}
-```
-
-## Notas importantes
-
-- Los ~97 productos sin foto se excluyen completamente
-- Algunos productos Bulgari/Tiffany tienen `#NUM!` como precio -- se muestran como "Consultar precio"
-- Chrome Hearts no tiene precios -- "Consultar precio" para los 3
-- La ruta de imágenes es relativa a `/public/` (ej: `/lote_1/IMG_2667.jpg`)
-- Se mantiene todo el diseño editorial existente (parallax, gold lines, corner frames)
+- Las imágenes con espacios en el nombre (e.g. `CAD 1.jpg`) necesitan URL encoding en las rutas: `/lote1/CAD%201.jpg` o usar `encodeURIComponent`
+- Imágenes con `&` en el nombre (VC&A) también necesitan encoding especial
+- Los archivos `.2.jpg`, `.3.jpg` son fotos adicionales del mismo producto (se pueden usar como galería o ignorar por ahora)
+- Productos con precio `#NUM!` o vacío se muestran como "Consultar precio"
 

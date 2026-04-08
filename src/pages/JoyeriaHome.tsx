@@ -103,7 +103,7 @@ const JoyeriaHome = () => {
   const heroTextY = useTransform(scrollYProgress, [0, 0.45], [0, -80]);
 
   return (
-    <div>
+    <div className="overflow-x-hidden">
       {/* ═══════ HERO — Split editorial with parallax ═══════ */}
       <section ref={heroRef} className="relative min-h-screen overflow-hidden">
         {/* Background image — full on mobile, right half on desktop */}

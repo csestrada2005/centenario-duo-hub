@@ -5,6 +5,10 @@ export interface CartItem {
   name: string;
   price: number;
   qty: number;
+  karat?: string;
+  size?: string;
+  category?: string;
+  brand?: string;
 }
 
 interface CartContextType {

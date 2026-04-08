@@ -5,7 +5,7 @@ import { ArrowRight, Gem, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import MagneticText from "@/components/MagneticText";
 import { products } from "@/data/products";
-import heroImg from "@/assets/hero-joyeria.jpg";
+import heroImg from "@/assets/joyeria-hero.jpg";
 import galleryJewelry from "@/assets/gallery-jewelry-1.jpg";
 import galleryHands from "@/assets/gallery-hands.jpg";
 

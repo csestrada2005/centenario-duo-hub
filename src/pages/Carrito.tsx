@@ -15,12 +15,14 @@ const Carrito = () => {
 
   const handleComprar = () => {
     if (items.length === 0) return;
-    const msg =
-      items.length === 1
-        ? `Hola, estoy interesado en comprar: ${items[0].name} (x${items[0].qty}). ¿Me pueden dar más información?`
-        : `Hola, estoy interesado en los siguientes productos:\n\n${items
-            .map((i) => `• ${i.name} (x${i.qty})`)
-            .join("\n")}\n\n¿Me pueden dar más información?`;
+    const lines = items.map((i) => {
+      const details = [i.name];
+      if (i.karat) details.push(i.karat);
+      if (i.size) details.push(i.size);
+      if (i.category) details.push(i.category);
+      return `• ${details.join(" — ")} (x${i.qty})`;
+    });
+    const msg = `Hola, estoy interesado en:\n\n${lines.join("\n")}\n\n¿Me pueden dar más información?`;
     window.open(
       `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`,
       "_blank"

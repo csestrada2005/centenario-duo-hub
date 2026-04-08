@@ -9,8 +9,10 @@ import { useCart } from "@/contexts/CartContext";
 
 const ProductDetail = () => {
   const { id } = useParams();
+  const { addItem } = useCart();
   const relatedRef = useRef<HTMLDivElement>(null);
   const relatedInView = useInView(relatedRef, { once: true, margin: "-60px" });
+  const [added, setAdded] = useState(false);
 
   const product = products.find((p) => p.id === id);
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
@@ -163,10 +165,34 @@ const ProductDetail = () => {
               {isWatch && product.material && <p><span className="text-foreground">Material:</span> {product.material}</p>}
             </motion.div>
 
-            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8, duration: 0.5 }}>
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8, duration: 0.5 }}
+              className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Button size="lg" onClick={handleBuy} variant="editorial"
-                className="mt-8 w-full md:w-auto group">
+                className="w-full sm:w-auto group">
                 <ShoppingCart className="mr-2 h-4 w-4 group-hover:-rotate-12 transition-transform" /> Comprar
+              </Button>
+              <Button size="lg" variant="editorialOutline"
+                className="w-full sm:w-auto group"
+                onClick={() => {
+                  if (!product) return;
+                  addItem({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price ?? 0,
+                    karat: product.karat,
+                    size: product.size,
+                    category: product.category,
+                    brand: product.brand,
+                  });
+                  setAdded(true);
+                  setTimeout(() => setAdded(false), 1500);
+                }}
+              >
+                {added ? (
+                  <><Check className="mr-2 h-4 w-4" /> Agregado</>
+                ) : (
+                  <><Plus className="mr-2 h-4 w-4 group-hover:rotate-90 transition-transform" /> Añadir al carrito</>
+                )}
               </Button>
             </motion.div>
           </motion.div>

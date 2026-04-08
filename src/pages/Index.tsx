@@ -9,35 +9,6 @@ import heroImage from "@/assets/hero-home.jpg";
 import logoBazar from "@/assets/logo-bazar.png";
 import logoJoyeria from "@/assets/logo-joyeria.png";
 
-/* ── Animated Counter ── */
-const AnimatedCounter = ({ target, suffix = "", duration = 2500 }: { target: number; suffix?: string; duration?: number }) => {
-  const ref = useRef<HTMLSpanElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    if (!isInView) return;
-    let start = 0;
-    const step = target / (duration / 16);
-    const timer = setInterval(() => {
-      start += step;
-      if (start >= target) {
-        setCount(target);
-        clearInterval(timer);
-      } else {
-        setCount(Math.floor(start));
-      }
-    }, 16);
-    return () => clearInterval(timer);
-  }, [isInView, target, duration]);
-
-  return (
-    <span ref={ref} className="tabular-nums">
-      {count.toLocaleString()}{suffix}
-    </span>
-  );
-};
-
 /* ── Gallery image with individual parallax ── */
 const GalleryImage = ({ src, alt, label, offset }: { src: string; alt: string; label: string; offset: number }) => {
   const ref = useRef<HTMLDivElement>(null);

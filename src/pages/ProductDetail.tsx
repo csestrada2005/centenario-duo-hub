@@ -1,11 +1,11 @@
 import { useParams, Link } from "react-router-dom";
-import { useRef } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ShoppingCart, Check } from "lucide-react";
+import { ArrowLeft, ShoppingCart, Check, ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, useInView } from "framer-motion";
-import { useState } from "react";
 import { useCart } from "@/contexts/CartContext";
 import { products } from "@/data/products";
+import useEmblaCarousel from "embla-carousel-react";
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -15,6 +15,23 @@ const ProductDetail = () => {
   const { addItem } = useCart();
 
   const product = products.find((p) => p.id === id);
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setSelectedIndex(emblaApi.selectedScrollSnap());
+  }, [emblaApi, setSelectedIndex]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    onSelect();
+    emblaApi.on("select", onSelect);
+    emblaApi.on("reInit", onSelect);
+  }, [emblaApi, onSelect]);
+
+  const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi]);
+  const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi]);
 
   if (!product) {
     return (
@@ -50,9 +67,63 @@ const ProductDetail = () => {
           {/* Image */}
           <motion.div initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}>
-            <div className="group aspect-[3/4] overflow-hidden bg-muted">
-              <img src={product.image} alt={product.name} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
-            </div>
+            {product.images && product.images.length > 0 ? (
+              <div className="relative group">
+                <div className="overflow-hidden" ref={emblaRef}>
+                  <div className="flex">
+                    <div className="flex-[0_0_100%] min-w-0">
+                      <div className="aspect-[3/4] overflow-hidden bg-muted">
+                        <img src={product.image} alt={product.name} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                      </div>
+                    </div>
+                    {product.images.map((img, index) => (
+                      <div key={index} className="flex-[0_0_100%] min-w-0">
+                        <div className="aspect-[3/4] overflow-hidden bg-muted">
+                          <img src={img} alt={`${product.name} - Imagen ${index + 2}`} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Carousel Navigation */}
+                <button
+                  className="absolute left-4 top-1/2 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-full bg-background/80 text-foreground opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100 hover:bg-background"
+                  onClick={scrollPrev}
+                  aria-label="Imagen anterior"
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                </button>
+                <button
+                  className="absolute right-4 top-1/2 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-full bg-background/80 text-foreground opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100 hover:bg-background"
+                  onClick={scrollNext}
+                  aria-label="Siguiente imagen"
+                >
+                  <ChevronRight className="h-4 w-4" />
+                </button>
+
+                {/* Carousel Indicators */}
+                <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
+                  <button
+                    className={`h-1.5 rounded-full transition-all ${selectedIndex === 0 ? "w-4 bg-primary" : "w-1.5 bg-primary/40"}`}
+                    onClick={() => emblaApi && emblaApi.scrollTo(0)}
+                    aria-label="Ir a imagen 1"
+                  />
+                  {product.images.map((_, index) => (
+                    <button
+                      key={index}
+                      className={`h-1.5 rounded-full transition-all ${selectedIndex === index + 1 ? "w-4 bg-primary" : "w-1.5 bg-primary/40"}`}
+                      onClick={() => emblaApi && emblaApi.scrollTo(index + 1)}
+                      aria-label={`Ir a imagen ${index + 2}`}
+                    />
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div className="group aspect-[3/4] overflow-hidden bg-muted">
+                <img src={product.image} alt={product.name} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+              </div>
+            )}
           </motion.div>
 
           {/* Info */}

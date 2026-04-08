@@ -1,70 +1,80 @@
 
 
-## Objetivo
+## Objective
 
-Refactorizar completamente `src/data/products.ts`, `/joyeria/catalogo` y las páginas de producto usando las nuevas imágenes renombradas por referencia (CAD 1.jpg, AN 1.jpg, RE 1.jpg, etc.) y filtrando solo los productos con celdas grises del Excel (más todos los Relojes).
+Re-parse the Excel and fix all data discrepancies in `src/data/products.ts`. There are many errors across the entire file.
 
-## Análisis de cambios clave
+## Discrepancies Found
 
-**Imágenes renombradas**: Ya no usan IMG_XXXX.jpg, ahora usan el nombre de referencia del Excel:
-- lote1: `CAD 1.jpg` ... `CAD 36.jpg` + `ES 1.jpg` ... `ES 8.jpg` + `PUL 1.jpg` ... `PUL 31.jpg`
-- lote2: `AN 1.jpg` ... `AN 50.jpg` (algunos con sufijo .2)
-- lote3: `DIJE 1.jpg` ... `DIJE 76.jpg`
-- lote4: `ARR 1.jpg` ... `ARR 15.jpg` + `VC&A 1.jpg` ... `VC&A 20.jpg`
-- lote5: `CAR 1.jpg` ... `CAR 24.jpg`
-- lote6: `TIF 1.jpg` ... `TIF 16.jpg` + `IMG_3078.jpg`, `IMG_3081.jpg`, `IMG_3083.jpg`
-- lote7: `BUL 1.jpg` ... `BUL 20.jpg` + `CH H 1.jpg` ... `CH H 3.jpg` + `TIF 17.jpg` ... `TIF 23.jpg`
-- lote8: `RE 1.jpg` ... `RE 35.jpg`
+### Cadenas (CAD 30-36) — Data shifted by 2 positions
+All data from CAD 30 onward is wrong (sizes, prices, karats are from different rows):
+- **CAD 30**: should be 48CM, $8,988 (has 64CM, $50,076)
+- **CAD 31**: should be 42CM, $1,712 (has 68CM, $53,821)
+- **CAD 32**: should be 14K, 46CM, $9,630 (has 10k, 48CM, $8,988)
+- **CAD 33**: should be 10k, 44cm, $2,996 (has 10K, 42CM, $1,712)
+- **CAD 34**: should be ROSARIO FLORENTINO 10K, 48CM, $8,774 (has 14K, 46CM, $9,630)
+- **CAD 35**: should be ROSARIO FLORENTINO 10K, 52CM, $4,387 (has 10k, 44cm, $2,996)
+- **CAD 36**: should be CADENA BARBADA 10K, 60CM, $11,128 (has 10K, 48CM, $8,774)
 
-**Reorganización de lotes** (diferente al Excel original):
-- Esclavas y Pulsos ahora en lote1 (no lote6)
-- Van Cleef ahora en lote4 (no lote5)
-- Tiffany dividido: lote6 (T&CO 1-16) y lote7 (T&CO 17-21+)
-- Bulgari y Chrome Hearts en lote7 (no lote6)
+### Pulsos (PUL 31)
+- **PUL 31**: should be $14,124 (has $8,132)
 
-**Filtro de celdas grises**: Solo incluir productos cuyas celdas estén coloreadas en gris en el Excel. Durante implementación se parseará el Excel con openpyxl para detectar el fill color de cada fila y determinar cuáles incluir.
+### Anillos
+- **AN 7**: should be price $10,443.20 (has null)
+- **AN 47-72**: prices should use "Precio Total" (Precio 2) column but are using "Precio" (base) instead
 
-## Plan de implementación
+### Dijes
+- **DIJE 14**: should be price $4,494 (has null)
+- **DIJE 28**: should be size 5CM, price $2,568 (has 4.5CM, $22,630 — got DIJE 29's data)
 
-### 1. Parsear Excel con openpyxl (script temporal)
+### Tiffany (TIF) — Multiple shifts
+- **TIF 6**: should be $363,800 (has $124,120 — that's TIF 7's price)
+- **TIF 7**: should be $124,120 (has $267,500 — wrong)
+- **TIF 9**: should be $203,300 (has $1,284,000 — that's TIF 11)
+- **TIF 10**: should have no size, price $96,300 (has size "7", price $160,500)
+- **TIF 11**: should be $1,284,000 (has null)
+- **TIF 12**: should be $160,500, size 7 (has null, no size)
+- **TIF 15-16**: have prices that belong to TIF 17-18; Excel shows no price for these
+- **TIF 17-23**: various price/size shifts
 
-Ejecutar un script Python que:
-- Abra el Excel y recorra cada hoja de productos
-- Detecte filas con celdas de fondo gris
-- Genere la lista de productos a incluir con sus datos
-- Mapee cada referencia a su archivo de imagen real en el lote correcto
-- Excluya productos sin celda gris (excepto Relojes, que se incluyen todos)
-- Genere el código TypeScript del array de productos
+### Van Cleef (VCA 10-14)
+- **VCA 10**: should be $28,890 (has null)
+- **VCA 11**: should be $34,240 (has null)
+- **VCA 12**: should be $38,520 (has null)
+- **VCA 13**: should be $40,660 (has null)
+- **VCA 14**: should be $28,890 (has null)
 
-### 2. Reescribir `src/data/products.ts`
+### Bulgari
+- **BUL 17**: should be $224,700 (has null)
+- **BUL 18**: should be $1,979,500, size 8 (has $224,700 — BUL 17's price)
+- **BUL 19**: should have no price (has $1,979,500 and size 8 — BUL 18's data)
+- **BUL 11**: name missing full details "ORO AMARILLO 18K DIAMANTES RUBIES"
 
-- Misma interfaz `Product` existente
-- Actualizar todas las rutas de imagen: `/lote_1/IMG_2667.jpg` a `/lote1/CAD 1.jpg` (con espacio URL-encoded si necesario)
-- Solo incluir productos con celdas grises + todos los relojes
-- Mapear las referencias del Excel a los archivos reales en cada lote
-- Exportar listas dinámicas de categorías y marcas
+### Relojes
+- **RE 6**: Excel has correa "Oyster" (missing in code), dial is empty (code has "Tiffany" which looks wrong — RE 7 has dial "Tiffany")
+- **RE 7**: Excel has dial "Tiffany" and material "Oro amarillo" (code missing material)
+- **RE 10**: Excel has material "Oystersteel" (code has "2 Tonos")
+- **RE 13**: Excel has correa "Oyster", dial "Negro", material "2 Tonos" (code missing all)
+- **RE 21**: Excel modelo is "Big Bang One Click" (code has it, but Excel typo "Big Bnag")
 
-### 3. Actualizar `src/pages/Joyeria.tsx`
+### Missing product: DIJE 77
+- Excel has DIJE 77 (MARIPOSA, $1,391) but products.ts stops at DIJE 76
 
-- Importar productos actualizados
-- Filtros de categoría y marca se derivan automáticamente de los datos
-- Mantener botón "Relojes" y diseño editorial existente
-- Las rutas de imagen ahora usan los nuevos paths
+### Bulgari count: Excel has BUL 1-19 (19 items), not 20
 
-### 4. Actualizar `src/pages/ProductDetail.tsx`
+## Plan
 
-- Los IDs de producto se mantienen consistentes con el nuevo dataset
-- Mostrar imágenes adicionales (.2, .3 variants) si existen
-- Mostrar todos los campos disponibles por tipo de producto
+### 1. Re-generate `src/data/products.ts` via Python script
 
-### 5. Sin cambios en rutas ni layouts
+Run a Python script with openpyxl that:
+- Reads the new Excel file cell by cell
+- Extracts the exact "Precio Total" (Precio 2) value for each product
+- Uses the "Detalles" column for the product name (where available)
+- Maps references to correct lote folders
+- Handles all edge cases: `$-`, empty prices, `#NUM!`
+- Produces the complete TypeScript array with correct data
 
-Las rutas en `App.tsx` y `JoyeriaLayout.tsx` permanecen igual.
+### 2. No changes needed to Joyeria.tsx or ProductDetail.tsx
 
-## Notas técnicas
-
-- Las imágenes con espacios en el nombre (e.g. `CAD 1.jpg`) necesitan URL encoding en las rutas: `/lote1/CAD%201.jpg` o usar `encodeURIComponent`
-- Imágenes con `&` en el nombre (VC&A) también necesitan encoding especial
-- Los archivos `.2.jpg`, `.3.jpg` son fotos adicionales del mismo producto (se pueden usar como galería o ignorar por ahora)
-- Productos con precio `#NUM!` o vacío se muestran como "Consultar precio"
+The UI components already work correctly — only the data file needs fixing.
 

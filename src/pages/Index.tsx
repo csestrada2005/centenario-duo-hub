@@ -215,6 +215,11 @@ const MobileLogoCarousel = () => {
   );
 };
 
+const galleryIds = ["cad-1", "an-1", "vcanda-1", "re-1"];
+const galleryProducts = galleryIds
+  .map((id) => products.find((p) => p.id === id))
+  .filter((p): p is NonNullable<typeof p> => Boolean(p));
+
 
 const Index = () => {
   const [introDone, setIntroDone] = useState(false);

@@ -1,24 +1,31 @@
 
 
-## Plan: Actualizar FAQ de plazos de pago y asegurar imágenes
+## Plan: Correcciones de consistencia responsiva y rutas rotas
 
-### Cambios
+### Problemas encontrados
 
-**1. Actualizar respuesta de "¿Cuánto tiempo tengo para pagar?" en `src/pages/Bazar.tsx`**
+1. **Rutas rotas en Header y Footer**: El componente `Header.tsx` tiene links a `/simuladores` y `/sucursales`, pero esas rutas no existen — están bajo `/bazar/simuladores` y `/bazar/sucursales`. Lo mismo pasa en `Footer.tsx`. Esto causa 404 al navegar.
 
-Reemplazar la respuesta genérica de "30 días" con la política real detallada:
+2. **Texto cortado en carrito vacío**: En móvil, el botón "AGREGA PRODUCTOS PARA CONTINUAR" se trunca horizontalmente en la página del carrito.
 
-- **Joyería**: Plazo de 2 meses. El primer mes se divide en semanas: semana 1 pagas 3%, semana 2 el 6%, semana 3 el 9%, semana 4 el 12%. Si te extiendes al segundo mes, pagarías el 24%.
-- **Artículos**: Plazo de 1 mes con 12% de interés mensual.
+3. **Header.tsx ya no se usa**: El `Header.tsx` no es usado por ningún layout activo (BazarLayout y JoyeriaLayout tienen sus propios headers). Solo `Layout.tsx` lo usa, pero `Layout.tsx` no está en las rutas. Se puede limpiar o ignorar.
 
-La respuesta se formateará de forma clara y legible dentro del acordeón.
+### Cambios a realizar
 
-**2. Agregar manejo de imágenes rotas en `src/pages/JoyeriaHome.tsx` y `src/pages/Index.tsx`**
+**1. Corregir links en `src/components/Footer.tsx`**
+- Cambiar `/simuladores` → `/bazar/simuladores`
+- Cambiar `/sucursales` → `/bazar/sucursales`
 
-Añadir un `onError` handler en las etiquetas `<img>` de productos para que si una imagen falla, muestre un fondo gris con un ícono en lugar de la imagen rota. Esto previene los broken image icons que se ven en los screenshots.
+**2. Corregir links en `src/components/Header.tsx`**
+- Cambiar `href: "/simuladores"` → `href: "/bazar/simuladores"`
+- Cambiar `href: "/sucursales"` → `href: "/bazar/sucursales"`
+- Cambiar los 2 botones de "Cotizar" que apuntan a `/simuladores` → `/bazar/simuladores`
+
+**3. Arreglar texto truncado en `src/pages/Carrito.tsx`**
+- Reducir el texto del botón vacío o hacerlo responsive (e.g. `text-xs sm:text-sm`) para que no se corte en pantallas de 390px.
 
 ### Archivos a modificar
-- `src/pages/Bazar.tsx` — línea 333, actualizar la respuesta del FAQ
-- `src/pages/JoyeriaHome.tsx` — agregar `onError` fallback en imágenes de productos
-- `src/pages/Index.tsx` — agregar `onError` fallback en imágenes de galería
+- `src/components/Footer.tsx` — 2 links
+- `src/components/Header.tsx` — 4 links
+- `src/pages/Carrito.tsx` — texto del botón de carrito vacío
 

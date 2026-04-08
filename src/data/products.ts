@@ -7,6 +7,13 @@ export interface Product {
   size?: string;
   price: number | null;
   image: string;
+  // CAROUSEL IMAGE CONVENTION:
+  // - product.image = primary image (always required)
+  // - product.images = array of alternate-angle photos shown in carousel after the primary
+  // For most products, alternates are named "REF.2.jpg" or "REF.3.jpg" (e.g. "CAR 5.2.jpg")
+  // EXCEPTION: For AN 47–72, the .2 suffix IS the primary image, not an alternate.
+  // These products have no carousel images.
+  images?: string[];
   type: "joyeria" | "reloj";
   modelo?: string;
   correa?: string;
@@ -135,6 +142,32 @@ export const products: Product[] = [
   { id: "an-43", name: "ANILLO ORO BLANCO CON ZIRCONIAS", category: "Anillos", brand: "Centenario", karat: "10K", size: "8", price: 3317, image: "/lote2/AN%2043.jpg", type: "joyeria" },
   { id: "an-44", name: "CHURUMBELA CON ZIRCONIAS", category: "Anillos", brand: "Centenario", karat: "10K", size: "8", price: 2889, image: "/lote2/AN%2044.jpg", type: "joyeria" },
   { id: "an-46", name: "ANILLO CON ESTRELLAS", category: "Anillos", brand: "Centenario", karat: "10K", size: "7", price: 4387, image: "/lote2/AN%2046.jpg", type: "joyeria" },
+  { id: "an-47", name: "ANILLO", category: "Anillos", brand: "Centenario", karat: "10K", size: "6", price: 3200, image: "/lote2/AN%2047.2.jpg", type: "joyeria" },
+  { id: "an-48", name: "ANILLO X", category: "Anillos", brand: "Centenario", karat: "10K", size: "6", price: 3800, image: "/lote2/AN%2048.2.jpg", type: "joyeria" },
+  { id: "an-49", name: "ANILLO", category: "Anillos", brand: "Centenario", karat: "10K", size: "6, 7 Y 10", price: 4650, image: "/lote2/AN%2049.2.jpg", type: "joyeria" },
+  { id: "an-50", name: "ANILLO CORTE PERA", category: "Anillos", brand: "Centenario", karat: "10K", size: "8", price: 3450, image: "/lote2/AN%2050.2.jpg", type: "joyeria" },
+  { id: "an-51", name: "ANILLO", category: "Anillos", brand: "Centenario", karat: "10K", size: "7 Y 8", price: 3000, image: "/lote2/AN%2051.2.jpg", type: "joyeria" },
+  { id: "an-52", name: "ANILLO", category: "Anillos", brand: "Centenario", karat: "10K", size: "6", price: 2850, image: "/lote2/AN%2052.2.jpg", type: "joyeria" },
+  { id: "an-53", name: "ANILLO CORAZONES", category: "Anillos", brand: "Centenario", karat: "10K", size: "9.5", price: 5300, image: "/lote2/AN%2053.2.jpg", type: "joyeria" },
+  { id: "an-54", name: "ANILLO DE COMPROMISO", category: "Anillos", brand: "Centenario", karat: "10K", size: "8.5", price: 2700, image: "/lote2/AN%2054.2.jpg", type: "joyeria" },
+  { id: "an-55", name: "ANILLO DE COMPROMISO", category: "Anillos", brand: "Centenario", karat: "10K", size: "7", price: 3750, image: "/lote2/AN%2055.2.jpg", type: "joyeria" },
+  { id: "an-56", name: "ANILLO CABALLO", category: "Anillos", brand: "Centenario", karat: "10K", size: "12", price: 13800, image: "/lote2/AN%2056.2.jpg", type: "joyeria" },
+  { id: "an-57", name: "ANILLO DE COMPROMISO", category: "Anillos", brand: "Centenario", karat: "10K", size: "8.5", price: 3600, image: "/lote2/AN%2057.2.jpg", type: "joyeria" },
+  { id: "an-58", name: "ANILLO DE COMPROMISO", category: "Anillos", brand: "Centenario", karat: "10K", size: "6", price: 2400, image: "/lote2/AN%2058.2.jpg", type: "joyeria" },
+  { id: "an-59", name: "ANILLO DE COMPROMISO", category: "Anillos", brand: "Centenario", karat: "10K", size: "8", price: 3900, image: "/lote2/AN%2059.2.jpg", type: "joyeria" },
+  { id: "an-60", name: "ANILLO DE COMPROMISO", category: "Anillos", brand: "Centenario", karat: "10K", size: "7", price: 3400, image: "/lote2/AN%2060.2.jpg", type: "joyeria" },
+  { id: "an-61", name: "ANILLO DE COMPROMISO", category: "Anillos", brand: "Centenario", karat: "10K", size: "6", price: 2700, image: "/lote2/AN%2061.2.jpg", type: "joyeria" },
+  { id: "an-62", name: "ANILLO DE COMPROMISO", category: "Anillos", brand: "Centenario", karat: "10K", size: "7", price: 3100, image: "/lote2/AN%2062.2.jpg", type: "joyeria" },
+  { id: "an-63", name: "ANILLO DE COMPROMISO", category: "Anillos", brand: "Centenario", karat: "10K", size: "7", price: 2400, image: "/lote2/AN%2063.2.jpg", type: "joyeria" },
+  { id: "an-64", name: "ANILLO DE COMPROMISO", category: "Anillos", brand: "Centenario", karat: "10K", size: "7.5", price: 2400, image: "/lote2/AN%2064.2.jpg", type: "joyeria" },
+  { id: "an-65", name: "ANILLO DE COMPROMISO", category: "Anillos", brand: "Centenario", karat: "10K", size: "7.5", price: 2600, image: "/lote2/AN%2065.2.jpg", type: "joyeria" },
+  { id: "an-66", name: "ANILLO DE COMPROMISO", category: "Anillos", brand: "Centenario", karat: "10K", size: "5", price: 2800, image: "/lote2/AN%2066.2.jpg", type: "joyeria" },
+  { id: "an-67", name: "ANILLO DE COMPROMISO", category: "Anillos", brand: "Centenario", karat: "10K", size: "7.5", price: 4700, image: "/lote2/AN%2067.2.jpg", type: "joyeria" },
+  { id: "an-68", name: "ANILLO DE COMPROMISO", category: "Anillos", brand: "Centenario", karat: "10K", size: "6", price: 3150, image: "/lote2/AN%2068.2.jpg", type: "joyeria" },
+  { id: "an-69", name: "CHURUMBELA", category: "Anillos", brand: "Centenario", karat: "10K", size: "8", price: 3400, image: "/lote2/AN%2069.2.jpg", type: "joyeria" },
+  { id: "an-70", name: "ANILLO", category: "Anillos", brand: "Centenario", karat: "10K", size: "7", price: 4350, image: "/lote2/AN%2070.2.jpg", type: "joyeria" },
+  { id: "an-71", name: "ANILLO CON ESTRELLAS", category: "Anillos", brand: "Centenario", karat: "10K", size: "6", price: 4100, image: "/lote2/AN%2071.1.jpg", type: "joyeria" },
+  { id: "an-72", name: "ANILLO TORTUGA", category: "Anillos", brand: "Centenario", karat: "10K", size: "6", price: 3400, image: "/lote2/AN%2072.2.jpg", type: "joyeria" },
   { id: "dije-1", name: "CRUZ DE 10K", category: "Dijes", brand: "Centenario", karat: "10K", size: "4CM", price: 13000, image: "/lote3/DIJE%201.jpg", type: "joyeria" },
   { id: "dije-2", name: "CRUZ DE 10K", category: "Dijes", brand: "Centenario", karat: "10k", size: "4CM", price: 3424, image: "/lote3/DIJE%202.jpg", type: "joyeria" },
   { id: "dije-3", name: "CRUZ DE 10K", category: "Dijes", brand: "Centenario", karat: "10K", size: "2.5CM", price: 8079, image: "/lote3/DIJE%203.jpg", type: "joyeria" },
@@ -278,19 +311,19 @@ export const products: Product[] = [
   { id: "tif-6", name: "ARETES TIFFANY SIXTEEN STONE ORO AMARILLO 18K DIAMANTES", category: "Arracadas", brand: "Tiffany & Co.", price: 124120, image: "/lote6/TIF%206.jpg", type: "joyeria" },
   { id: "tif-7", name: "ARETES TIFFANY SIXTEEN STONE ORO AMARILLO 18K DIAMANTES", category: "Arracadas", brand: "Tiffany & Co.", price: 267500, image: "/lote6/TIF%207.jpg", type: "joyeria" },
   { id: "tif-8", name: "ARETES TIFFANY TITAN by PHARRELL PIEDRA DE TAHITI", category: "Arracadas", brand: "Tiffany & Co.", price: 203300, image: "/lote6/TIF%208.jpg", type: "joyeria" },
-  { id: "tif-9", name: "ARETES TIFFANY TITAN by PHARRELL PERLAS", category: "Pulseras", brand: "Tiffany & Co.", price: 1284000, image: "/lote6/TIF%209.jpg", type: "joyeria" },
-  { id: "tif-10", name: "COLLAR TIFFANY KEYS ORO AMARILLO 18K DIAMANTES", category: "Anillos", brand: "Tiffany & Co.", size: "7", price: 160500, image: "/lote6/TIF%2010.jpg", type: "joyeria" },
-  { id: "tif-11", name: "PULSERA TIFFANY T T1 ORO AMARILLO 18K DIAMANTES PAVE Y BAGUETTE", category: "Anillos", brand: "Tiffany & Co.", price: null, image: "/lote6/TIF%2011.jpg", type: "joyeria" },
+  { id: "tif-9", name: "ARETES TIFFANY TITAN by PHARRELL PERLAS", category: "Arracadas", brand: "Tiffany & Co.", price: 1284000, image: "/lote6/TIF%209.jpg", type: "joyeria" },
+  { id: "tif-10", name: "COLLAR TIFFANY KEYS ORO AMARILLO 18K DIAMANTES", category: "Collares", brand: "Tiffany & Co.", size: "7", price: 160500, image: "/lote6/TIF%2010.jpg", type: "joyeria" },
+  { id: "tif-11", name: "PULSERA TIFFANY T T1 ORO AMARILLO 18K DIAMANTES PAVE Y BAGUETTE", category: "Pulseras", brand: "Tiffany & Co.", price: null, image: "/lote6/TIF%2011.jpg", type: "joyeria" },
   { id: "tif-12", name: "ANILLO TIFFANY KNOT ORO AMARILLO 18K DIAMANTES PAVE", category: "Anillos", brand: "Tiffany & Co.", price: null, image: "/lote6/TIF%2012.jpg", type: "joyeria" },
   { id: "tif-13", name: "ANILLO TIFFANY TITAN by PHARRELL", category: "Anillos", brand: "Tiffany & Co.", price: null, image: "/lote6/TIF%2013.jpg", type: "joyeria" },
   { id: "tif-14", name: "ANILLO TIFFANY TITAN by PHARRELL PIEDRA DE TAHITI", category: "Anillos", brand: "Tiffany & Co.", price: null, image: "/lote6/TIF%2014.jpg", type: "joyeria" },
-  { id: "tif-15", name: "ANILLO TIFFANY APOLLO ORO AMARILLO Y PLATINO, DIAMANTES", category: "Pulseras", brand: "Tiffany & Co.", price: 1498000, image: "/lote6/TIF%2015.jpg", type: "joyeria" },
-  { id: "tif-16", name: "ANILLO TIFFANY BIRD ON A ROCK ORO AMARILLO 18K Y PLATINO, DIAMANTES", category: "Pulseras", brand: "Tiffany & Co.", price: 1391000, image: "/lote6/TIF%2016.jpg", type: "joyeria" },
+  { id: "tif-15", name: "ANILLO TIFFANY APOLLO ORO AMARILLO Y PLATINO, DIAMANTES", category: "Anillos", brand: "Tiffany & Co.", price: 1498000, image: "/lote6/TIF%2015.jpg", type: "joyeria" },
+  { id: "tif-16", name: "ANILLO TIFFANY BIRD ON A ROCK ORO AMARILLO 18K Y PLATINO, DIAMANTES", category: "Anillos", brand: "Tiffany & Co.", price: 1391000, image: "/lote6/TIF%2016.jpg", type: "joyeria" },
   { id: "tif-17", name: "PULSERA TIFFANY HARDWEAR ORO AMARILLO 18K DIAMANTES PAVE", category: "Pulseras", brand: "Tiffany & Co.", price: 513600, image: "/lote7/TIF%2017.jpg", type: "joyeria" },
-  { id: "tif-18", name: "PULSERA TIFFANY HARDWEAR ORO AMARILLO 18K DIAMANTES PAVE", category: "Anillos", brand: "Tiffany & Co.", size: "11.5", price: 262150, image: "/lote7/TIF%2018.jpg", type: "joyeria" },
+  { id: "tif-18", name: "PULSERA TIFFANY HARDWEAR ORO AMARILLO 18K DIAMANTES PAVE", category: "Pulseras", brand: "Tiffany & Co.", size: "11.5", price: 262150, image: "/lote7/TIF%2018.jpg", type: "joyeria" },
   { id: "tif-19", name: "PULSERA TIFFANY TITAN by PHARRELL ORO AMARILLO 18K DIAMANTES PAVE", category: "Pulseras", brand: "Tiffany & Co.", price: null, image: "/lote7/TIF%2019.jpg", type: "joyeria" },
-  { id: "tif-20", name: "ANILLO TIFFANY SIXTEEN STONE ORO AMARILLO 18K DIAMANTES Y RUBIES", category: "Pulseras", brand: "Tiffany & Co.", price: 214000, image: "/lote7/TIF%2020.jpg", type: "joyeria" },
-  { id: "tif-21", name: "ANILLO TIFFANY SIXTEEN STONE", category: "Collares", brand: "Tiffany & Co.", price: null, image: "/lote7/TIF%2021.jpg", type: "joyeria" },
+  { id: "tif-20", name: "ANILLO TIFFANY SIXTEEN STONE ORO AMARILLO 18K DIAMANTES Y RUBIES", category: "Anillos", brand: "Tiffany & Co.", price: 214000, image: "/lote7/TIF%2020.jpg", type: "joyeria" },
+  { id: "tif-21", name: "ANILLO TIFFANY SIXTEEN STONE", category: "Anillos", brand: "Tiffany & Co.", price: null, image: "/lote7/TIF%2021.jpg", type: "joyeria" },
   { id: "tif-22", name: "PULSERA TIFFANY LOCK ORO AMARILLO 18K DIAMANTES", category: "Pulseras", brand: "Tiffany & Co.", price: null, image: "/lote7/TIF%2022.jpg", type: "joyeria" },
   { id: "tif-23", name: "COLLAR TIFFANY CRUZ ORO AMARILLO 18K DIAMANTES PAVE Y RUBIES", category: "Collares", brand: "Tiffany & Co.", price: null, image: "/lote7/TIF%2023.jpg", type: "joyeria" },
   { id: "bul-1", name: "ANILLO BULGARI SERPENTI VIPER ORO AMARILLO 18K DIAMANTES", category: "Anillos", brand: "Bulgari", size: "9", price: 299600, image: "/lote7/BUL%201.jpg", type: "joyeria" },

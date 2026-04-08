@@ -8,8 +8,8 @@ const Footer = () => (
           <h4 className="mb-3 text-sm font-semibold uppercase tracking-wider text-foreground">Bazar</h4>
           <ul className="space-y-2 text-sm text-muted-foreground">
             <li><Link to="/bazar" className="hover:text-foreground transition-colors">Servicios</Link></li>
-            <li><Link to="/simuladores" className="hover:text-foreground transition-colors">Simuladores</Link></li>
-            <li><Link to="/sucursales" className="hover:text-foreground transition-colors">Sucursales</Link></li>
+            <li><Link to="/bazar/simuladores" className="hover:text-foreground transition-colors">Simuladores</Link></li>
+            <li><Link to="/bazar/sucursales" className="hover:text-foreground transition-colors">Sucursales</Link></li>
           </ul>
         </div>
         <div>

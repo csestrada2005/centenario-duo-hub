@@ -55,9 +55,9 @@ const Carrito = () => {
             className="py-20 text-center"
           >
             <p className="text-sm text-muted-foreground">Tu carrito está vacío.</p>
-            <Button variant="editorial" className="mt-6" size="lg" disabled>
-              <ShoppingCart className="mr-2 h-4 w-4" />
-              Agrega productos para continuar
+            <Button variant="editorial" className="mt-6 text-xs sm:text-sm" size="lg" disabled>
+              <ShoppingCart className="mr-2 h-4 w-4 shrink-0" />
+              <span className="truncate">Agrega productos para continuar</span>
             </Button>
             <br />
             <Link

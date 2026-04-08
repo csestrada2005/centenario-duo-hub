@@ -1,43 +1,33 @@
-## Plan: Refactorizar products.ts con datos correctos del Excel y nuevas imágenes
+
+
+## Plan: Agregar botón "Añadir al carrito" + WhatsApp con detalle de productos
 
 ### Resumen
 
-Regenerar completamente `src/data/products.ts` usando los datos exactos del nuevo Excel, las imágenes en los nuevos folders `lote1`-`lote8`, precios "Precio Total"/"Precio 2", y soporte para imágenes de carrusel (sufijos .2, .3, .4).
+Agregar un botón "Añadir al carrito" en cada página de producto, además del botón "Comprar" existente. El carrito acumula productos y al hacer clic en "Comprar" en la página del carrito, envía un mensaje de WhatsApp con los detalles completos de todos los productos (nombre, quilataje, talla/largo, categoría).
 
 ### Cambios
 
-**1. Reescribir `src/data/products.ts` (~390 líneas)**
+**1. Actualizar `CartContext` — agregar campos de detalle al `CartItem`**
 
-Generar mediante script Python todos los productos del Excel con:
+Extender la interfaz `CartItem` para incluir `karat`, `size`, `category` y `brand` (opcionales), de modo que el mensaje de WhatsApp pueda listar los detalles de cada producto.
 
-- **Precios**: Usar exclusivamente "Precio Total" o "Precio 2" (el segundo precio en cada tabla). Productos con `$-` o vacío → `price: null` ("Consultar precio")
-- **Imágenes principales**: URL-encoded paths (espacios → `%20`, `&` → `%26`)
-- **Imágenes carrusel** (`images[]`): Detectar automáticamente archivos `.2.jpg`, `.3.jpg`, `.4.jpg` en cada lote
-- **Casos especiales**:
-  - VC&A 10-14: No tienen imagen principal `.jpg`, usar `.3.jpg` como primary y usar .4.jpg (si esque existe) como secondary para el carrusel.
-  - AN 45, AN 68, AN 72: Sin imagen → excluir del catálogo
-  - DIJE 77: Sin imagen → excluir
-  - CAR 2: Tiene `_CAR 2.2.jpg` como extra (con guión bajo)
-  - CAD 5.5: Imagen extra sin producto en Excel → ignorar
+**2. Actualizar `ProductDetail.tsx` — agregar botón "Añadir al carrito"**
 
-**Productos totales esperados**: ~317 (36 cadenas + 31 pulsos + 8 esclavas + 69 anillos + 76 dijes + 15 arracadas + 20 VC&A + 24 Cartier + 23 Tiffany + 19 Bulgari + 3 Chrome Hearts + 35 relojes, menos ~4 sin imagen)
+- Importar `useCart` y agregar un botón secundario "Añadir al carrito" junto al botón "Comprar" existente
+- El botón "Comprar" sigue abriendo WhatsApp directo para ese producto (comportamiento actual)
+- El botón "Añadir al carrito" usa `addItem` del contexto, pasando nombre, precio, karat, size, category
+- Feedback visual al agregar (check icon momentáneo)
 
-**Categorías**: Cadenas, Pulseras, Esclavas, Anillos, Dijes, Arracadas, Collares, Pulseras (para marcas de lujo se asigna categoría según tipo: "COLLAR" → Collares, "PULSERA" → Pulseras, "ARETES" → Arracadas, "ANILLO" → Anillos)
+**3. Actualizar `Carrito.tsx` — mensaje de WhatsApp con detalles completos**
 
-**Marcas**: Centenario, Van Cleef & Arpels, Cartier, Tiffany & Co., Bulgari, Chrome Hearts
+Modificar `handleComprar` para que el mensaje incluya los detalles de cada producto:
+```
+Hola, estoy interesado en:
+• Cadena Cartier 10K — 10K, 60cm, Cadenas (x1)
+• Dije Cruz 14K — 14K, Dijes (x1)
+• Rolex Submariner — Relojes (x1)
+```
 
-**2. Actualizar `src/pages/ProductDetail.tsx**`
+**4. Sin cambios en layout ni navegación** — el carrito ya existe en la nav y el header con su ícono animado.
 
-- Ya soporta `images[]` para carrusel — solo verificar que funciona con los nuevos datos
-- Sin cambios adicionales necesarios
-
-**3. Actualizar `allCategories`, `allBrands`, `watchBrands**`
-
-Derivar dinámicamente de los datos reales para reflejar las categorías actualizadas.
-
-### Enfoque técnico
-
-1. Script Python que lee el contenido parseado del Excel y los archivos reales en `public/lote*/`
-2. Genera el TypeScript completo con todos los productos, precios correctos, y arrays de imágenes carrusel
-3. Verificación cruzada: cada producto tiene imagen existente, precios son "Precio 2"/"Precio Total"
-4. Validar IDs únicos sin duplicados

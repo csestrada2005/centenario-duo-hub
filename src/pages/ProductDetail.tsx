@@ -179,6 +179,7 @@ const ProductDetail = () => {
                     id: product.id,
                     name: product.name,
                     price: product.price ?? 0,
+                    image: product.image,
                     karat: product.karat,
                     size: product.size,
                     category: product.category,

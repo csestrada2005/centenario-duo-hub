@@ -82,14 +82,18 @@ const Carrito = () => {
                     className={`flex items-center gap-4 py-6 sm:gap-6 ${index > 0 ? "border-t border-border" : ""}`}
                   >
                     <div className="h-24 w-20 shrink-0 overflow-hidden bg-muted">
-                      <div className="h-full w-full bg-muted transition-transform duration-500 hover:scale-105" />
+                      {item.image ? (
+                        <img src={item.image} alt={item.name} className="h-full w-full object-cover transition-transform duration-500 hover:scale-105" />
+                      ) : (
+                        <div className="h-full w-full bg-muted" />
+                      )}
                     </div>
                     <div className="flex-1 min-w-0">
                       <h3 className="text-sm" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
                         {item.name}
                       </h3>
                       <p className="mt-1 text-xs text-muted-foreground">
-                        ${item.price.toLocaleString()} MXN
+                        {item.price > 0 ? `$${item.price.toLocaleString()} MXN` : "Precio a consultar"}
                       </p>
                     </div>
                     <div className="flex items-center gap-1 sm:gap-2">

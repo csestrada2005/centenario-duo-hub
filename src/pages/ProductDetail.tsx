@@ -166,12 +166,9 @@ const ProductDetail = () => {
             </motion.div>
 
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8, duration: 0.5 }}>
-              <Button size="lg" onClick={handleAdd} variant={added ? "default" : "editorial"}
-                className={`mt-8 w-full md:w-auto overflow-hidden group ${added ? "bg-green-700 text-white hover:bg-green-700" : ""}`}>
-                <motion.span key={added ? "added" : "default"} initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: -20, opacity: 0 }} transition={{ duration: 0.25 }} className="inline-flex items-center">
-                  {added ? <><Check className="mr-2 h-4 w-4" /> Agregado</> : <><ShoppingCart className="mr-2 h-4 w-4 group-hover:-rotate-12 transition-transform" /> Agregar al carrito</>}
-                </motion.span>
+              <Button size="lg" onClick={handleBuy} variant="editorial"
+                className="mt-8 w-full md:w-auto group">
+                <ShoppingCart className="mr-2 h-4 w-4 group-hover:-rotate-12 transition-transform" /> Comprar
               </Button>
             </motion.div>
           </motion.div>

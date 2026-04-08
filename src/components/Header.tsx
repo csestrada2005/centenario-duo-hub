@@ -5,8 +5,8 @@ import { Button } from "@/components/ui/button";
 
 const navItems = [
   { label: "Bazar", href: "/bazar" },
-  { label: "Simuladores", href: "/simuladores" },
-  { label: "Sucursales", href: "/sucursales" },
+  { label: "Simuladores", href: "/bazar/simuladores" },
+  { label: "Sucursales", href: "/bazar/sucursales" },
   { label: "Joyería", href: "/joyeria" },
 ];
 
@@ -38,7 +38,7 @@ const Header = () => {
             </Link>
           ))}
           <Button asChild size="sm" className="ml-2">
-            <Link to="/simuladores">Cotizar</Link>
+            <Link to="/bazar/simuladores">Cotizar</Link>
           </Button>
           {isJoyeria && (
             <Button variant="ghost" size="icon" asChild className="ml-1">
@@ -83,7 +83,7 @@ const Header = () => {
               </Link>
             ))}
             <Button asChild size="sm" className="mt-2">
-              <Link to="/simuladores" onClick={() => setMobileOpen(false)}>
+              <Link to="/bazar/simuladores" onClick={() => setMobileOpen(false)}>
                 Cotizar
               </Link>
             </Button>

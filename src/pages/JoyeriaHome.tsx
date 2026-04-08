@@ -107,17 +107,17 @@ const JoyeriaHome = () => {
       {/* ═══════ HERO — Split editorial with parallax ═══════ */}
       <section ref={heroRef} className="relative min-h-screen overflow-hidden">
         {/* Background image — full on mobile, right half on desktop */}
-        <div className="absolute inset-0 md:left-1/2 overflow-hidden bg-black">
-          <motion.div style={{ y: imgY, scale: imgScale }} className="absolute inset-0 will-change-transform flex items-center justify-center">
+        <div className="absolute inset-0 md:left-1/2 overflow-hidden">
+          <motion.div style={{ y: imgY, scale: imgScale }} className="absolute inset-0 will-change-transform">
             <img
               src={heroImg}
               alt="Cadenas de oro"
-              className="h-full w-full object-contain md:object-cover md:object-[center_30%]"
+              className="h-[140%] w-full object-cover"
               loading="eager"
             />
           </motion.div>
           {/* Dark overlay for text readability on mobile */}
-          <div className="absolute inset-0 bg-black/40 md:bg-transparent" />
+          <div className="absolute inset-0 bg-black/50 md:bg-transparent" />
         </div>
 
         {/* Desktop: left half solid bg */}

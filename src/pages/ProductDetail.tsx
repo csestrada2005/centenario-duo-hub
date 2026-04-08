@@ -46,10 +46,13 @@ const ProductDetail = () => {
     .filter((p) => p.id !== product.id && (p.category === product.category || p.brand === product.brand) && p.type === product.type)
     .slice(0, 4);
 
-  const handleAdd = () => {
-    addItem({ id: product.id, name: product.name, price: product.price || 0 });
-    setAdded(true);
-    setTimeout(() => setAdded(false), 2000);
+  const handleBuy = () => {
+    const details = [product.name];
+    if (product.karat) details.push(product.karat);
+    if (product.size) details.push(product.size);
+    if (product.category) details.push(product.category);
+    const message = `Hola, me interesa: ${details.join(", ")}`;
+    window.open(`https://wa.me/5212213497090?text=${encodeURIComponent(message)}`, "_blank");
   };
 
   const isWatch = product.type === "reloj";

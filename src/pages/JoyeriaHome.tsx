@@ -111,7 +111,7 @@ const JoyeriaHome = () => {
           <motion.div style={{ y: imgY, scale: imgScale }} className="absolute inset-0 will-change-transform">
             <img
               src={heroImg}
-              alt="Anillo de oro sobre mármol"
+              alt="Cadenas de oro"
               className="h-[140%] w-full object-cover"
               loading="eager"
             />

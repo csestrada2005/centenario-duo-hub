@@ -1,70 +1,43 @@
+## Plan: Refactorizar products.ts con datos correctos del Excel y nuevas imágenes
 
+### Resumen
 
-## Objetivo
+Regenerar completamente `src/data/products.ts` usando los datos exactos del nuevo Excel, las imágenes en los nuevos folders `lote1`-`lote8`, precios "Precio Total"/"Precio 2", y soporte para imágenes de carrusel (sufijos .2, .3, .4).
 
-Refactorizar completamente `src/data/products.ts`, `/joyeria/catalogo` y las páginas de producto usando las nuevas imágenes renombradas por referencia (CAD 1.jpg, AN 1.jpg, RE 1.jpg, etc.) y filtrando solo los productos con celdas grises del Excel (más todos los Relojes).
+### Cambios
 
-## Análisis de cambios clave
+**1. Reescribir `src/data/products.ts` (~390 líneas)**
 
-**Imágenes renombradas**: Ya no usan IMG_XXXX.jpg, ahora usan el nombre de referencia del Excel:
-- lote1: `CAD 1.jpg` ... `CAD 36.jpg` + `ES 1.jpg` ... `ES 8.jpg` + `PUL 1.jpg` ... `PUL 31.jpg`
-- lote2: `AN 1.jpg` ... `AN 50.jpg` (algunos con sufijo .2)
-- lote3: `DIJE 1.jpg` ... `DIJE 76.jpg`
-- lote4: `ARR 1.jpg` ... `ARR 15.jpg` + `VC&A 1.jpg` ... `VC&A 20.jpg`
-- lote5: `CAR 1.jpg` ... `CAR 24.jpg`
-- lote6: `TIF 1.jpg` ... `TIF 16.jpg` + `IMG_3078.jpg`, `IMG_3081.jpg`, `IMG_3083.jpg`
-- lote7: `BUL 1.jpg` ... `BUL 20.jpg` + `CH H 1.jpg` ... `CH H 3.jpg` + `TIF 17.jpg` ... `TIF 23.jpg`
-- lote8: `RE 1.jpg` ... `RE 35.jpg`
+Generar mediante script Python todos los productos del Excel con:
 
-**Reorganización de lotes** (diferente al Excel original):
-- Esclavas y Pulsos ahora en lote1 (no lote6)
-- Van Cleef ahora en lote4 (no lote5)
-- Tiffany dividido: lote6 (T&CO 1-16) y lote7 (T&CO 17-21+)
-- Bulgari y Chrome Hearts en lote7 (no lote6)
+- **Precios**: Usar exclusivamente "Precio Total" o "Precio 2" (el segundo precio en cada tabla). Productos con `$-` o vacío → `price: null` ("Consultar precio")
+- **Imágenes principales**: URL-encoded paths (espacios → `%20`, `&` → `%26`)
+- **Imágenes carrusel** (`images[]`): Detectar automáticamente archivos `.2.jpg`, `.3.jpg`, `.4.jpg` en cada lote
+- **Casos especiales**:
+  - VC&A 10-14: No tienen imagen principal `.jpg`, usar `.3.jpg` como primary y usar .4.jpg (si esque existe) como secondary para el carrusel.
+  - AN 45, AN 68, AN 72: Sin imagen → excluir del catálogo
+  - DIJE 77: Sin imagen → excluir
+  - CAR 2: Tiene `_CAR 2.2.jpg` como extra (con guión bajo)
+  - CAD 5.5: Imagen extra sin producto en Excel → ignorar
 
-**Filtro de celdas grises**: Solo incluir productos cuyas celdas estén coloreadas en gris en el Excel. Durante implementación se parseará el Excel con openpyxl para detectar el fill color de cada fila y determinar cuáles incluir.
+**Productos totales esperados**: ~317 (36 cadenas + 31 pulsos + 8 esclavas + 69 anillos + 76 dijes + 15 arracadas + 20 VC&A + 24 Cartier + 23 Tiffany + 19 Bulgari + 3 Chrome Hearts + 35 relojes, menos ~4 sin imagen)
 
-## Plan de implementación
+**Categorías**: Cadenas, Pulseras, Esclavas, Anillos, Dijes, Arracadas, Collares, Pulseras (para marcas de lujo se asigna categoría según tipo: "COLLAR" → Collares, "PULSERA" → Pulseras, "ARETES" → Arracadas, "ANILLO" → Anillos)
 
-### 1. Parsear Excel con openpyxl (script temporal)
+**Marcas**: Centenario, Van Cleef & Arpels, Cartier, Tiffany & Co., Bulgari, Chrome Hearts
 
-Ejecutar un script Python que:
-- Abra el Excel y recorra cada hoja de productos
-- Detecte filas con celdas de fondo gris
-- Genere la lista de productos a incluir con sus datos
-- Mapee cada referencia a su archivo de imagen real en el lote correcto
-- Excluya productos sin celda gris (excepto Relojes, que se incluyen todos)
-- Genere el código TypeScript del array de productos
+**2. Actualizar `src/pages/ProductDetail.tsx**`
 
-### 2. Reescribir `src/data/products.ts`
+- Ya soporta `images[]` para carrusel — solo verificar que funciona con los nuevos datos
+- Sin cambios adicionales necesarios
 
-- Misma interfaz `Product` existente
-- Actualizar todas las rutas de imagen: `/lote_1/IMG_2667.jpg` a `/lote1/CAD 1.jpg` (con espacio URL-encoded si necesario)
-- Solo incluir productos con celdas grises + todos los relojes
-- Mapear las referencias del Excel a los archivos reales en cada lote
-- Exportar listas dinámicas de categorías y marcas
+**3. Actualizar `allCategories`, `allBrands`, `watchBrands**`
 
-### 3. Actualizar `src/pages/Joyeria.tsx`
+Derivar dinámicamente de los datos reales para reflejar las categorías actualizadas.
 
-- Importar productos actualizados
-- Filtros de categoría y marca se derivan automáticamente de los datos
-- Mantener botón "Relojes" y diseño editorial existente
-- Las rutas de imagen ahora usan los nuevos paths
+### Enfoque técnico
 
-### 4. Actualizar `src/pages/ProductDetail.tsx`
-
-- Los IDs de producto se mantienen consistentes con el nuevo dataset
-- Mostrar imágenes adicionales (.2, .3 variants) si existen
-- Mostrar todos los campos disponibles por tipo de producto
-
-### 5. Sin cambios en rutas ni layouts
-
-Las rutas en `App.tsx` y `JoyeriaLayout.tsx` permanecen igual.
-
-## Notas técnicas
-
-- Las imágenes con espacios en el nombre (e.g. `CAD 1.jpg`) necesitan URL encoding en las rutas: `/lote1/CAD%201.jpg` o usar `encodeURIComponent`
-- Imágenes con `&` en el nombre (VC&A) también necesitan encoding especial
-- Los archivos `.2.jpg`, `.3.jpg` son fotos adicionales del mismo producto (se pueden usar como galería o ignorar por ahora)
-- Productos con precio `#NUM!` o vacío se muestran como "Consultar precio"
-
+1. Script Python que lee el contenido parseado del Excel y los archivos reales en `public/lote*/`
+2. Genera el TypeScript completo con todos los productos, precios correctos, y arrays de imágenes carrusel
+3. Verificación cruzada: cada producto tiene imagen existente, precios son "Precio 2"/"Precio Total"
+4. Validar IDs únicos sin duplicados

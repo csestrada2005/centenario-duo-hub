@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { motion, useInView, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { SlidersHorizontal, ArrowRight, Watch } from "lucide-react";
+import { SlidersHorizontal, ArrowRight, Watch, X } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import heroHome from "@/assets/hero-home.jpg";
@@ -158,6 +158,19 @@ const Joyeria = () => {
   const [relojMarca, setRelojMarca] = useState("Todos");
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
 
+  const hasActiveFilters = isRelojes || category !== "Todos" || marca !== "Todos" || relojMarca !== "Todos";
+
+  const clearFilters = () => {
+    setCategory("Todos");
+    setMarca("Todos");
+    setRelojMarca("Todos");
+    if (isRelojes) {
+      searchParams.delete("tipo");
+      setSearchParams(searchParams);
+    }
+    setVisibleCount(ITEMS_PER_PAGE);
+  };
+
   const toggleRelojes = () => {
     if (isRelojes) {
       searchParams.delete("tipo");
@@ -240,6 +253,13 @@ const Joyeria = () => {
               </SheetContent>
             </Sheet>
           </div>
+
+          {/* Clear filters */}
+          {hasActiveFilters && (
+            <Button variant="ghost" size="sm" onClick={clearFilters} className="gap-1.5 text-xs text-muted-foreground hover:text-foreground">
+              <X className="h-3 w-3" /> Limpiar
+            </Button>
+          )}
         </div>
 
         <Reveal from="right">

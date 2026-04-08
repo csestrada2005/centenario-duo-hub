@@ -1,18 +1,15 @@
 import { useParams, Link } from "react-router-dom";
 import { useRef, useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ShoppingCart, Check, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft, ShoppingCart, ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, useInView } from "framer-motion";
-import { useCart } from "@/contexts/CartContext";
 import { products } from "@/data/products";
 import useEmblaCarousel from "embla-carousel-react";
 
 const ProductDetail = () => {
   const { id } = useParams();
-  const [added, setAdded] = useState(false);
   const relatedRef = useRef<HTMLDivElement>(null);
   const relatedInView = useInView(relatedRef, { once: true, margin: "-60px" });
-  const { addItem } = useCart();
 
   const product = products.find((p) => p.id === id);
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
@@ -46,10 +43,13 @@ const ProductDetail = () => {
     .filter((p) => p.id !== product.id && (p.category === product.category || p.brand === product.brand) && p.type === product.type)
     .slice(0, 4);
 
-  const handleAdd = () => {
-    addItem({ id: product.id, name: product.name, price: product.price || 0 });
-    setAdded(true);
-    setTimeout(() => setAdded(false), 2000);
+  const handleBuy = () => {
+    const details = [product.name];
+    if (product.karat) details.push(product.karat);
+    if (product.size) details.push(product.size);
+    if (product.category) details.push(product.category);
+    const message = `Hola, me interesa: ${details.join(", ")}`;
+    window.open(`https://wa.me/5212213497090?text=${encodeURIComponent(message)}`, "_blank");
   };
 
   const isWatch = product.type === "reloj";
@@ -163,12 +163,9 @@ const ProductDetail = () => {
             </motion.div>
 
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8, duration: 0.5 }}>
-              <Button size="lg" onClick={handleAdd} variant={added ? "default" : "editorial"}
-                className={`mt-8 w-full md:w-auto overflow-hidden group ${added ? "bg-green-700 text-white hover:bg-green-700" : ""}`}>
-                <motion.span key={added ? "added" : "default"} initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: -20, opacity: 0 }} transition={{ duration: 0.25 }} className="inline-flex items-center">
-                  {added ? <><Check className="mr-2 h-4 w-4" /> Agregado</> : <><ShoppingCart className="mr-2 h-4 w-4 group-hover:-rotate-12 transition-transform" /> Agregar al carrito</>}
-                </motion.span>
+              <Button size="lg" onClick={handleBuy} variant="editorial"
+                className="mt-8 w-full md:w-auto group">
+                <ShoppingCart className="mr-2 h-4 w-4 group-hover:-rotate-12 transition-transform" /> Comprar
               </Button>
             </motion.div>
           </motion.div>

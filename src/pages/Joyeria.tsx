@@ -253,6 +253,13 @@ const Joyeria = () => {
               </SheetContent>
             </Sheet>
           </div>
+
+          {/* Clear filters */}
+          {hasActiveFilters && (
+            <Button variant="ghost" size="sm" onClick={clearFilters} className="gap-1.5 text-xs text-muted-foreground hover:text-foreground">
+              <X className="h-3 w-3" /> Limpiar
+            </Button>
+          )}
         </div>
 
         <Reveal from="right">

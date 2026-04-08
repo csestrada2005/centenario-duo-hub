@@ -53,7 +53,7 @@ const Sucursales = () => {
             <motion.p variants={fadeUp} className="mb-4 text-xs font-medium uppercase tracking-[0.35em] text-white/50">
               Estamos cerca de ti
             </motion.p>
-            <motion.h1 variants={fadeUp} className="text-4xl font-bold text-white md:text-6xl lg:text-7xl">
+            <motion.h1 variants={fadeUp} className="text-3xl font-bold text-white sm:text-4xl md:text-6xl lg:text-7xl">
               Nuestras sucursales
             </motion.h1>
             <motion.p variants={fadeUp} className="mt-4 text-sm font-light text-white/60">

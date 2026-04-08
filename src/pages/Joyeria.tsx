@@ -152,8 +152,9 @@ const FilterPanel = ({ category, setCategory, marca, setMarca, showRelojes, relo
 const Joyeria = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const isRelojes = searchParams.get("tipo") === "relojes";
+  const initialCategory = searchParams.get("categoria") || "Todos";
 
-  const [category, setCategory] = useState("Todos");
+  const [category, setCategory] = useState(initialCategory);
   const [marca, setMarca] = useState("Todos");
   const [relojMarca, setRelojMarca] = useState("Todos");
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);

@@ -1,18 +1,15 @@
 import { useParams, Link } from "react-router-dom";
 import { useRef, useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ShoppingCart, Check, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft, ShoppingCart, ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, useInView } from "framer-motion";
-import { useCart } from "@/contexts/CartContext";
 import { products } from "@/data/products";
 import useEmblaCarousel from "embla-carousel-react";
 
 const ProductDetail = () => {
   const { id } = useParams();
-  const [added, setAdded] = useState(false);
   const relatedRef = useRef<HTMLDivElement>(null);
   const relatedInView = useInView(relatedRef, { once: true, margin: "-60px" });
-  const { addItem } = useCart();
 
   const product = products.find((p) => p.id === id);
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });

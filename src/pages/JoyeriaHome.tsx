@@ -202,6 +202,7 @@ const JoyeriaHome = () => {
                       alt={p!.name}
                       loading="lazy"
                       className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.parentElement!.classList.add('bg-muted', 'flex', 'items-center', 'justify-center'); }}
                     />
                   </FloatLayer>
                   <div className="absolute inset-0 flex items-end bg-gradient-to-t from-black/30 to-transparent p-4 opacity-0 transition-opacity duration-500 group-hover:opacity-100">

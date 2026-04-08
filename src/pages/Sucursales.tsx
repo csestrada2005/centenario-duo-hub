@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { MapPin, Phone, MessageCircle, Clock } from "lucide-react";
+import { MapPin, Phone, Clock, Copy, Check } from "lucide-react";
+import { useState } from "react";
 import heroSucursales from "@/assets/hero-sucursales.jpg";
 
 const fadeUp = {
@@ -9,12 +9,30 @@ const fadeUp = {
 };
 
 const branches = [
-  { name: "Centro", address: "Juan Antonio de la Fuente #139 Sur, Col. Centro, Torreón, Coah.", phone: "871 688 4466", hours: "Lun–Vie 9:00–18:00 | Sáb 9:00–15:00", maps: "https://maps.google.com" },
-  { name: "Hotel Francia", address: "Av. Pdte Carranza Pte #1626, Col. Centro, Torreón, Coah.", phone: "871 724 4614", hours: "Lun–Vie 9:00–18:00 | Sáb 9:00–15:00", maps: "https://maps.google.com" },
-  { name: "Valladolid", address: "Blvd. Libertad #740, Fracc. Valle de Nazas, Torreón, Coah.", phone: "871 670 3634", hours: "Lun–Vie 9:00–18:00 | Sáb 9:00–15:00", maps: "https://maps.google.com" },
-  { name: "Monterreal", address: "Blvd. Libertad #632, Col. Monterreal, Torreón, Coah.", phone: "871 670 0394", hours: "Lun–Vie 9:00–18:00 | Sáb 9:00–15:00", maps: "https://maps.google.com" },
-  { name: "Centro Gómez", address: "Calle Ocampo #178 Sur Local 3, Col. Centro, Gómez Palacio, Dgo.", phone: "871 780 1206", hours: "Lun–Vie 9:00–18:00 | Sáb 9:00–15:00", maps: "https://maps.google.com" },
+  { name: "Centro", address: "Juan Antonio de la Fuente #139 Sur, Col. Centro, Torreón, Coah.", phone: "871 688 4466", hours: "Lun–Vie 9:00–18:00 | Sáb 9:00–15:00", maps: "https://www.google.com/maps/search/Juan+Antonio+de+la+Fuente+139+Sur+Torreon+Coah" },
+  { name: "Hotel Francia", address: "Av. Pdte Carranza Pte #1626, Col. Centro, Torreón, Coah.", phone: "871 724 4614", hours: "Lun–Vie 9:00–18:00 | Sáb 9:00–15:00", maps: "https://www.google.com/maps/search/Av+Pdte+Carranza+Pte+1626+Torreon+Coah" },
+  { name: "Valladolid", address: "Blvd. Libertad #740, Fracc. Valle de Nazas, Torreón, Coah.", phone: "871 670 3634", hours: "Lun–Vie 9:00–18:00 | Sáb 9:00–15:00", maps: "https://www.google.com/maps/search/Blvd+Libertad+740+Valle+de+Nazas+Torreon+Coah" },
+  { name: "Monterreal", address: "Blvd. Libertad #632, Col. Monterreal, Torreón, Coah.", phone: "871 670 0394", hours: "Lun–Vie 9:00–18:00 | Sáb 9:00–15:00", maps: "https://www.google.com/maps/search/Blvd+Libertad+632+Monterreal+Torreon+Coah" },
+  { name: "Centro Gómez", address: "Calle Ocampo #178 Sur Local 3, Col. Centro, Gómez Palacio, Dgo.", phone: "871 780 1206", hours: "Lun–Vie 9:00–18:00 | Sáb 9:00–15:00", maps: "https://www.google.com/maps/search/Calle+Ocampo+178+Sur+Gomez+Palacio+Dgo" },
 ];
+
+const CopyPhoneButton = ({ phone }: { phone: string }) => {
+  const [copied, setCopied] = useState(false);
+  const handleCopy = () => {
+    navigator.clipboard.writeText(phone);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+  return (
+    <button
+      onClick={handleCopy}
+      className="flex items-center gap-1 text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground transition-colors hover:text-foreground"
+    >
+      {copied ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
+      {copied ? "Copiado" : "Copiar número"}
+    </button>
+  );
+};
 
 const Sucursales = () => {
   return (
@@ -68,7 +86,7 @@ const Sucursales = () => {
                       <span>{b.phone}</span>
                     </div>
                   </div>
-                  <div className="mt-4 flex gap-3">
+                  <div className="mt-4 flex gap-4">
                     <a
                       href={b.maps}
                       target="_blank"
@@ -77,14 +95,7 @@ const Sucursales = () => {
                     >
                       Cómo llegar
                     </a>
-                    <a
-                      href="https://wa.me/5551234567"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground transition-colors hover:text-foreground"
-                    >
-                      WhatsApp
-                    </a>
+                    <CopyPhoneButton phone={b.phone} />
                   </div>
                 </div>
               </motion.div>
@@ -93,12 +104,19 @@ const Sucursales = () => {
         </div>
       </section>
 
-      {/* Map placeholder */}
+      {/* Map — embedded Google Maps showing Torreón area */}
       <section className="px-6 pb-20 md:px-10">
-        <div className="mx-auto max-w-5xl">
-          <div className="flex h-64 items-center justify-center bg-muted">
-            <p className="text-xs uppercase tracking-[0.15em] text-muted-foreground">Mapa de sucursales</p>
-          </div>
+        <div className="mx-auto max-w-5xl overflow-hidden rounded-lg">
+          <iframe
+            title="Mapa de sucursales Centenario en Torreón"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d57636.04577842063!2d-103.45!3d25.54!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x868fdae1a40e3b9b%3A0x6a2e5e850e3e1b00!2sTorre%C3%B3n%2C%20Coah.%2C%20Mexico!5e0!3m2!1ses!2smx!4v1700000000000"
+            width="100%"
+            height="400"
+            style={{ border: 0 }}
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          />
         </div>
       </section>
     </div>

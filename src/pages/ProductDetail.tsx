@@ -1,10 +1,11 @@
 import { useParams, Link } from "react-router-dom";
 import { useRef, useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ShoppingCart, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft, ShoppingCart, ChevronLeft, ChevronRight, Plus, Check } from "lucide-react";
 import { motion, useInView } from "framer-motion";
 import { products } from "@/data/products";
 import useEmblaCarousel from "embla-carousel-react";
+import { useCart } from "@/contexts/CartContext";
 
 const ProductDetail = () => {
   const { id } = useParams();

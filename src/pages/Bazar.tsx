@@ -330,7 +330,7 @@ const Bazar = () => {
           {[
             { q: "¿Qué necesito para empeñar?", a: "Solo una identificación oficial vigente (INE, pasaporte) y el artículo que quieres empeñar. Sin más trámites." },
             { q: "¿Cuánto tiempo tarda el proceso?", a: "Generalmente 20 a 30 minutos desde que llegas hasta que sales con tu dinero en efectivo." },
-            { q: "¿Cuánto tiempo tengo para pagar?", a: "El plazo es de 30 días. Si necesitas más tiempo, puedes pagar solo los intereses y extender el plazo." },
+            { q: "¿Cuánto tiempo tengo para pagar?", a: "Joyería: plazo de 2 meses. El primer mes se divide en semanas — semana 1: 3%, semana 2: 6%, semana 3: 9%, semana 4: 12%. Si te extiendes al segundo mes, el interés es del 24%. Artículos: plazo de 1 mes con 12% de interés mensual." },
             { q: "¿Es confidencial?", a: "Sí, 100%. Nadie se entera de tu operación. Tratamos cada caso con total discreción y respeto." },
             { q: "¿Cobran por la valuación?", a: "No. La valuación es completamente gratis y sin ningún compromiso de tu parte." },
             { q: "¿Puedo vender mi oro directamente?", a: "Sí, compramos oro, plata y diamantes al mejor precio del mercado. Sin citas ni esperas." },

@@ -1,33 +1,33 @@
 
 
-## Plan: Agregar botón "Añadir al carrito" + WhatsApp con detalle de productos
+## Plan: Actualizar JoyeriaHome con productos reales y foto del atelier
 
 ### Resumen
 
-Agregar un botón "Añadir al carrito" en cada página de producto, además del botón "Comprar" existente. El carrito acumula productos y al hacer clic en "Comprar" en la página del carrito, envía un mensaje de WhatsApp con los detalles completos de todos los productos (nombre, quilataje, talla/largo, categoría).
+Reemplazar los datos mock de "Piezas destacadas" y las secciones "Anillos"/"Collares" con productos reales del catálogo, y cambiar la imagen del Atelier por una más relevante (la actual `galleryStore` es de la tienda con vitrinas, pero se puede usar una de las fotos de joyería/taller que sea más acorde).
 
 ### Cambios
 
-**1. Actualizar `CartContext` — agregar campos de detalle al `CartItem`**
+**1. Actualizar `src/pages/JoyeriaHome.tsx`**
 
-Extender la interfaz `CartItem` para incluir `karat`, `size`, `category` y `brand` (opcionales), de modo que el mensaje de WhatsApp pueda listar los detalles de cada producto.
+- **Piezas destacadas**: Eliminar `mockFeatured`. Importar `products` de `@/data/products` y seleccionar 5 productos reales variados (uno de cada categoría: Cadenas, Anillos, Collares, Pulseras, Dijes) con buenos precios para mostrar diversidad. Los links apuntarán a `/joyeria/{product.id}` que ya funciona.
 
-**2. Actualizar `ProductDetail.tsx` — agregar botón "Añadir al carrito"**
+- **Sección Anillos/Collares**: Cambiar los links genéricos a `/joyeria/catalogo` por links con filtro de categoría (`/joyeria/catalogo?categoria=Anillos`). Usar la imagen real de un anillo (e.g. `/lote2/AN%201.jpg`) y un collar (e.g. `/lote4/VCA%201.jpg`) en lugar de las imágenes placeholder `feat1`/`feat2`.
 
-- Importar `useCart` y agregar un botón secundario "Añadir al carrito" junto al botón "Comprar" existente
-- El botón "Comprar" sigue abriendo WhatsApp directo para ese producto (comportamiento actual)
-- El botón "Añadir al carrito" usa `addItem` del contexto, pasando nombre, precio, karat, size, category
-- Feedback visual al agregar (check icon momentáneo)
+- **Sección Atelier**: Reemplazar `galleryStore` por una imagen más representativa del concepto artesano. Usaremos `galleryHands` (manos trabajando joyería) que conecta mejor con el texto sobre "taller contemporáneo y artesano" y "materiales nobles".
 
-**3. Actualizar `Carrito.tsx` — mensaje de WhatsApp con detalles completos**
+- **Limpieza de imports**: Remover imports de `feat1`, `feat2` si ya no se usan como assets importados, y usar paths directos de `/lote*/` para las imágenes de productos.
 
-Modificar `handleComprar` para que el mensaje incluya los detalles de cada producto:
-```
-Hola, estoy interesado en:
-• Cadena Cartier 10K — 10K, 60cm, Cadenas (x1)
-• Dije Cruz 14K — 14K, Dijes (x1)
-• Rolex Submariner — Relojes (x1)
-```
+**2. Actualizar `src/pages/Joyeria.tsx` (menor)**
 
-**4. Sin cambios en layout ni navegación** — el carrito ya existe en la nav y el header con su ícono animado.
+- Leer query param `categoria` al inicializar el filtro de categoría para que los links desde JoyeriaHome funcionen (si no lo hace ya).
+
+### Productos destacados propuestos
+
+Se seleccionarán 5 productos con buena representación visual y de precio variado:
+1. Una cadena Cartier 10K (`cad-1`)
+2. Un anillo de oro (`an-1`)  
+3. Un collar Van Cleef & Arpels (`vcanda-1`)
+4. Un pulso Barbado (`pul-1`)
+5. Un dije Cruz 10K (`dije-1`)
 

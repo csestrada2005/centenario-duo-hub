@@ -233,8 +233,8 @@ const JoyeriaHome = () => {
       {/* ═══════ COLLECTIONS — Two blocks with parallax images ═══════ */}
       <section className="grid md:grid-cols-2">
         {[
-          { title: "Anillos", desc: "Diseños que marcan momentos eternos", img: "/lote2/AN%201.jpg", link: "/joyeria/catalogo?categoria=Anillos", dir: "left" as const },
-          { title: "Collares", desc: "Elegancia que enmarca cada gesto", img: "/lote4/VCA%201.jpg", link: "/joyeria/catalogo?categoria=Collares", dir: "right" as const },
+          { title: "Anillos", desc: "Diseños que marcan momentos eternos", img: "/lote2/AN-1.jpg", link: "/joyeria/catalogo?categoria=Anillos", dir: "left" as const },
+          { title: "Collares", desc: "Elegancia que enmarca cada gesto", img: "/lote4/VCA-1.jpg", link: "/joyeria/catalogo?categoria=Collares", dir: "right" as const },
         ].map((col, i) => (
           <Reveal key={col.title} delay={i * 0.15} direction={col.dir}>
             <Link to={col.link} className="group relative block aspect-square overflow-hidden md:aspect-auto md:h-[80vh]">

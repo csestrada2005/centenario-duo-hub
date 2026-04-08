@@ -4,12 +4,10 @@ import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import { ArrowRight, Gem, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import MagneticText from "@/components/MagneticText";
+import { products } from "@/data/products";
 import heroImg from "@/assets/joyeria-hero.jpg";
-import feat1 from "@/assets/joyeria-featured-1.jpg";
-import feat2 from "@/assets/joyeria-featured-2.jpg";
 import galleryJewelry from "@/assets/gallery-jewelry-1.jpg";
 import galleryHands from "@/assets/gallery-hands.jpg";
-import galleryStore from "@/assets/gallery-store.jpg";
 
 /* ── Directional scroll reveal ── */
 const Reveal = ({
@@ -91,13 +89,10 @@ const ParallaxImage = ({
   );
 };
 
-const mockFeatured = [
-  { id: "prod-1", name: "Anillo Eternity", material: "Oro 18k", price: 12500, img: feat1 },
-  { id: "prod-2", name: "Brazalete Lune", material: "Plata 925", price: 4800, img: feat2 },
-  { id: "prod-3", name: "Collar Prestige", material: "Oro 14k", price: 18900, img: galleryJewelry },
-  { id: "prod-4", name: "Pendientes Aura", material: "Oro 18k", price: 7200, img: galleryHands },
-  { id: "prod-5", name: "Anillo Solstice", material: "Plata 925", price: 3400, img: galleryStore },
-];
+const featuredIds = ["cad-1", "an-1", "vcanda-1", "pul-1", "dije-1"];
+const featuredProducts = featuredIds
+  .map((id) => products.find((p) => p.id === id))
+  .filter(Boolean);
 
 const JoyeriaHome = () => {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -197,14 +192,14 @@ const JoyeriaHome = () => {
         </Reveal>
 
         <div className="mt-16 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
-          {mockFeatured.map((p, i) => (
-            <Reveal key={p.id} delay={i * 0.1} direction={i % 2 === 0 ? "up" : "right"}>
-              <Link to={`/joyeria/${p.id}`} className="group block">
+          {featuredProducts.map((p, i) => (
+            <Reveal key={p!.id} delay={i * 0.1} direction={i % 2 === 0 ? "up" : "right"}>
+              <Link to={`/joyeria/${p!.id}`} className="group block">
                 <div className="relative aspect-[3/4] overflow-hidden bg-muted">
                   <FloatLayer speed={0.08 + i * 0.02} className="h-full">
                     <img
-                      src={p.img}
-                      alt={p.name}
+                      src={p!.image}
+                      alt={p!.name}
                       loading="lazy"
                       className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
@@ -214,9 +209,9 @@ const JoyeriaHome = () => {
                   </div>
                 </div>
                 <div className="mt-3">
-                  <h3 className="text-sm" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>{p.name}</h3>
-                  <p className="mt-0.5 text-[11px] text-muted-foreground">{p.material}</p>
-                  <p className="mt-1 text-sm">${p.price.toLocaleString()} MXN</p>
+                  <h3 className="text-sm" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>{p!.name}</h3>
+                  <p className="mt-0.5 text-[11px] text-muted-foreground">{p!.karat || p!.category}</p>
+                  <p className="mt-1 text-sm">{p!.price ? `$${p!.price.toLocaleString()} MXN` : "Precio a consultar"}</p>
                 </div>
               </Link>
             </Reveal>
@@ -237,8 +232,8 @@ const JoyeriaHome = () => {
       {/* ═══════ COLLECTIONS — Two blocks with parallax images ═══════ */}
       <section className="grid md:grid-cols-2">
         {[
-          { title: "Anillos", desc: "Diseños que marcan momentos eternos", img: feat1, link: "/joyeria/catalogo", dir: "left" as const },
-          { title: "Collares", desc: "Elegancia que enmarca cada gesto", img: feat2, link: "/joyeria/catalogo", dir: "right" as const },
+          { title: "Anillos", desc: "Diseños que marcan momentos eternos", img: "/lote2/AN%201.jpg", link: "/joyeria/catalogo?categoria=Anillos", dir: "left" as const },
+          { title: "Collares", desc: "Elegancia que enmarca cada gesto", img: "/lote4/VCA%201.jpg", link: "/joyeria/catalogo?categoria=Collares", dir: "right" as const },
         ].map((col, i) => (
           <Reveal key={col.title} delay={i * 0.15} direction={col.dir}>
             <Link to={col.link} className="group relative block aspect-square overflow-hidden md:aspect-auto md:h-[80vh]">
@@ -268,8 +263,8 @@ const JoyeriaHome = () => {
         <div className="mx-auto grid max-w-6xl items-center gap-16 md:grid-cols-2">
           <Reveal direction="left">
             <ParallaxImage
-              src={galleryStore}
-              alt="Interior del atelier"
+              src={galleryHands}
+              alt="Artesano trabajando joyería en el atelier"
               className="aspect-[4/5] w-full"
               speed={0.18}
             />

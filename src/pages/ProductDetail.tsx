@@ -76,12 +76,7 @@ const ProductDetail = () => {
               {product.price != null ? `$${product.price.toLocaleString()} MXN` : "Consultar precio"}
             </motion.p>
 
-            {product.priceTotal != null && product.price != null && (
-              <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.55 }}
-                className="text-sm text-muted-foreground">
-                Precio con IVA: ${product.priceTotal.toLocaleString()} MXN
-              </motion.p>
-            )}
+
 
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.5 }} className="mt-6 space-y-1 text-sm text-muted-foreground">

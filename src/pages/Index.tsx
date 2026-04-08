@@ -298,33 +298,32 @@ const Index = () => {
         </motion.button>
       </section>
 
-      {/* ═══════════ STATS — Animated Counters ═══════════ */}
-      <section id="stats-section" className="px-6 py-16 md:py-32">
-        <div className="mx-auto grid max-w-4xl gap-10 md:gap-16 md:grid-cols-3">
-          {[
-            { value: 100, suffix: "+", label: "Años de trayectoria" },
-            { value: 5000, suffix: "+", label: "Piezas en catálogo" },
-            { value: 10000, suffix: "+", label: "Clientes satisfechos" },
-          ].map((stat, i) => (
-            <ScrollReveal key={i} delay={i * 0.15} className="text-center">
-              <p
-                className="text-gold-gradient text-5xl font-light md:text-6xl"
-                style={{
-                  fontFamily: "'Playfair Display', Georgia, serif",
-                  filter: "drop-shadow(0 0 12px rgba(212,175,55,0.2))",
-                }}
-              >
-                <AnimatedCounter target={stat.value} suffix={stat.suffix} />
-              </p>
-              <p className="mt-4 text-[11px] font-medium uppercase tracking-[0.3em] text-white/40">
-                {stat.label}
-              </p>
-            </ScrollReveal>
-          ))}
-        </div>
+      {/* ═══════════ COTIZACIÓN CTA ═══════════ */}
+      <section id="stats-section" className="px-6 py-16 md:py-28">
+        <ScrollReveal className="mx-auto max-w-2xl text-center">
+          <p className="text-[10px] font-medium uppercase tracking-[0.5em] text-white/30">Servicios</p>
+          <h2
+            className="text-gold-gradient mt-4 text-3xl font-light md:text-5xl"
+            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+          >
+            Cotiza tus piezas
+          </h2>
+          <p className="mt-6 text-sm font-light leading-relaxed text-white/40">
+            ¿Quieres saber cuánto vale tu oro, plata o reloj? Usa nuestros simuladores para obtener una cotización estimada al instante.
+          </p>
+          <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+            <Button asChild className="group h-12 rounded-none border border-[hsl(46,56%,51%)]/40 bg-[hsl(46,56%,51%)]/10 px-8 text-[hsl(46,56%,51%)] hover:bg-[hsl(46,56%,51%)]/20">
+              <Link to="/bazar/simuladores">
+                <Calculator className="mr-2 h-4 w-4" />
+                Simular cotización
+                <ArrowRight className="ml-2 h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+              </Link>
+            </Button>
+          </div>
+        </ScrollReveal>
       </section>
 
-      {/* ═══════════ GALLERY — M.Fisher Parallax Grid ═══════════ */}
+      {/* ═══════════ GALERÍA — Piezas de Joyería ═══════════ */}
       <section className="px-6 py-16 md:py-32">
         <ScrollReveal className="mb-10 md:mb-20 text-center">
           <p className="text-[10px] font-medium uppercase tracking-[0.5em] text-white/30">Nuestra esencia</p>
@@ -337,11 +336,36 @@ const Index = () => {
         </ScrollReveal>
 
         <div className="mx-auto grid max-w-5xl grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
-          <GalleryImage src={galleryJewelry} alt="Colección de joyería premium" label="Joyería" offset={30} />
-          <GalleryImage src={galleryMetals} alt="Metales preciosos" label="Metales" offset={20} />
-          <GalleryImage src={galleryHands} alt="Elegancia en cada detalle" label="Detalle" offset={10} />
-          <GalleryImage src={galleryStore} alt="Interior de sucursal" label="Sucursal" offset={0} />
+          {galleryProducts.map((p, i) => (
+            <Link key={p.id} to={`/joyeria/${p.id}`} className="group">
+              <GalleryImage src={p.image} alt={p.name} label={p.name} offset={30 - i * 10} />
+            </Link>
+          ))}
         </div>
+      </section>
+
+      {/* ═══════════ BAZAR CENTENARIO ═══════════ */}
+      <section className="px-6 py-16 md:py-28">
+        <ScrollReveal className="mx-auto max-w-2xl text-center">
+          <p className="text-[10px] font-medium uppercase tracking-[0.5em] text-white/30">Explora también</p>
+          <h2
+            className="text-gold-gradient mt-4 text-3xl font-light md:text-5xl"
+            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+          >
+            Bazar Centenario
+          </h2>
+          <p className="mt-6 text-sm font-light leading-relaxed text-white/40">
+            Empeño, compra-venta de artículos de valor y servicios financieros de confianza. Más de un siglo respaldándonos.
+          </p>
+          <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+            <Button asChild className="group h-12 rounded-none border border-white/15 bg-white/5 px-8 text-white/70 hover:bg-white/10 hover:text-white">
+              <Link to="/bazar">
+                Ir al Bazar
+                <ArrowRight className="ml-2 h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+              </Link>
+            </Button>
+          </div>
+        </ScrollReveal>
       </section>
 
       {/* ═══════════ FOOTER — Multi-column Premium ═══════════ */}

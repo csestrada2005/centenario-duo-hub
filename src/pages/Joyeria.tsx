@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { motion, useInView, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { SlidersHorizontal, ArrowRight, Watch } from "lucide-react";
+import { SlidersHorizontal, ArrowRight, Watch, X } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import heroHome from "@/assets/hero-home.jpg";

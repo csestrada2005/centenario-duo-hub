@@ -158,6 +158,19 @@ const Joyeria = () => {
   const [relojMarca, setRelojMarca] = useState("Todos");
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
 
+  const hasActiveFilters = isRelojes || category !== "Todos" || marca !== "Todos" || relojMarca !== "Todos";
+
+  const clearFilters = () => {
+    setCategory("Todos");
+    setMarca("Todos");
+    setRelojMarca("Todos");
+    if (isRelojes) {
+      searchParams.delete("tipo");
+      setSearchParams(searchParams);
+    }
+    setVisibleCount(ITEMS_PER_PAGE);
+  };
+
   const toggleRelojes = () => {
     if (isRelojes) {
       searchParams.delete("tipo");

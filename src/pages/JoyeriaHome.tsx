@@ -108,7 +108,7 @@ const JoyeriaHome = () => {
       <section ref={heroRef} className="relative min-h-screen overflow-hidden">
         {/* Background image — full on mobile, right half on desktop */}
         <div className="absolute inset-0 md:left-1/2 overflow-hidden">
-          <motion.div style={{ y: imgY, scale: imgScale }} className="absolute -top-[40px] inset-x-0 bottom-0 will-change-transform">
+          <motion.div style={{ y: imgY, scale: imgScale }} <motion.div style={{ y: imgY, scale: imgScale }} className="absolute -top-[90px] inset-x-0 bottom-0 will-change-transform">>
             <img
               src={heroImg}
               alt="Cadenas de oro"

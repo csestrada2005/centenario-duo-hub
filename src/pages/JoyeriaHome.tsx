@@ -264,8 +264,8 @@ const JoyeriaHome = () => {
         <div className="mx-auto grid max-w-6xl items-center gap-16 md:grid-cols-2">
           <Reveal direction="left">
             <ParallaxImage
-              src="/lote1/CAD-1.jpg"
-              alt="Cadena Cartier de oro"
+              src="/lote1/PUL-23.jpg"
+              alt="Pulso Imitación Van Cleef"
               className="aspect-[4/5] w-full"
               speed={0.18}
             />

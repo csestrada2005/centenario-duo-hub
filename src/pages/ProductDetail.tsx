@@ -10,6 +10,10 @@ import { useCart } from "@/contexts/CartContext";
 const ProductDetail = () => {
   const { id } = useParams();
   const { addItem } = useCart();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id]);
   const relatedRef = useRef<HTMLDivElement>(null);
   const relatedInView = useInView(relatedRef, { once: true, margin: "-60px" });
   const [added, setAdded] = useState(false);

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Minus, Plus, Trash2, ArrowRight, ShoppingCart } from "lucide-react";
@@ -7,6 +8,9 @@ import { useCart } from "@/contexts/CartContext";
 const WA_NUMBER = "5212213497090";
 
 const Carrito = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const { items, removeItem, updateQty } = useCart();
 
   const subtotal = items.reduce((s, i) => s + i.price * i.qty, 0);

@@ -233,7 +233,7 @@ const JoyeriaHome = () => {
       {/* ═══════ COLLECTIONS — Two blocks with parallax images ═══════ */}
       <section className="grid md:grid-cols-2">
         {[
-          { title: "Anillos", desc: "Diseños que marcan momentos eternos", img: "/lote2/AN-1.jpg", link: "/joyeria/catalogo?categoria=Anillos", dir: "left" as const },
+          { title: "Anillos", desc: "Diseños que marcan momentos eternos", img: "/lote2/AN-1.jpg", link: "/joyeria/catalogo?categoria=Anillos", dir: "left" as const, titleBlack: true },
           { title: "Collares", desc: "Elegancia que enmarca cada gesto", img: "/lote4/VCA-1.jpg", link: "/joyeria/catalogo?categoria=Collares", dir: "right" as const },
         ].map((col, i) => (
           <Reveal key={col.title} delay={i * 0.15} direction={col.dir}>
@@ -243,7 +243,7 @@ const JoyeriaHome = () => {
               <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white">
                 <FloatLayer speed={0.08}>
                   <h3
-                    className="text-3xl font-normal md:text-4xl"
+                    className={`text-3xl font-normal md:text-4xl ${col.titleBlack ? "text-black" : "text-white"}`}
                     style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
                   >
                     {col.title}
@@ -264,8 +264,8 @@ const JoyeriaHome = () => {
         <div className="mx-auto grid max-w-6xl items-center gap-16 md:grid-cols-2">
           <Reveal direction="left">
             <ParallaxImage
-              src={galleryHands}
-              alt="Artesano trabajando joyería en el atelier"
+              src="/lote1/CAD-1.jpg"
+              alt="Cadena Cartier de oro"
               className="aspect-[4/5] w-full"
               speed={0.18}
             />

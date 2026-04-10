@@ -243,7 +243,7 @@ const JoyeriaHome = () => {
               <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white">
                 <FloatLayer speed={0.08}>
                   <h3
-                    className={`text-3xl font-normal md:text-4xl ${col.titleBlack ? "text-black" : "text-white"}`}
+                    className={`text-3xl font-normal md:text-4xl ${col.titleBlack ? "text-slate-50" : "text-white"}`}
                     style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
                   >
                     {col.title}

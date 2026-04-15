@@ -345,6 +345,30 @@ const Index = () => {
         </ScrollReveal>
       </section>
 
+      {/* ═══════════ JOYERÍA CENTENARIO ═══════════ */}
+      <section className="px-6 py-16 md:py-28">
+        <ScrollReveal className="mx-auto max-w-2xl text-center">
+          <p className="text-[10px] font-medium uppercase tracking-[0.5em] text-white/30">Descubre</p>
+          <h2
+            className="text-gold-gradient mt-4 text-3xl font-light md:text-5xl"
+            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+          >
+            Joyería Centenario
+          </h2>
+          <p className="mt-6 text-sm font-light leading-relaxed text-white/40">
+            Piezas únicas de oro, plata y diamantes. Diseños artesanales que trascienden generaciones.
+          </p>
+          <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+            <Button asChild className="group h-12 rounded-none border border-white/15 bg-white/5 px-8 text-white/70 hover:bg-white/10 hover:text-white">
+              <Link to="/joyeria">
+                Ir a Joyería
+                <ArrowRight className="ml-2 h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+              </Link>
+            </Button>
+          </div>
+        </ScrollReveal>
+      </section>
+
 
     </div>
   );

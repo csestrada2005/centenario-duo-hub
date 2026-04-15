@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useRef } from "react";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
-import { ArrowRight, Gem, Sparkles } from "lucide-react";
+import { ArrowRight, Gem, Sparkles, Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import MagneticText from "@/components/MagneticText";
 import { products } from "@/data/products";
@@ -327,6 +327,15 @@ const JoyeriaHome = () => {
               <ArrowRight className="ml-1 h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
             </Button>
           </form>
+          <a
+            href="https://www.instagram.com/joyeriacentenario?igsh=MWFuMHo4dmY3NGx0Mg%3D%3D&utm_source=qr"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-6 inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+          >
+            <Instagram className="h-4 w-4" />
+            @joyeriacentenario
+          </a>
         </Reveal>
       </section>
     </div>

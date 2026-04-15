@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion, useScroll, useTransform, useInView, useMotionValue, useSpring, AnimatePresence } from "framer-motion";
 import { useRef, useEffect, useState, useCallback } from "react";
-import { ChevronDown, ChevronLeft, ChevronRight, Instagram, Facebook, MapPin, Phone, Mail, Clock, ArrowRight, Calculator } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight, Instagram, MapPin, Phone, Mail, Clock, ArrowRight, Calculator } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import CinematicIntro from "@/components/CinematicIntro";
 import { products } from "@/data/products";

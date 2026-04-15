@@ -9,7 +9,7 @@ import {
 import {
   ArrowRight, Laptop, Wrench, Car, Tv,
   Gem, ShieldCheck, MapPin, MessageCircle, Clock, CheckCircle2,
-  PhoneCall, Banknote, Star,
+  PhoneCall, Banknote, Star, Instagram,
 } from "lucide-react";
 
 /* ── Scroll reveal ── */
@@ -372,6 +372,15 @@ const Bazar = () => {
               </a>
             </Button>
           </div>
+          <a
+            href="https://www.instagram.com/bazarcentenariotrc?igsh=MTAyNnNjamI3MG9qOQ=="
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-6 inline-flex items-center gap-2 text-sm text-primary-foreground/70 transition-colors hover:text-primary-foreground"
+          >
+            <Instagram className="h-4 w-4" />
+            @bazarcentenariotrc
+          </a>
         </Reveal>
       </section>
     </div>

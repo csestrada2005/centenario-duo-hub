@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { Instagram } from "lucide-react";
 
 const Footer = () => (
   <footer className="border-t bg-secondary/50">

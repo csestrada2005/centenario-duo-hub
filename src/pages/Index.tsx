@@ -407,11 +407,8 @@ const Index = () => {
               </ul>
               {/* Social */}
               <div className="mt-6 flex gap-4">
-                <a href="#" className="text-white/30 transition-all duration-300 hover:scale-110 hover:text-[hsl(46,56%,51%)]" aria-label="Instagram">
+                <a href="https://www.instagram.com/joyeriacentenario?igsh=MWFuMHo4dmY3NGx0Mg%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer" className="text-white/30 transition-all duration-300 hover:scale-110 hover:text-[hsl(46,56%,51%)]" aria-label="Instagram Joyería">
                   <Instagram className="h-4 w-4" />
-                </a>
-                <a href="#" className="text-white/30 transition-all duration-300 hover:scale-110 hover:text-[hsl(46,56%,51%)]" aria-label="Facebook">
-                  <Facebook className="h-4 w-4" />
                 </a>
               </div>
             </ScrollReveal>

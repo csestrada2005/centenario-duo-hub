@@ -361,9 +361,6 @@ const Index = () => {
                 >
                   Centenario
                 </h3>
-                <p className="mt-4 max-w-xs text-xs font-light leading-relaxed text-white/35">
-                  Más de un siglo de tradición en joyería fina y servicios financieros de confianza.
-                </p>
               </ScrollReveal>
             </div>
 

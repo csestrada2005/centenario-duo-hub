@@ -31,18 +31,18 @@ const Footer = () => (
               href="https://www.instagram.com/joyeriacentenario?igsh=MWFuMHo4dmY3NGx0Mg%3D%3D&utm_source=qr"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-md bg-gradient-to-r from-purple-500 via-pink-500 to-orange-400 px-3 py-1.5 text-xs font-medium text-white transition-all hover:opacity-90"
+              className="inline-flex items-center gap-2 rounded-md border border-white/20 bg-transparent px-3 py-1.5 text-xs font-medium text-white transition-all hover:bg-white/10"
             >
-              <Instagram className="h-3.5 w-3.5" />
+              <Instagram className="h-3.5 w-3.5 text-white" />
               @joyeriacentenario
             </a>
             <a
               href="https://www.instagram.com/bazarcentenariotrc?igsh=MTAyNnNjamI3MG9qOQ=="
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-md bg-gradient-to-r from-purple-500 via-pink-500 to-orange-400 px-3 py-1.5 text-xs font-medium text-white transition-all hover:opacity-90"
+              className="inline-flex items-center gap-2 rounded-md border border-white/20 bg-transparent px-3 py-1.5 text-xs font-medium text-white transition-all hover:bg-white/10"
             >
-              <Instagram className="h-3.5 w-3.5" />
+              <Instagram className="h-3.5 w-3.5 text-white" />
               @bazarcentenariotrc
             </a>
           </div>
